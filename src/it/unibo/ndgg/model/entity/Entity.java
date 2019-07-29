@@ -2,6 +2,8 @@ package it.unibo.ndgg.model.entity;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.ndgg.model.physic.body.BodyProperties;
+
 /**
  * Represents a physical object (entity) with an extension, a position, a mass and a type which 
  * depends on {@link EntityType} and a state that depends on {@link EntityState}, 
@@ -43,5 +45,5 @@ public interface Entity {
      * Return a body of {@link Entity}. 
      * @return body of {@link BodyProperties}
      */
-    Body getBody();
+    BodyProperties getBody();
 }
