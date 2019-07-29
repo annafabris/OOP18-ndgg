@@ -1,6 +1,7 @@
 package it.unibo.ndgg.model.world;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -12,7 +13,7 @@ import it.unibo.ndgg.model.collision.CollisionResult;
 public class WorldImpl implements World {
 
     private static final int NUMBER_OF_ROOMS = 14;
-    private ArrayList<Room> rooms = new ArrayList<Room>();  //TODO solo list? ANNA
+    private List<Room> rooms = new ArrayList<Room>();  
     private int currentRoom;
 
     public WorldImpl(int currentRoom) {
@@ -63,6 +64,9 @@ public class WorldImpl implements World {
         }
     }
  
+    /**
+     * A methods that gets called when {@link CollisionResult.DOORTOUCHED} happens and the currentRoom needs to change
+     */
     private void changeRoom() {
         if (true) {//TODO condizione if
             this.currentRoom--;
