@@ -26,5 +26,9 @@ public enum CollisionResult {
     /**
      * Represent a collision between a sword and a sword that result in the disarmament of a player.
      */
-    PLAYERDISARMED;
+    PLAYERDISARMED,
+    /**
+     * Represent a collision between a player and a powerup that result in the application of that powerup to the player.
+     */
+    POWERUPAPPLIED;
 }
