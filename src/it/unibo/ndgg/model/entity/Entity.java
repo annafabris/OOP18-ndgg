@@ -10,6 +10,7 @@ import it.unibo.ndgg.model.physic.body.BodyProperties;
  * inside the world {@link it.unibo.ndgg.model.world.World}.
  */
 public interface Entity {
+
     /** 
      * Return a pair that represent the position of {@link Entity}.
      * @return the position of the entity as a {@link Pair} with the first number representing the
