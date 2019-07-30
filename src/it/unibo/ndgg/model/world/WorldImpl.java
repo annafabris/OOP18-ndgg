@@ -65,7 +65,7 @@ public class WorldImpl implements World {
     }
  
     /**
-     * A methods that gets called when {@link CollisionResult.DOORTOUCHED} happens and the currentRoom needs to change
+     * A methods that gets called when {@link CollisionResult.DOORTOUCHED} happens and the currentRoom needs to change.
      */
     private void changeRoom() {
         if (true) {//TODO condizione if
