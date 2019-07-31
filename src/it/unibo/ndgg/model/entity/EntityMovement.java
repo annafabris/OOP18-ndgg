@@ -26,6 +26,11 @@ public enum EntityMovement {
     STAY_STILL,
 
     /**
+     * With this, the {@link Player} die.
+     */
+    DIE,
+
+    /**
      * With this the {@link Sword} is lying_down on the {@link Platform}.
      */
     LIE_DOWN,

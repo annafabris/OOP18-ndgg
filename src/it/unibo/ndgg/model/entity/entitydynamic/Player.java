@@ -3,8 +3,11 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 import java.util.Optional;
 
 import it.unibo.ndgg.model.entity.AbstractEntity;
+import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.PlayerBodyProperties;
+import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
+import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
 
 /**
  * Represents one of two players in play, it is an implementation of {@link AbstractEntity}.
@@ -53,11 +56,29 @@ public class Player extends AbstractEntity {
     }
 
     /**
+     * Represents the change of player's state, for an input or a condition.
+     * @param movement
+     *          it is the {@link EntityMovement} that the player have to do
+     */
+    public void move(final EntityMovement movement) {
+        MovementVectorValues movementValue = new MovementVectorValuesImpl();
+        this.body.applyMovement(movement, movementValue.getMovementVector(movement).x, 
+                                movementValue.getMovementVector(movement).y);
+    }
+
+    /**
      * Returns if presents the {@link Sword} of this player else a empty optional.
      * @return weapon
      */
     public Optional<Sword> getWeapon() {
         return this.sword;
+    }
+
+    /**
+     * Represent the death of the player in a {@link Room}, not in the {@link World}.
+     */
+    public void die() {
+        this.move(EntityMovement.DIE);
     }
 
 }

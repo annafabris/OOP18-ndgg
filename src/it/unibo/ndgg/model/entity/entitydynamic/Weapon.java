@@ -13,13 +13,16 @@ public interface Weapon {
      * When the {@link Player} picks up the weapon.
      * @param player 
      *          it is the {@link Player} who picks up the weapon
+     * @throws Exception 
+     *          if the weapon is already equipped
      */
-    void equipWeapon(Player player);
+    void equipWeapon(Player player) throws Exception;
 
     /**
      * When the {@link Player} lose the weapon.
+     * @throws Exception 
      */
-    void unequipWeapon();
+    void unequipWeapon() throws Exception;
 
     /**
      * This represents the move of the {@link PlayerBodyProperties} in the World.

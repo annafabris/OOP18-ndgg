@@ -6,6 +6,8 @@ import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.SwordBodyProperties;
+import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
+import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
 
 /**
  * Represents one of two sword that can be equipped by one of two players in a game.
@@ -31,14 +33,15 @@ public class Sword extends AbstractEntity implements Weapon  {
 
     /**
      * {@inheritDoc}
+     * @throws Exception 
      */
     @Override
-    public void equipWeapon(final Player player) {
+    public void equipWeapon(final Player player) throws Exception {
         if (!this.player.isPresent()) {
            this.player = Optional.of(player);
            this.move(EntityMovement.EQUIP);
         } else {
-            //return exception
+            throw new Exception("This sword is already equipped");
         }
     }
 
@@ -52,14 +55,15 @@ public class Sword extends AbstractEntity implements Weapon  {
 
     /**
      * {@inheritDoc}
+     * @throws Exception 
      */
     @Override
-    public void unequipWeapon() {
+    public void unequipWeapon() throws Exception {
         if (this.player.isPresent()) {
             this.player = Optional.empty();
             this.move(EntityMovement.DROP);
         } else {
-            //exception
+            throw new Exception("This sword is not equipped");
         }
     }
 
@@ -68,7 +72,9 @@ public class Sword extends AbstractEntity implements Weapon  {
      */
     @Override
     public void move(final EntityMovement movement) {
-
+        MovementVectorValues movementValue = new MovementVectorValuesImpl();
+        this.body.applyMovement(movement, movementValue.getMovementVector(movement).x, 
+                                movementValue.getMovementVector(movement).y);
     }
 
     /**
