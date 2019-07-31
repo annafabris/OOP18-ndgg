@@ -3,6 +3,7 @@ package it.unibo.ndgg.model.physic.movement;
 import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.entity.EntityMovement;
+import it.unibo.ndgg.model.entity.EntityState;
 
 /**
  * An interface implemented by {@link MovementVectorValuesImpl}. 
@@ -11,9 +12,16 @@ import it.unibo.ndgg.model.entity.EntityMovement;
 public interface MovementVectorValues {
 
     /**
-     * Returns the value the impulse vector should have on the xx and y axes.
-     * @param currentMovement the {@link EntityMovement} to find the associated vector
+     * Returns the value the impulse vector should have on the x and y axes.
+     * @param currentMovement the {@link EntityMovement} to find the associated {@link Vector2}
      * @return impulse as a {@link Vector2}
      */
     Vector2 getMovementVector(EntityMovement currentMovement);
+
+    /**
+     * Return the {@link EntityState} associated to the {@link EntityMovement}.
+     * @param currentMovement the {@link EntityMovement} to find the associated {@link EntityMovement}
+     * @return the state a {@link EntityState}
+     */
+    EntityState getState(EntityMovement currentMovement);
 }

@@ -33,4 +33,11 @@ public class MovementVectorValuesImpl implements MovementVectorValues {
     public Vector2 getMovementVector(final EntityMovement currentMovement) {
         return MovementVectorValuesImpl.VALUES.get(currentMovement).getValue();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public EntityState getState(final EntityMovement currentMovement) {
+        return MovementVectorValuesImpl.VALUES.get(currentMovement).getKey();
+    }
 }
