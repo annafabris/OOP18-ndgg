@@ -19,10 +19,12 @@ public interface Weapon {
     void equipWeapon(Player player) throws Exception;
 
     /**
-     * When the {@link Player} lose the weapon.
+     * When the {@link Player} lose or drop the weapon.
+     * @param movement
+     *          it is the action of lose or drop the weapon
      * @throws Exception 
      */
-    void unequipWeapon() throws Exception;
+    void unequipWeapon(EntityMovement movement) throws Exception;
 
     /**
      * This represents the move of the {@link PlayerBodyProperties} in the World.

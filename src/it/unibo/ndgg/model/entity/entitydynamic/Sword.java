@@ -33,7 +33,6 @@ public class Sword extends AbstractEntity implements Weapon  {
 
     /**
      * {@inheritDoc}
-     * @throws Exception 
      */
     @Override
     public void equipWeapon(final Player player) throws Exception {
@@ -50,7 +49,7 @@ public class Sword extends AbstractEntity implements Weapon  {
      */
     @Override
     public EntityType getType() {
-        return EntityType.WEAPON;
+        return EntityType.SWORD;
     }
 
     /**
@@ -58,10 +57,10 @@ public class Sword extends AbstractEntity implements Weapon  {
      * @throws Exception 
      */
     @Override
-    public void unequipWeapon() throws Exception {
+    public void unequipWeapon(final EntityMovement movement) throws Exception {
         if (this.player.isPresent()) {
             this.player = Optional.empty();
-            this.move(EntityMovement.DROP);
+            this.move(movement);
         } else {
             throw new Exception("This sword is not equipped");
         }
@@ -72,7 +71,7 @@ public class Sword extends AbstractEntity implements Weapon  {
      */
     @Override
     public void move(final EntityMovement movement) {
-        MovementVectorValues movementValue = new MovementVectorValuesImpl();
+        final MovementVectorValues movementValue = new MovementVectorValuesImpl();
         this.body.applyMovement(movement, movementValue.getMovementVector(movement).x, 
                                 movementValue.getMovementVector(movement).y);
     }

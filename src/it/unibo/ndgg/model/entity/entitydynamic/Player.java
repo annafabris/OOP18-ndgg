@@ -16,7 +16,7 @@ import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
 public class Player extends AbstractEntity {
 
     private final PlayerBodyProperties body;
-    private Optional<Sword> sword;
+    private Optional<Weapon> weapon;
 
     /**
      * Builds a new Player using {@link PlayerBodyProperties} to describe the physical part 
@@ -28,7 +28,7 @@ public class Player extends AbstractEntity {
     public Player(final PlayerBodyProperties body) {
         super(body);
         this.body = body;
-        this.sword = Optional.empty();
+        this.weapon = Optional.empty();
     }
 
     /**
@@ -43,17 +43,35 @@ public class Player extends AbstractEntity {
      * This represents the act of equipping the {@link Weapon} by the player.
      * @param sword
      *          it is the sword of the player
+     * @throws Exception 
+     *          if the player has already a weapon
      */
-    public void equipWeapon(final Sword sword) {
-        this.sword = Optional.of(sword);
+    public void equipWeapon(final Weapon sword) throws Exception {
+        if (this.weapon.isPresent()) {
+            throw new Exception("The player has already a weapon");
+        } else {
+            this.weapon = Optional.of(sword);
+            sword.equipWeapon(this);
+        }
     }
 
     /**
-     * This represents the act of unequipping the {@link Weapon} by the player.
+     * This represents the act of dropping the {@link Weapon} by the player.
+     * @param movement 
+     *          it indicates if the weapon is lose or drop
+     * @throws Exception 
+     *          if the player doesn't have a {@link Weapon}
+     * 
      */
-    public void unequipWeapon() {
-        this.sword = Optional.empty();
+    public void dropWeapon(final EntityMovement movement) throws Exception {
+        if (this.weapon.isPresent()) {
+            this.weapon.get().unequipWeapon(movement);
+            this.weapon = Optional.empty();
+        } else {
+            throw new Exception("The player doesn't have a weapon");
+        }
     }
+
 
     /**
      * Represents the change of player's state, for an input or a condition.
@@ -61,7 +79,7 @@ public class Player extends AbstractEntity {
      *          it is the {@link EntityMovement} that the player have to do
      */
     public void move(final EntityMovement movement) {
-        MovementVectorValues movementValue = new MovementVectorValuesImpl();
+        final MovementVectorValues movementValue = new MovementVectorValuesImpl();
         this.body.applyMovement(movement, movementValue.getMovementVector(movement).x, 
                                 movementValue.getMovementVector(movement).y);
     }
@@ -70,8 +88,8 @@ public class Player extends AbstractEntity {
      * Returns if presents the {@link Sword} of this player else a empty optional.
      * @return weapon
      */
-    public Optional<Sword> getWeapon() {
-        return this.sword;
+    public Optional<Weapon> getWeapon() {
+        return this.weapon;
     }
 
     /**

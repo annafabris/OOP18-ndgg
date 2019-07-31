@@ -18,7 +18,7 @@ public enum EntityType {
     /**
      * An {@link Entity} that represents the player's sword.
      */
-    WEAPON,
+    SWORD,
 
     /**
      * An {@link Entity} that represents the platform where all dynamics and static entity can move.
