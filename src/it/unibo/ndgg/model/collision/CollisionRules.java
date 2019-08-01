@@ -12,6 +12,8 @@ import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
+import it.unibo.ndgg.model.physic.BodyPropertiesWorldImpl;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.world.World;
 import it.unibo.ndgg.model.world.WorldImpl;
@@ -24,9 +26,9 @@ public class CollisionRules extends CollisionAdapter {
 	private boolean isCollisionRulesAlreadyCreated = false;
     private static String COLLISION_ALREADY_CREATED_ERR = "COLLISION RULES ALREADY CREATED ERR";
     private final WorldImpl outerWorld;
-    private final WorldProperties worldProperties;
+    private final BodyPropertiesWorldImpl worldProperties; //TODO interfaccia?
 
-    CollisionRules(final WorldImpl outerWorld, final WorldProperties worldProperties) {
+    CollisionRules(final WorldImpl outerWorld, final BodyPropertiesWorldImpl worldProperties) {
         super();
         this.checkIfFirstIstance(isCollisionRulesAlreadyCreated, COLLISION_ALREADY_CREATED_ERR);
         this.isCollisionRulesAlreadyCreated = true;

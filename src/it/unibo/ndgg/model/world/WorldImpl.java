@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.tuple.MutablePair;
+
 import it.unibo.ndgg.model.collision.CollisionResult;
+import it.unibo.ndgg.model.entity.EntityFactoryImpl;
+import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 
 /**
  * {@inheritDoc}.
@@ -13,7 +17,7 @@ import it.unibo.ndgg.model.collision.CollisionResult;
 public class WorldImpl implements World {
 
     private static final int NUMBER_OF_ROOMS = 14;
-    private List<Room> rooms = new ArrayList<Room>();  
+    private List<Room> rooms = new ArrayList<Room>();
     private int currentRoom;
 
     public WorldImpl(int currentRoom) {
@@ -26,8 +30,10 @@ public class WorldImpl implements World {
      */
     @Override
     public void start() {
-        // TODO Auto-generated method stub
-
+        BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
+        EntityFactoryImpl entityFactory = new EntityFactoryImpl(bodyPropertiesFactory);
+        entityFactory.createPlayer(100.0 , 100.0 , new MutablePair<>(1.0, 0.0));
+        entityFactory.createSword(2.0 , 40.0 , new MutablePair<>(1.0, 5.0));
     }
 
     /**

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 
 /**
  * Represents the implementation of Entity factory, it uses the {@link BodyProperties} to 
@@ -36,7 +37,7 @@ public class EntityFactoryImpl implements EntityFactory {
      */
     @Override
     public Entity createSword(final Double height, final Double width, final Pair<Double, Double> position) {
-        return new Sword(this.body.createPlayerBodyProperties(position, width, height));
+        return new Sword(this.body.createSwordBodyProperties(position, width, height)); //TODO Giada devi passargli anche Player
     }
 
 }
