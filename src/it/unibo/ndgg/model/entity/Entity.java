@@ -29,6 +29,12 @@ public interface Entity {
      * @return the type {@link Entity} is
      */
     EntityType getType();
+    
+    /**
+     * Return if {@link it.unibo.oop18.nidhogg.model.entity.Entity} is alive or not.
+     * @return if {@link it.unibo.oop18.nidhogg.model.entity.Entity} is alive or not 
+     */
+    boolean isAlive();
 
     /**
      * Return a {@link Pair} that represent the component x and y of velocity of {@link Entity}. 

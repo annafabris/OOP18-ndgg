@@ -46,6 +46,14 @@ public abstract class AbstractEntity implements Entity {
      * {@inheritDoc}
      */
     @Override
+    public boolean isAlive() {
+        return body.exists();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Pair<Double, Double> getDimension() {
         return this.body.getDimension();
     }

@@ -51,6 +51,14 @@ public abstract class AbstractBodyProperties implements BodyProperties {
      * {@inheritDoc}
      */
     @Override
+    public boolean exists() {
+        return this.body.isActive();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Pair<Double, Double> getDimension() {
         final Convex rectangle = this.body.getFixture(0).getShape();
         final double width = ((Rectangle) rectangle).getWidth();
