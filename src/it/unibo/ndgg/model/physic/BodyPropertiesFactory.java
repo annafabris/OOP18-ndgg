@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.physic.body.PlayerBodyProperties;
+import it.unibo.ndgg.model.physic.body.SwordBodyProperties;
 
 /**
  * 
@@ -30,7 +31,7 @@ public class BodyPropertiesFactory {
      * @param height
      * @return
      */
-    public BodyProperties createSwordBodyProperties(Pair<Double, Double> position, Double width, Double height) {
+    public SwordBodyProperties createSwordBodyProperties(Pair<Double, Double> position, Double width, Double height) {
         // TODO Auto-generated method stub
         return null;
     }

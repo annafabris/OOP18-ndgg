@@ -16,19 +16,17 @@ public class EntityFactoryImpl implements EntityFactory {
 
     /**
      * Builds the innerFactory of the {@link Entity}'s physical body.
-     * @param body
-     *          it is the inner factory for the {@link PlayerBodyProperties}
      */
-    public EntityFactoryImpl(final BodyPropertiesFactory body) {
+    public EntityFactoryImpl() {
         super();
-        this.body = body;
+        this.body = new BodyPropertiesFactory();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Entity createPlayer(final Double height, final Double width, final Pair<Double, Double> position) {
+    public Player createPlayer(final Double height, final Double width, final Pair<Double, Double> position) {
         return new Player(this.body.createPlayerBodyProperties(position, width, height));
     }
 
@@ -36,8 +34,9 @@ public class EntityFactoryImpl implements EntityFactory {
      * {@inheritDoc}
      */
     @Override
-    public Entity createSword(final Double height, final Double width, final Pair<Double, Double> position) {
-        return new Sword(this.body.createSwordBodyProperties(position, width, height)); //TODO Giada devi passargli anche Player
+    public Sword createSword(final Double height, final Double width, final Pair<Double, Double> position,
+                              final Player player) {
+        return new Sword(this.body.createSwordBodyProperties(position, width, height), player);
     }
 
 }
