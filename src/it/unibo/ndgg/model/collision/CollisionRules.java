@@ -1,33 +1,28 @@
 package it.unibo.ndgg.model.collision;
 
 import org.apache.commons.lang3.tuple.ImmutableTriple;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.CollisionAdapter;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 
-import it.unibo.ndgg.model.entity.Entity;
-import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
-import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorldImpl;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
-import it.unibo.ndgg.model.world.World;
 import it.unibo.ndgg.model.world.WorldImpl;
-import it.unibo.oop18.nidhogg.model.collision.CollisionResult;
 
 /**
  * Represents a collision listener for physical collision between bodies used by the dyn4j library.
  * This class rules those collision.
  */
 public class CollisionRules extends CollisionAdapter {
-	private boolean isCollisionRulesAlreadyCreated = false;
-    private static String COLLISION_ALREADY_CREATED_ERR = "COLLISION RULES ALREADY CREATED ERR";
+
+    private boolean isCollisionRulesAlreadyCreated = false;
+    private static final String COLLISION_ALREADY_CREATED_ERR = "COLLISION RULES ALREADY CREATED ERR";
     private final WorldImpl outerWorld;
     private final BodyPropertiesWorldImpl worldProperties; //TODO interfaccia?
 
@@ -43,16 +38,17 @@ public class CollisionRules extends CollisionAdapter {
      * @param
      * @return
      */
+    //TODO Davide devi sistemare i tab
     public boolean collision(final ContactConstraint contactConstraint) {
 		final Body firstBody = contactConstraint.getBody1();
 		final Body secondBody = contactConstraint.getBody2();
 
 		final Triple<Body, BodyProperties, EntityType> firstTriple = new ImmutableTriple<>(
-					firstBody, this.worldProperties.getPhysicalBodyFromBody(firstBody), 
+					firstBody, this.worldProperties.getBodyPropertiesFromBody(firstBody), 
 					this.worldProperties.getEntityTypeFromBody(firstBody));
 
 		final Triple<Body, BodyProperties, EntityType> secondTriple = new ImmutableTriple<>(
-					secondBody, this.worldProperties.getPhysicalBodyFromBody(secondBody), 
+					secondBody, this.worldProperties.getBodyPropertiesFromBody(secondBody), 
 					this.worldProperties.getEntityTypeFromBody(secondBody));
 		/*
 		final Vector2 point = contactConstraint.getContacts().get(0).getPoint(); punto di contatto tra le due enitità per ora non serve.
@@ -62,11 +58,11 @@ public class CollisionRules extends CollisionAdapter {
 			final Player player;
 			final Door door;
 			if (firstTriple.getRight() == EntityType.PLAYER) {
-				player = this.worldProperties.getPlayerFromBody(Pair.of(firstTriple.getLeft(), firstTriple.getRight()));
-				door = this.worldProperties.getDoorFromBody(Pair.of(secondTriple.getLeft(), secondTriple.getRight()));
+				player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
+				door = this.worldProperties.getDoorFromBody(secondTriple.getLeft());
 			} else {
-				player = this.worldProperties.getPlayerFromBody(Pair.of(secondTriple.getLeft(), secondTriple.getRight()));
-				door = this.worldProperties.getDoorFromBody(Pair.of(firstTriple.getLeft(), firstTriple.getRight()));
+				player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
+				door = this.worldProperties.getDoorFromBody(firstTriple.getLeft());
 			}
 	         return this.processPlayerDoorCollision(player, door);
 		} else if (firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.SWORD ||
@@ -74,11 +70,11 @@ public class CollisionRules extends CollisionAdapter {
 			final Player player;
 			final Sword sword;
 			if (firstTriple.getRight() == EntityType.PLAYER) {
-				player = this.worldProperties.getPlayerFromBody(new Pair<>(firstTriple.getLeft(), firstTriple.getRight()));
-				sword = this.worldProperties.getSwordFromBody(new Pair<>(secondTriple.getLeft(), secondTriple.getRight()));
+				player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
+				sword = this.worldProperties.getSwordFromBody(secondTriple.getLeft());
 			} else {
-				player = this.worldProperties.getPlayerFromBody(new Pair<>(secondTriple.getLeft(), secondTriple.getRight()));
-				sword = this.worldProperties.getSwordFromBody(new Pair<>(firstTriple.getLeft(), firstTriple.getRight()));
+				player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
+				sword = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
 			}
 	         return this.processPlayerSwordCollision(player, sword);
 		}

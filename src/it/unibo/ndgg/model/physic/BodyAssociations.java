@@ -13,6 +13,7 @@ import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 //TODO potrebbe essere classe locale a BodyPropertiesWorldImp ? ANNA
@@ -43,13 +44,20 @@ public class BodyAssociations {
         return (Player) getEntity(this.entities.get(EntityType.PLAYER), getBodyProperties(body));
     }
 
-    /* Da scommentare quando ci sono le due classi 
-    public Door getDoor(BodyProperties bodyProperties) {
-        return (Door) getEntity(this.entitya.get(EntityType.DOOR), bodyProperties);
+    //TODO sistemare quando ci sono le classi giuste
+    /**
+     * {@inheritDoc}
+     */
+    public Door getDoor(final Body body) {
+        return null;
+        //return (Door) getEntity(this.entities.get(EntityType.DOOR), bodyProperties);
     }
 
-    public Platform getPlayer(BodyProperties bodyProperties) {
-        return (Platform) getEntity(this.entitya.get(EntityType.PLATFORM), bodyProperties);
+    /**
+    * {@inheritDoc}
+    */
+    /*public Platform getPlayer(final Body body) {
+        return (Platform) getEntity(this.entities.get(EntityType.PLATFORM), bodyProperties);
     }*/
 
     /**
@@ -71,10 +79,10 @@ public class BodyAssociations {
 
     /**
      * Returns the {@link BodyProperties} given its {@link Body}.
-     * @param body
+     * @param body {@link Body}
      * @return {@link BodyProperties}
      */
-    private BodyProperties getBodyProperties(final Body body) {
+    public BodyProperties getBodyProperties(final Body body) {
         return this.bodyToPropertiesAssociation.get(body).getRight();
     }
 
