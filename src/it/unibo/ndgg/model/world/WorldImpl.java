@@ -34,10 +34,12 @@ public class WorldImpl implements World {
     private Map<EntityType, List<AbstractEntity>> entities;
     private BodyAssociations bodyAssociation;
 
-    public WorldImpl(int currentRoom) {
+    public WorldImpl() {
         rooms.addAll(Stream.generate(() -> new RoomImpl()).limit(NUMBER_OF_ROOMS).collect(Collectors.toList())); //TODO controllare
         this.currentRoom = NUMBER_OF_ROOMS / 2;
-        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createPhysicalWorld(100, 100, this.bodyAssociation);
+        this.bodyAssociation = new BodyAssociations();
+        this.bodyPropertiesFactory = new BodyPropertiesFactory();
+        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createPhysicalWorld(1.0, 1.0, this.bodyAssociation);
     }
 
     /**
@@ -46,15 +48,15 @@ public class WorldImpl implements World {
     @Override
     public void start() {
         BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
-        EntityFactoryImpl entityFactory = new EntityFactoryImpl(bodyPropertiesFactory);
+        EntityFactoryImpl entityFactory = new EntityFactoryImpl();
         Player playerR = (Player) entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(1.0, 0.0));
         Player playerL = (Player) entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0));
         this.entities.put(EntityType.PLAYER, Stream.of(playerR, playerL).collect(Collectors.toList()));
         this.entities.put(EntityType.SWORD, Stream.of(
-                (Sword) entityFactory.createSword(2.0, 40.0, new MutablePair<>(1.0, 5.0)), 
-                (Sword) entityFactory.createSword(2.0, 40.0, new MutablePair<>(1.0, 5.0)))
+                (Sword) entityFactory.createSword(2.0, 40.0, new MutablePair<>(1.0, 5.0), playerR), 
+                (Sword) entityFactory.createSword(2.0, 40.0, new MutablePair<>(1.0, 5.0), playerL))
                 .collect(Collectors.toList()));
-        this.bodyAssociation = new BodyAssociations(this.entities);
+        this.bodyAssociation.setEntities(entities);
     }
 
     /**

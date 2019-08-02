@@ -26,7 +26,7 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
      * {@inheritDoc}.
      */
     public void update() {
-        
+
     }
 
     /**
@@ -36,7 +36,7 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
         return this.world;
     }
 
-    
+
     public void putPhysicalBodyToBody(final BodyProperties bodyProperties, final Body body, final EntityType type) {
         this.bodyAssociation.setBodyProperties(body, bodyProperties, type);
     }

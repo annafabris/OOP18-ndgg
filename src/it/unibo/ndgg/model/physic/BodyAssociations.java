@@ -26,10 +26,6 @@ public class BodyAssociations {
     private Map<EntityType, List<AbstractEntity>> entities;
     private Map<Body, Pair<EntityType, BodyProperties>> bodyToPropertiesAssociation = new HashMap<>();
 
-    public BodyAssociations(Map<EntityType, List<AbstractEntity>> entities) {
-        this.entities = entities;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -75,6 +71,14 @@ public class BodyAssociations {
      */
     public void setBodyProperties(final Body body, final BodyProperties bodyProperties, final EntityType entityType) {
         this.bodyToPropertiesAssociation.put(body, new MutablePair<>(entityType, bodyProperties));
+    }
+    
+    /**
+     * Sets the Map consisting of an association between the {@link EntityType} and a list of {@link AbstractEntity}
+     * @param entities
+     */
+    public void setEntities(final Map<EntityType, List<AbstractEntity>> entities) {
+        this.entities = entities;
     }
 
     /**
