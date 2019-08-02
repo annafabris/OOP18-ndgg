@@ -68,7 +68,8 @@ public class BodyPropertiesFactory {
         body.addFixture(Geometry.createRectangle(width, height));
         body.translate(new Vector2(position.getLeft(), position.getRight()));
         body.setMass(MassType.FIXED_ANGULAR_VELOCITY);
-        this.physicalWorld.getWorld();
+        this.physicalWorld.update();
+        this.physicalWorld.getWorld().addBody(body);
         return body;
     }
 

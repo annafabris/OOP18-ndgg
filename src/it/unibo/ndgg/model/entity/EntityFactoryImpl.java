@@ -16,10 +16,10 @@ public class EntityFactoryImpl implements EntityFactory {
 
     /**
      * Builds the innerFactory of the {@link Entity}'s physical body.
+     * @param bodyPropertiesFactory 
      */
-    public EntityFactoryImpl() {
-        super();
-        this.body = new BodyPropertiesFactory();
+    public EntityFactoryImpl(BodyPropertiesFactory bodyPropertiesFactory) {
+        this.body = bodyPropertiesFactory;
     }
 
     /**

@@ -48,7 +48,7 @@ public class WorldImpl implements World {
     @Override
     public void start() {
         BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
-        EntityFactoryImpl entityFactory = new EntityFactoryImpl();
+        EntityFactoryImpl entityFactory = new EntityFactoryImpl(bodyPropertiesFactory);
         Player playerR = (Player) entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(1.0, 0.0));
         Player playerL = (Player) entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0));
         this.entities.put(EntityType.PLAYER, Stream.of(playerR, playerL).collect(Collectors.toList()));

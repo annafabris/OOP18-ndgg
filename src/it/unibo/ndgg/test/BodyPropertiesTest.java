@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class BodyPropertiesTest {
 
     private BodyPropertiesWorld bodyPropertiesWorld;
     private WorldImpl world;
-    private BodyPropertiesFactory bodyPropertiesFactory;
+    private BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
     private Map<EntityType, List<AbstractEntity>> entities;
     private BodyAssociations bodyAssociations;
     private Player playerR;
@@ -39,10 +40,11 @@ public class BodyPropertiesTest {
     public BodyPropertiesTest() {
         this.world = new WorldImpl();
         this.bodyAssociations = new BodyAssociations();
-        this.bodyPropertiesWorld = new BodyPropertiesFactory().createPhysicalWorld(100, 100, this.bodyAssociations);
-        EntityFactory entityFactory = new EntityFactoryImpl();
+        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createPhysicalWorld(2.0, 2.0, bodyAssociations);
+        EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(1.0, 0.0));
         playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0));
+        this.entities = new HashMap<>();
         this.entities.put(EntityType.PLAYER, Stream.of(playerR, playerL).collect(Collectors.toList()));
         this.entities.put(EntityType.SWORD, Stream.of(
                 (Sword) entityFactory.createSword(2.0, 40.0, new MutablePair<>(1.0, 5.0), playerR), 
@@ -54,5 +56,6 @@ public class BodyPropertiesTest {
     @Test
     public void testEntity() {
         assertEquals(1, this.entities.get(EntityType.PLAYER).stream().filter(i -> i.getBody() == playerR.getBody()).count());
+        assertEquals(1, this.entities.get(EntityType.PLAYER).stream().filter(i -> i.getBody() == playerL.getBody()).count());
     }
 }
