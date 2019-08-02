@@ -3,6 +3,7 @@ package it.unibo.ndgg.model.physic;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.dyn4j.collision.AxisAlignedBounds;
+import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Geometry;
@@ -18,6 +19,25 @@ import it.unibo.ndgg.model.physic.body.SwordBodyProperties;
  *
  */
 public class BodyPropertiesFactory {
+
+    private static final long CATEGORY_PLAYER = 1;      // 000001 binary rapresentation 
+    private static final long CATEGORY_DOOR = 2;        // 000010 binary rapresentation 
+    private static final long CATEGORY_SWORD = 4;       // 000100 binary rapresentation 
+    private static final long CATEGORY_PLATFORM = 8;    // 001000 binary rapresentation 
+
+    private static final CategoryFilter SWORD_FILTER = new CategoryFilter(CATEGORY_SWORD, CATEGORY_SWORD
+                                                                                        | CATEGORY_PLAYER
+                                                                                        | CATEGORY_PLATFORM);
+    private static final CategoryFilter PLAYER_FILTER = new CategoryFilter(CATEGORY_PLAYER, CATEGORY_SWORD
+                                                                                        | CATEGORY_PLAYER
+                                                                                        | CATEGORY_DOOR
+                                                                                        | CATEGORY_PLATFORM);
+    private static final CategoryFilter DOOR_FILTER = new CategoryFilter(CATEGORY_DOOR, CATEGORY_PLAYER
+                                                                                        | CATEGORY_PLAYER);
+    private static final CategoryFilter PLATFORM_FILTER = new CategoryFilter(CATEGORY_PLATFORM, CATEGORY_PLAYER
+                                                                                        | CATEGORY_SWORD
+                                                                                        | CATEGORY_PLATFORM
+                                                                                        | CATEGORY_DOOR);
 
     private BodyPropertiesWorld physicalWorld;
     private ImmutablePair<Double, Double> worldDimensions;
