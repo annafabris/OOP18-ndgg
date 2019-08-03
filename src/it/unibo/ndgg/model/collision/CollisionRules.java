@@ -14,6 +14,8 @@ import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorldImpl;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.world.WorldImpl;
+import it.unibo.oop18.nidhogg.model.entity.staticEntity.Platform;
+import javafx.util.Pair;
 
 /**
  * Represents a collision listener for physical collision between bodies used by the dyn4j library.
@@ -77,6 +79,19 @@ public class CollisionRules extends CollisionAdapter {
 				sword = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
 			}
 	         return this.processPlayerSwordCollision(player, sword);
+		} else if (firstTriple.getRight() == EntityType.PLATFORM && secondTriple.getRight() == EntityType.SWORD ||
+				firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLATFORM) {//verificare come fare nel caso in cui un giocatore con una spada in mano faccia costantemente collisioni.
+			final Platform platform;
+			final Sword sword;
+			if (firstTriple.getRight() == EntityType.PLATFORM) {
+				platform = this.worldProperties.getPlatformFromBody(new Pair<>(firstTriple.getLeft(), firstTriple.getRight()));
+				sword = this.worldProperties.getSwordFromBody(new Pair<>(secondTriple.getLeft(), secondTriple.getRight()));
+		}
+			else {
+				platform = this.worldProperties.getPlatformFromBody(new Pair<>(secondTriple.getLeft(), secondTriple.getRight()));
+				sword = this.worldProperties.getSwordFromBody(new Pair<>(firstTriple.getLeft(), firstTriple.getRight()));
+			}
+	         return this.processSwordPlatformCollision(sword,platform);
 		}
     }
 
