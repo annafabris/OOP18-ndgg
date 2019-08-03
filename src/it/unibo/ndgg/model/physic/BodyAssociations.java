@@ -72,9 +72,9 @@ public class BodyAssociations {
     public void setBodyProperties(final Body body, final BodyProperties bodyProperties, final EntityType entityType) {
         this.bodyToPropertiesAssociation.put(body, new MutablePair<>(entityType, bodyProperties));
     }
-    
+
     /**
-     * Sets the Map consisting of an association between the {@link EntityType} and a list of {@link AbstractEntity}
+     * Sets the Map consisting of an association between the {@link EntityType} and a list of {@link AbstractEntity}.
      * @param entities
      */
     public void setEntities(final Map<EntityType, List<AbstractEntity>> entities) {

@@ -12,6 +12,7 @@ import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.PlayerBodyProperties;
+import it.unibo.ndgg.model.physic.body.StaticBodyProperties;
 import it.unibo.ndgg.model.physic.body.SwordBodyProperties;
 
 /**
@@ -63,7 +64,7 @@ public class BodyPropertiesFactory {
      * @return
      */
     public PlayerBodyProperties createPlayerBodyProperties(final Pair<Double, Double> position, final Double width, final Double height) {
-        final Body body = createBody(position, width, height);
+        final Body body = createBody(position, width, height, PLAYER_FILTER);
         final PlayerBodyProperties playerBody = new PlayerBodyProperties(body);
         this.physicalWorld.putPhysicalBodyToBody(playerBody, body, EntityType.PLAYER);
         return playerBody;
@@ -77,17 +78,54 @@ public class BodyPropertiesFactory {
      * @return
      */
     public SwordBodyProperties createSwordBodyProperties(Pair<Double, Double> position, Double width, Double height) {
-        final Body body = createBody(position, width, height);
+        final Body body = createBody(position, width, height, SWORD_FILTER);
         final SwordBodyProperties swordBody = new SwordBodyProperties(body);
         this.physicalWorld.putPhysicalBodyToBody(swordBody, body, EntityType.SWORD);
         return swordBody;
     }
 
-    private Body createBody(final Pair<Double, Double> position, final double width, final double height) {
+    /**
+     * 
+     * @param position
+     * @param width
+     * @param height
+     * @param type
+     * @return
+     */
+    //TODO eccezione
+    public StaticBodyProperties createStaticlBodyProperties(final Pair<Double, Double> position, final Double width, 
+            final Double height, final EntityType type) {
+        CategoryFilter filter;
+        switch (type) {
+            case DOOR:
+                filter = DOOR_FILTER;
+                break;
+            case PLATFORM:
+                filter = PLATFORM_FILTER;
+                break;
+            default:
+                throw new IllegalStateException("Static EntityType Does not exist");
+        }
+        final Body body = createBody(position, width, height, filter);
+        final StaticBodyProperties staticBody = new StaticBodyProperties(body);
+        this.physicalWorld.putPhysicalBodyToBody(staticBody, body, EntityType.SWORD);
+        return staticBody;
+    }
+
+    /**
+     * 
+     * @param position
+     * @param width
+     * @param height
+     * @param filter
+     * @return
+     */
+    private Body createBody(final Pair<Double, Double> position, final double width, final double height, final CategoryFilter filter) {
         final Body body = new Body();
         body.addFixture(Geometry.createRectangle(width, height));
         body.translate(new Vector2(position.getLeft(), position.getRight()));
         body.setMass(MassType.FIXED_ANGULAR_VELOCITY);
+        body.getFixture(0).setFilter(filter);
         this.physicalWorld.update();
         this.physicalWorld.getWorld().addBody(body);
         return body;
