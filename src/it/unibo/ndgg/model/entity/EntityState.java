@@ -16,7 +16,7 @@ public enum EntityState {
     MOVING_RIGHT,
 
     /**
-     * It represents the state "jumping" of the {@link Entity}. 
+     * It represents the state "jumping" of the {@link Entity}.
      */
     JUMPING,
 
