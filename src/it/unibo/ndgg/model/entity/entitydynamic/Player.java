@@ -2,7 +2,7 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 
 import java.util.Optional;
 
-import it.unibo.ndgg.model.entity.AbstractEntity;
+import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.PlayerBodyProperties;
@@ -13,7 +13,7 @@ import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
  * Represents one of two players in play, it is an implementation of {@link AbstractEntity}.
  * and it can move in {@link World}
  */
-public class Player extends AbstractEntity {
+public class Player extends AbstractDynamicEntity {
 
     private final PlayerBodyProperties body;
     private Optional<Weapon> weapon;
@@ -24,9 +24,11 @@ public class Player extends AbstractEntity {
      * @param body 
      *           it is the physical part {@link it.unibo.ndgg.model.physic.body.PlayerBodyProperties}
      *           of the player.
+     * @param direction
+     *          it is the first {@link EntityDirection} of the player
      */
-    public Player(final PlayerBodyProperties body) {
-        super(body);
+    public Player(final PlayerBodyProperties body, final EntityDirection direction) {
+        super(direction, body);
         this.body = body;
         this.weapon = Optional.empty();
     }
@@ -74,10 +76,9 @@ public class Player extends AbstractEntity {
 
 
     /**
-     * Represents the change of player's state, for an input or a condition.
-     * @param movement
-     *          it is the {@link EntityMovement} that the player have to do
+     * {@inheritDoc}
      */
+    @Override
     public void move(final EntityMovement movement) {
         final MovementVectorValues movementValue = new MovementVectorValuesImpl();
         this.body.applyMovement(movement, movementValue.getMovementVector(movement).x, 

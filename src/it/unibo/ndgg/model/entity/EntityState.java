@@ -6,14 +6,9 @@ package it.unibo.ndgg.model.entity;
  */
 public enum EntityState {
     /**
-     * It represents the state "moving left" of the {@link Entity}. 
+     * It represents the state "moving" of the {@link Entity}. 
      */
-    MOVING_LEFT,
-
-    /**
-     * It represents the state "moving right" of the {@link Entity} .
-     */
-    MOVING_RIGHT,
+    MOVING,
 
     /**
      * It represents the state "jumping" of the {@link Entity}. 

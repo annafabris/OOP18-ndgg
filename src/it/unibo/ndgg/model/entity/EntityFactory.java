@@ -18,9 +18,11 @@ public interface EntityFactory {
      *          the width of the body
      * @param position
      *          the position of the body in the {@link World}
+     * @param direction
+     *          the first direction of this entity
      * @return the entity Player
      */
-    Player createPlayer(Double height, Double width, Pair<Double, Double> position);
+    Player createPlayer(Double height, Double width, Pair<Double, Double> position, EntityDirection direction);
 
     /**
      * It builds a new Sword with its properties.
@@ -32,7 +34,9 @@ public interface EntityFactory {
      *          the position of the body in the {@link World}
      * @param player
      *          the player that have this sword equipped
+     * @param direction
+     *          the first direction of this entity
      * @return the entity Sword
      */
-    Sword createSword(Double height, Double width, Pair<Double, Double> position, Player player);
+    Sword createSword(Double height, Double width, Pair<Double, Double> position, Player player, EntityDirection direction);
 }

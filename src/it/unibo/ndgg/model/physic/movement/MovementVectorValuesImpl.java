@@ -19,8 +19,8 @@ public class MovementVectorValuesImpl implements MovementVectorValues {
     static {
         //TODO N.B. cambiare e testare questi valori e quali movimenti ci vanno
         VALUES.put(EntityMovement.JUMP, Pair.of(EntityState.JUMPING, new Vector2(0, 11)));
-        VALUES.put(EntityMovement.MOVE_RIGHT, Pair.of(EntityState.MOVING_RIGHT, new Vector2(1, 0)));
-        VALUES.put(EntityMovement.MOVE_LEFT, Pair.of(EntityState.MOVING_LEFT, new Vector2(-1, 0)));
+        VALUES.put(EntityMovement.MOVE_RIGHT, Pair.of(EntityState.MOVING, new Vector2(1, 0)));
+        VALUES.put(EntityMovement.MOVE_LEFT, Pair.of(EntityState.MOVING, new Vector2(-1, 0)));
         VALUES.put(EntityMovement.DROP, Pair.of(EntityState.DROPPING, new Vector2(0, -5)));
         VALUES.put(EntityMovement.EQUIP, Pair.of(EntityState.EQUIPPED, new Vector2(0, 5)));    //TODO vedere come implentarlo
         VALUES.put(EntityMovement.STAY_STILL, Pair.of(EntityState.STAYING_STILL, new Vector2(0, 0))); //TODO è necessario?

@@ -2,7 +2,7 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 
 import java.util.Optional;
 
-import it.unibo.ndgg.model.entity.AbstractEntity;
+import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.SwordBodyProperties;
@@ -12,7 +12,7 @@ import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
 /**
  * Represents one of two sword that can be equipped by one of two players in a game.
  */
-public class Sword extends AbstractEntity implements Weapon  {
+public class Sword extends AbstractDynamicEntity implements Weapon  {
 
     private final SwordBodyProperties body;
     private Optional<Player> player;
@@ -24,9 +24,11 @@ public class Sword extends AbstractEntity implements Weapon  {
      *           of the sword.
      * @param player
      *           it is the player @link Player} who equipped the sword;
+     * @param direction
+     *           it is its direction
      */
-    public Sword(final SwordBodyProperties body, final Player player) {
-        super(body);
+    public Sword(final SwordBodyProperties body, final Player player, final EntityDirection direction) {
+        super(direction, body);
         this.body = body;
         this.player = Optional.of(player);
     }
