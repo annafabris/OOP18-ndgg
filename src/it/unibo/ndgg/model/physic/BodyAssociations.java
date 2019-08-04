@@ -14,6 +14,7 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
+import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 //TODO potrebbe essere classe locale a BodyPropertiesWorldImp ? ANNA
@@ -40,21 +41,19 @@ public class BodyAssociations {
         return (Player) getEntity(this.entities.get(EntityType.PLAYER), getBodyProperties(body));
     }
 
-    //TODO sistemare quando ci sono le classi giuste
     /**
      * {@inheritDoc}
      */
     public Door getDoor(final Body body) {
-        return null;
-        //return (Door) getEntity(this.entities.get(EntityType.DOOR), bodyProperties);
+        return (Door) getEntity(this.entities.get(EntityType.DOOR), getBodyProperties(body));
     }
 
     /**
     * {@inheritDoc}
     */
-    /*public Platform getPlayer(final Body body) {
-        return (Platform) getEntity(this.entities.get(EntityType.PLATFORM), bodyProperties);
-    }*/
+    public Platform getPlatform(final Body body) {
+        return (Platform) getEntity(this.entities.get(EntityType.PLATFORM), getBodyProperties(body));
+    }
 
     /**
      * {@inheritDoc}

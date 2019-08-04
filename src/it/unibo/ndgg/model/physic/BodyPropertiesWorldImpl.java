@@ -7,6 +7,7 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
+import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
@@ -68,10 +69,10 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
     /**
      * {@inheritDoc}
      */
-    /*@Override
+    @Override
     public Platform getPlatformFromBody(final Body body) {
         return this.bodyAssociation.getPlatform(body);
-    }*/
+    }
 
 
     /**

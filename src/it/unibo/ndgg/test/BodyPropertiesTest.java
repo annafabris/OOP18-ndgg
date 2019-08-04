@@ -55,17 +55,20 @@ public class BodyPropertiesTest {
         this.bodyAssociations.setEntities(this.entities);
     }
 
+    /**
+     * A general test about the vreation of entities
+     */
     @Test
-    public void testEntity() {
+    public void testEntityCreation() {
         assertEquals(1, this.entities.get(EntityType.PLAYER).stream().filter(i -> i.getBody() == playerR.getBody()).count());
         assertEquals(1, this.entities.get(EntityType.PLAYER).stream().filter(i -> i.getBody() == playerL.getBody()).count());
         assertEquals(2, this.entities.get(EntityType.PLAYER).stream().count());
         assertEquals(2, this.entities.get(EntityType.SWORD).stream().count());
         assertEquals(SWORD1_POSITION, this.entities.get(EntityType.SWORD).get(0).getPosition());
         assertEquals(SWORD2_POSITION, this.entities.get(EntityType.SWORD).get(1).getPosition());
-        assertEquals(new MutablePair<Double, Double> (SWORD_HEIGHT, SWORD_WIDTH), 
+        assertEquals(new MutablePair<Double, Double>(SWORD_HEIGHT, SWORD_WIDTH), 
                 this.entities.get(EntityType.SWORD).get(0).getDimension());
-        assertEquals(new MutablePair<Double, Double> (SWORD_HEIGHT, SWORD_WIDTH), 
+        assertEquals(new MutablePair<Double, Double>(SWORD_HEIGHT, SWORD_WIDTH), 
                 this.entities.get(EntityType.SWORD).get(1).getDimension());
         assertTrue(this.entities.get(EntityType.SWORD).get(0).isAlive());
         assertTrue(this.entities.get(EntityType.SWORD).get(1).isAlive());

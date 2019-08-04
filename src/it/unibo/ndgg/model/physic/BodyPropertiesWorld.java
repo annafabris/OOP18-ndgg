@@ -7,6 +7,7 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
+import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
@@ -59,7 +60,7 @@ public interface BodyPropertiesWorld {
      * @param body {@link Body}
      * @return {@link Platform}
      */
-    //Platform getPlatformFromBody(Body body);
+    Platform getPlatformFromBody(Body body);
 
     /**
      * Returns the right {@link EntityType} given its {@link Body}.
