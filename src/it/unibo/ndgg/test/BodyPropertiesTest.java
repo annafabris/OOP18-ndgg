@@ -24,7 +24,9 @@ import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
 import it.unibo.ndgg.model.world.WorldImpl;
 
-
+/**
+ *
+ */
 public class BodyPropertiesTest {
 
     private final Pair<Double, Double> SWORD1_POSITION = new MutablePair<>(1.0, 3.0);
@@ -52,11 +54,12 @@ public class BodyPropertiesTest {
                 (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, SWORD1_POSITION, playerR), 
                 (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, SWORD2_POSITION, playerL))
                 .collect(Collectors.toList()));
+        //this.entities.put(EntityType.PLATFORM, Stream.of( entityFactory.c))
         this.bodyAssociations.setEntities(this.entities);
     }
 
     /**
-     * A general test about the vreation of entities
+     * A general test about the creation of entities.
      */
     @Test
     public void testEntityCreation() {
