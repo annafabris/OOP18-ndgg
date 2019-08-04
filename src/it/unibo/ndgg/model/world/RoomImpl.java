@@ -1,12 +1,17 @@
 package it.unibo.ndgg.model.world;
 
-import it.unibo.ndgg.model.entity.Entity;
+import java.util.List;
+import java.util.Map;
+
+import it.unibo.ndgg.model.entity.AbstractEntity;
+import it.unibo.ndgg.model.entity.EntityType;
 
 /**
  * {@inheritDoc}.
  */
 public class RoomImpl implements Room {
 
+    private Map<EntityType, List<AbstractEntity>> entities;
     /**
      * {@inheritDoc}.
      */
@@ -20,9 +25,11 @@ public class RoomImpl implements Room {
      * {@inheritDoc}.
      */
     @Override
-    public void addEntity(final Entity entity) {
-        // TODO Auto-generated method stub
-
+    public void setEntities(final Map<EntityType, List<AbstractEntity>> entities) {
+        this.entities = entities;
     }
 
+    public Map<EntityType, List<AbstractEntity>> getEntities() {
+        return entities;
+    }
 }

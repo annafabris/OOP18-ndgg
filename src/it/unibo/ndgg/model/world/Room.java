@@ -1,11 +1,15 @@
 package it.unibo.ndgg.model.world;
 
+import java.util.List;
+import java.util.Map;
+
+import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.Entity;
+import it.unibo.ndgg.model.entity.EntityType;
 
 /**
- * A class that represents a {@link Room} in which the game takes place until one of the Player wins.
+ * A class that represents a {@link Room} in which the game takes place until one of the {@link Player} wins.
  */
-//TODO add Player link dopo la creazione della classe Player
 public interface Room {
 
     /**
@@ -14,8 +18,10 @@ public interface Room {
     void update();
 
     /**
-     * Add one {@link Entity} to the {@link Room}.
-     * @param entity the {@link Entity} to add to the {@link Room}
+     * Add all the {@link Entity} to the {@link Room}.
+     * @param entities a Map containing the {@link EntityType} associated to the List of all the {@link AbstractEntity} of that type
      */
-    void addEntity(Entity entity);
+    void setEntities(final Map<EntityType, List<AbstractEntity>> entities);
+
+    Map<EntityType, List<AbstractEntity>> getEntities();
 }

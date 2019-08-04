@@ -14,6 +14,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import it.unibo.ndgg.model.entity.AbstractEntity;
+import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityFactory;
 import it.unibo.ndgg.model.entity.EntityFactoryImpl;
 import it.unibo.ndgg.model.entity.EntityType;
@@ -29,10 +30,10 @@ import it.unibo.ndgg.model.world.WorldImpl;
  */
 public class BodyPropertiesTest {
 
-    private final Pair<Double, Double> SWORD1_POSITION = new MutablePair<>(1.0, 3.0);
-    private final Pair<Double, Double> SWORD2_POSITION = new MutablePair<>(1.0, 4.0);
-    private final Double SWORD_HEIGHT = 0.5;
-    private final Double SWORD_WIDTH = 0.5;
+    private static final Pair<Double, Double> SWORD1_POSITION = new MutablePair<>(1.0, 3.0);
+    private static final Pair<Double, Double> SWORD2_POSITION = new MutablePair<>(1.0, 4.0);
+    private static final Double SWORD_HEIGHT = 0.5;
+    private static final Double SWORD_WIDTH = 0.5;
     private BodyPropertiesWorld bodyPropertiesWorld;
     private WorldImpl world;
     private BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
@@ -46,13 +47,13 @@ public class BodyPropertiesTest {
         this.bodyAssociations = new BodyAssociations();
         this.bodyPropertiesWorld = this.bodyPropertiesFactory.createPhysicalWorld(2.0, 2.0, bodyAssociations);
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
-        playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(1.0, 0.0));
-        playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0));
+        playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(1.0, 0.0), EntityDirection.LEFT);
+        playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0), EntityDirection.RIGHT);
         this.entities = new HashMap<>();
         this.entities.put(EntityType.PLAYER, Stream.of(playerR, playerL).collect(Collectors.toList()));
         this.entities.put(EntityType.SWORD, Stream.of(
-                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, SWORD1_POSITION, playerR), 
-                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, SWORD2_POSITION, playerL))
+                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, SWORD1_POSITION, playerR, EntityDirection.LEFT), 
+                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, SWORD2_POSITION, playerL, EntityDirection.RIGHT))
                 .collect(Collectors.toList()));
         //this.entities.put(EntityType.PLATFORM, Stream.of( entityFactory.c))
         this.bodyAssociations.setEntities(this.entities);
@@ -77,6 +78,5 @@ public class BodyPropertiesTest {
         assertTrue(this.entities.get(EntityType.SWORD).get(1).isAlive());
         assertTrue(this.entities.get(EntityType.PLAYER).get(0).isAlive());
         assertTrue(this.entities.get(EntityType.PLAYER).get(1).isAlive());
-
     }
 }

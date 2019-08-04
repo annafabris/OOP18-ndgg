@@ -14,6 +14,7 @@ import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
+import it.unibo.ndgg.model.physic.BodyPropertiesWorldImpl;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.world.WorldImpl;
 
@@ -25,8 +26,8 @@ public class CollisionRules extends CollisionAdapter {
 
     private boolean isCollisionRulesAlreadyCreated = false;
     private static final String COLLISION_ALREADY_CREATED_ERR = "COLLISION RULES ALREADY CREATED ERR";
-    private final WorldImpl outerWorld;
-    private final BodyPropertiesWorld worldProperties; //TODO interfaccia?
+    private WorldImpl outerWorld;
+    private BodyPropertiesWorld worldProperties; //TODO interfaccia?
 
     CollisionRules(final WorldImpl outerWorld, final BodyPropertiesWorld worldProperties) {
         super();
@@ -37,7 +38,7 @@ public class CollisionRules extends CollisionAdapter {
     }
 
     /**
-     * The collision who needs to be menages are the ones between a {@link Player} and a {@link Sword} 
+     * The collision who needs to be managed are the ones between a {@link Player} and a {@link Sword} 
      * or a {@link Player} and a {@link Door} or a {@link Sword} and a {@link Sword} or a {@link Sword} 
      * and a {@link Platform}.
      * @param contactConstraint
@@ -104,6 +105,33 @@ public class CollisionRules extends CollisionAdapter {
     }
         return false;
     }
+
+    /**
+     * Method used to set both the new {@link BodyPropertiesWorldImpl} and {@link WorldImpl} in the moment in which it is changed.
+     * @param newPhysicalWorld {@link BodyPropertiesWorldImpl} to be set 
+     * @param newOuterWorld {@link WorldImpl} to be set
+     */ 
+    public void changedObservedRoom(final BodyPropertiesWorldImpl newPhysicalWorld, final WorldImpl newOuterWorld){
+        setOuterWorld(newOuterWorld);
+        setWorldProperties(newPhysicalWorld);
+    }
+
+    /**
+     * Method used to set the new {@link BodyPropertiesWorldImpl}.
+     * @param newWorldProperties -> newWorldProperties to be set
+     */
+    private void setWorldProperties(final BodyPropertiesWorldImpl newWorldProperties) {
+        this.worldProperties = newWorldProperties;
+    }
+
+    /**
+     * Method used to set the new {@link WorldImpl}.
+     * @param newOuterWorld -> newOuterWorld to be set 
+     */
+    private void setOuterWorld(final WorldImpl newOuterWorld) {
+        this.outerWorld = newOuterWorld;
+    }
+
 
     /**
      * This method process the collision between a Sword and a Sword those collision terminate with only one type o outcome.
