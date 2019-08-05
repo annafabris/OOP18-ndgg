@@ -37,12 +37,6 @@ public interface Entity {
     boolean isAlive();
 
     /**
-     * Return a {@link Pair} that represent the component x and y of velocity of {@link Entity}. 
-     * @return the components x and y of velocity as a {@link Pair} of {@link Entity}
-     */
-    Pair<Double, Double> getVelocity();
-
-    /**
      * Return a {@link Pair} that represent height and width of {@link Entity} . 
      * @return the height and width as a {@link Pair} of {@link Entity}
      */

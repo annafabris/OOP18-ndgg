@@ -13,7 +13,7 @@ import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
  * Represents one of two players in play, it is an implementation of {@link AbstractEntity}.
  * and it can move in {@link World}
  */
-public class Player extends AbstractDynamicEntity {
+public class Player extends DynamicEntityImpl {
 
     private final PlayerBodyProperties body;
     private Optional<Weapon> weapon;

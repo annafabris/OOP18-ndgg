@@ -13,7 +13,7 @@ import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
 /**
  * Represents one of two sword that can be equipped by one of two players in a game.
  */
-public class Sword extends AbstractDynamicEntity implements Weapon  {
+public class Sword extends DynamicEntityImpl implements Weapon  {
 
     private final SwordBodyProperties body;
     private Optional<Player> player;

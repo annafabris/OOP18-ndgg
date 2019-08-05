@@ -3,7 +3,6 @@ package it.unibo.ndgg.model.physic.movement;
 import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.entity.EntityMovement;
-import it.unibo.ndgg.model.entity.EntityState;
 
 /**
  * An interface implemented by {@link MovementVectorValuesImpl}. 

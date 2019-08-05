@@ -3,11 +3,9 @@ package it.unibo.ndgg.model.physic.movement;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.entity.EntityMovement;
-import it.unibo.ndgg.model.entity.EntityState;
 
 /**
  * {@inheritDoc}.

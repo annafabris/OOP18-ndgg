@@ -62,14 +62,6 @@ public abstract class AbstractEntity implements Entity {
      * {@inheritDoc}
      */
     @Override
-    public Pair<Double, Double> getVelocity() {
-        return this.body.getVelocity();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public BodyProperties getBody() {
         return this.body;
     }

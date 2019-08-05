@@ -17,14 +17,12 @@ public class SwordBodyProperties extends DynamicBodyProperties {
     }
 
     public void applyMovement(final EntityMovement movement, final double x, final double y) {
-        MovementVectorValuesImpl sword = new MovementVectorValuesImpl();
-        this.currentState = sword.getState(movement);
+        this.currentState = movement.getAssociatedEntityState();
         this.body.applyImpulse(new Vector2(x, y));
     }
 
     public void setVelocity(final EntityMovement movement, final double x, final double y) {
-        MovementVectorValuesImpl sword = new MovementVectorValuesImpl();
-        this.currentState = sword.getState(movement);
+        this.currentState = movement.getAssociatedEntityState();
         this.body.setLinearVelocity(new Vector2(x, y));
     }
     
