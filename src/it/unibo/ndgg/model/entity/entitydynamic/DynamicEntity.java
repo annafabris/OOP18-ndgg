@@ -2,9 +2,9 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.ndgg.model.entity.Entity;
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
+import it.unibo.ndgg.model.entity.EntityState;
 
 /**
  * Represents a dynamic entity with its direction and its movements.
@@ -38,4 +38,9 @@ public interface DynamicEntity {
      */
     void move(EntityMovement movement);
 
+    /**
+     * Method used to change the {@link Sword} {@link EntityState} without using the applyMovement method.
+     * @param state {@link EntityState}
+     */
+    void changeEntityState(EntityState state);
 }

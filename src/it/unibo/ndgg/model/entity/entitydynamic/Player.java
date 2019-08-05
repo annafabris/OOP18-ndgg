@@ -5,31 +5,27 @@ import java.util.Optional;
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
-import it.unibo.ndgg.model.physic.body.PlayerBodyProperties;
-import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
-import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
+import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 
 /**
  * Represents one of two players in play, it is an implementation of {@link AbstractEntity}.
  * and it can move in {@link World}
  */
-public class Player extends DynamicEntityImpl {
+public class Player extends AbstractDynamicEntity {
 
-    private final PlayerBodyProperties body;
     private Optional<Weapon> weapon;
 
     /**
-     * Builds a new Player using {@link PlayerBodyProperties} to describe the physical part 
+     * Builds a new Player using {@link DynamicBodyProperties} to describe the physical part 
      *          of this entity.
      * @param body 
-     *           it is the physical part {@link it.unibo.ndgg.model.physic.body.PlayerBodyProperties}
+     *           it is the physical part {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties}
      *           of the player.
      * @param direction
      *          it is the first {@link EntityDirection} of the player
      */
-    public Player(final PlayerBodyProperties body, final EntityDirection direction) {
+    public Player(final DynamicBodyProperties body, final EntityDirection direction) {
         super(direction, body);
-        this.body = body;
         this.weapon = Optional.empty();
     }
 
@@ -74,17 +70,6 @@ public class Player extends DynamicEntityImpl {
         }
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void move(final EntityMovement movement) {
-        final MovementVectorValues movementValue = new MovementVectorValuesImpl();
-        this.body.applyMovement(movement, movementValue.getMovementVector(movement).x, 
-                                movementValue.getMovementVector(movement).y);
-    }
-
     /**
      * Returns if presents the {@link Sword} of this player else a empty optional.
      * @return weapon
@@ -97,7 +82,7 @@ public class Player extends DynamicEntityImpl {
      * Represent the death of the player in a {@link Room}, not in the {@link World}.
      */
     public void die() {
-        if (super.getCurrentDirection() == EntityDirection.RIGHT) {
+        if (this.getCurrentDirection() == EntityDirection.RIGHT) {
             this.move(EntityMovement.DIE_RIGHT);
         } else {
             this.move(EntityMovement.DIE_LEFT);

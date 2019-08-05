@@ -6,7 +6,6 @@ import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
-import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
 
 /**
  * A class extending {@AbstractPhysicalBody} that is also extended by all the Dynamic Bodies if needed (Player and Sword).
