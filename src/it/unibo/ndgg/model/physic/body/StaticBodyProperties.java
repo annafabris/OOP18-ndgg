@@ -8,13 +8,11 @@ public class StaticBodyProperties extends AbstractBodyProperties {
 
     public StaticBodyProperties(Body body) {
         super(body);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public EntityState getState() {
-        // TODO Auto-generated method stub
-        return null;
+        return EntityState.STAYING_STILL;
     }
 
 }

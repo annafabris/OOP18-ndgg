@@ -7,7 +7,7 @@ import it.unibo.ndgg.model.entity.EntityState;
 
 /**
  * An interface implemented by {@link MovementVectorValuesImpl}. 
- * It creates an association between an {@link EntityMovement}, a {@link EntityState} and the vector of the movement {@link Vector2}
+ * It creates an association between an {@link EntityMovement} and the vector of the movement {@link Vector2}
  */
 public interface MovementVectorValues {
 
@@ -17,11 +17,4 @@ public interface MovementVectorValues {
      * @return impulse as a {@link Vector2}
      */
     Vector2 getMovementVector(EntityMovement currentMovement);
-
-    /**
-     * Return the {@link EntityState} associated to the {@link EntityMovement}.
-     * @param currentMovement the {@link EntityMovement} to find the associated {@link EntityMovement}
-     * @return the state a {@link EntityState}
-     */
-    EntityState getState(EntityMovement currentMovement);
 }
