@@ -3,6 +3,7 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 import java.util.Optional;
 
 import it.unibo.ndgg.model.entity.EntityMovement;
+import it.unibo.ndgg.model.entity.EntityState;
 
 /**
  * Represents all type of weapon that can be equipped by the players.
@@ -25,6 +26,13 @@ public interface Weapon {
      * @throws Exception 
      */
     void unequipWeapon(EntityMovement movement) throws Exception;
+
+    /**
+     * Set the state of the weapon.
+     * @param state
+     *          the {@link EntityState} of the weapon
+     */
+    void changeWeaponState(EntityState state);
 
     /**
      * Returns the player who uses this weapon.

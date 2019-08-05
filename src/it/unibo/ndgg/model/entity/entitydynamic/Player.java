@@ -97,7 +97,11 @@ public class Player extends AbstractDynamicEntity {
      * Represent the death of the player in a {@link Room}, not in the {@link World}.
      */
     public void die() {
-        this.move(EntityMovement.DIE);
+        if (super.getCurrentDirection() == EntityDirection.RIGHT) {
+            this.move(EntityMovement.DIE_RIGHT);
+        } else {
+            this.move(EntityMovement.DIE_LEFT);
+        }
     }
 
 }

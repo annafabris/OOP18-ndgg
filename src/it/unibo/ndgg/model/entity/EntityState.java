@@ -33,5 +33,10 @@ public enum EntityState {
     /**
      * It represents the state dropping of the weapon.
      */
-    DROPPING;
+    DROPPING,
+
+    /**
+     * It represents the state throwing of the weapon.
+     */
+    THROWING;
 }
