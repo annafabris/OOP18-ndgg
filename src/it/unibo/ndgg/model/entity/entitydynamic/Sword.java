@@ -13,7 +13,7 @@ import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
  */
 public class Sword extends AbstractDynamicEntity implements Weapon  {
 
-    private Optional<Player> player;
+    private Optional<Player> player = Optional.empty();
 
     /**
      * Builds a new Sword using {@link DynamicBodyProperties} to describe the physical part 
@@ -28,7 +28,12 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
      */
     public Sword(final DynamicBodyProperties body, final Player player, final EntityDirection direction) {
         super(direction, body);
-        this.player = Optional.of(player);
+        try {
+            player.equipWeapon(this);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
