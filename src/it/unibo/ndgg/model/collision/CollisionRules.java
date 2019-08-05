@@ -6,6 +6,7 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.CollisionAdapter;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 
+import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
@@ -146,7 +147,11 @@ public class CollisionRules extends CollisionAdapter {
         if (sword1.getPlayer().isPresent() && sword2.getPlayer().isPresent()) {
             if ((sword1.getPosition().getRight() < sword2.getPosition().getRight())) {
                 try {
-                    sword1.unequipWeapon(EntityMovement.LIE_DOWN);
+                    if (sword1.getCurrentDirection() == EntityDirection.LEFT) {
+                        sword1.unequipWeapon(EntityMovement.DROP_LEFT);
+                    } else {
+                        sword1.unequipWeapon(EntityMovement.DROP_RIGHT);
+                    }
                 } catch (Exception e) {
                     System.out.println("The player hasn't  a sword");
                     e.printStackTrace();
@@ -155,16 +160,20 @@ public class CollisionRules extends CollisionAdapter {
                 return true;
             } else if ((sword2.getPosition().getRight() < sword1.getPosition().getRight())) {
                 try {
-                    sword2.unequipWeapon(EntityMovement.LIE_DOWN);
+                    if (sword2.getCurrentDirection() == EntityDirection.LEFT) {
+                        sword2.unequipWeapon(EntityMovement.DROP_LEFT);
+                    } else {
+                        sword2.unequipWeapon(EntityMovement.DROP_RIGHT);
+                    }
                 } catch (Exception e) {
                     System.out.println("The player hasn't  a sword");
                     e.printStackTrace();
                 }
-                    this.outerWorld.notifyCollision(CollisionResult.PLAYERDISARMED);
-                    return true;
+                this.outerWorld.notifyCollision(CollisionResult.PLAYERDISARMED);
+                return true;
             }
-    }
-    return false;
+        }
+        return false;
     }
 
     /**
@@ -178,7 +187,9 @@ public class CollisionRules extends CollisionAdapter {
      */
     private boolean processSwordPlatformCollision(final Sword sword, final Platform platform) {
         this.outerWorld.notifyCollision(CollisionResult.SWORDONTHEGROUND);
-        sword.move(EntityMovement.LIE_DOWN);
+        if (sword.getCurrentDirection() == EntityDirection.LEFT) {
+            sword.changeEntityState(EntityState.STAYING_STILL);
+        }
         return true;
     }
 
