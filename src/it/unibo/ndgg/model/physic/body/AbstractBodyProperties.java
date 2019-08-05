@@ -43,14 +43,6 @@ public abstract class AbstractBodyProperties implements BodyProperties {
      * {@inheritDoc}
      */
     @Override
-    public Pair<Double, Double> getVelocity() {
-        return Pair.of(this.body.getLinearVelocity().x, this.body.getLinearVelocity().y);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public boolean exists() {
         return this.body.isActive();
     }
