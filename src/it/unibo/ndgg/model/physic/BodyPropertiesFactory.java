@@ -11,9 +11,8 @@ import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.entity.EntityType;
-import it.unibo.ndgg.model.physic.body.PlayerBodyProperties;
+import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 import it.unibo.ndgg.model.physic.body.StaticBodyProperties;
-import it.unibo.ndgg.model.physic.body.SwordBodyProperties;
 
 /**
  * 
@@ -61,27 +60,22 @@ public class BodyPropertiesFactory {
      * @param position
      * @param width
      * @param height
+     * @param type
      * @return
      */
-    public PlayerBodyProperties createPlayerBodyProperties(final Pair<Double, Double> position, final Double width, final Double height) {
-        final Body body = createBody(position, width, height, PLAYER_FILTER);
-        final PlayerBodyProperties playerBody = new PlayerBodyProperties(body);
-        this.physicalWorld.putPhysicalBodyToBody(playerBody, body, EntityType.PLAYER);
-        return playerBody;
-    }
-
-    /**
-     * 
-     * @param position
-     * @param width
-     * @param height
-     * @return
-     */
-    public SwordBodyProperties createSwordBodyProperties(Pair<Double, Double> position, Double width, Double height) {
-        final Body body = createBody(position, width, height, SWORD_FILTER);
-        final SwordBodyProperties swordBody = new SwordBodyProperties(body);
-        this.physicalWorld.putPhysicalBodyToBody(swordBody, body, EntityType.SWORD);
-        return swordBody;
+    public DynamicBodyProperties createDynamicBodyProperties(final Pair<Double, Double> position, final Double width, 
+            final Double height, final EntityType type) {
+        final Body body;
+        if (type == EntityType.PLAYER) {
+            body = createBody(position, width, height, PLAYER_FILTER);
+        } else if (type == EntityType.SWORD) {
+            body = createBody(position, width, height, SWORD_FILTER);
+        } else {
+            throw new IllegalStateException("Dynamic EntityType Does not exist");
+        }
+        final DynamicBodyProperties dynamicBody = new DynamicBodyProperties(body);
+        this.physicalWorld.putPhysicalBodyToBody(dynamicBody, body, EntityType.PLAYER);
+        return dynamicBody;
     }
 
     /**
@@ -113,12 +107,12 @@ public class BodyPropertiesFactory {
     }
 
     /**
-     * 
-     * @param position
+     * A private method used to create a {@link Body} and to set its position, width, height and {@link CategoryFilter}.
+     * @param position 
      * @param width
      * @param height
-     * @param filter
-     * @return
+     * @param filter {@link CategoryFilter}
+     * @return {@link }
      */
     private Body createBody(final Pair<Double, Double> position, final double width, final double height, final CategoryFilter filter) {
         final Body body = new Body();

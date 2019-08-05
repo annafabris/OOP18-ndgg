@@ -15,7 +15,7 @@ public class DynamicBodyProperties extends AbstractBodyProperties {
     protected final Body body;
     protected EntityState currentState;
 
-    DynamicBodyProperties(final Body body) {
+    public DynamicBodyProperties(final Body body) {
         super(body);
         this.body = body;
         this.currentState = EntityState.STAYING_STILL;
