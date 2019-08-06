@@ -14,6 +14,7 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 import it.unibo.ndgg.model.physic.body.StaticBodyProperties;
 
+//TODO Simple Factory Pattern meglio method facotory?
 /**
  * 
  *
@@ -61,7 +62,7 @@ public class BodyPropertiesFactory {
      * @param width
      * @param height
      * @param type
-     * @return
+     * @return {@link DynamicBodyProperties}
      */
     public DynamicBodyProperties createDynamicBodyProperties(final Pair<Double, Double> position, final Double width, 
             final Double height, final EntityType type) {
@@ -84,7 +85,7 @@ public class BodyPropertiesFactory {
      * @param width
      * @param height
      * @param type
-     * @return
+     * @return {@link DynamicBodyProperties}
      */
     //TODO eccezione
     public StaticBodyProperties createStaticlBodyProperties(final Pair<Double, Double> position, final Double width, 

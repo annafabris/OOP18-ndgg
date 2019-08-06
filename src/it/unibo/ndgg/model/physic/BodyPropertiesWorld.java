@@ -32,7 +32,7 @@ public interface BodyPropertiesWorld {
      * @param body {@link Body}
      * @param type {@link EntityType}
      */
-    void putPhysicalBodyToBody(final BodyProperties bodyProperties, final Body body, final EntityType type);
+    void putPhysicalBodyToBody(BodyProperties bodyProperties, Body body, EntityType type);
 
     /**
      * Returns the {@link Player} associated with the correct {@link Player}.
