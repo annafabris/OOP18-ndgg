@@ -60,9 +60,14 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
      */
     @Override
     public void move(final EntityMovement movement) {
-        final MovementVectorValues movementValue = new MovementVectorValuesImpl();
-        this.body.applyMovement(movement, movementValue.getMovementVector(movement).x, 
-                                movementValue.getMovementVector(movement).y);
+        if ((movement.getAssociatedEntityState() != EntityState.MOVING 
+                && movement.getAssociatedDirection() == this.getCurrentDirection())
+                || movement.getAssociatedEntityState() == EntityState.MOVING) {
+
+            final MovementVectorValues movementValue = new MovementVectorValuesImpl();
+            this.body.applyMovement(movement, movementValue.getMovementVector(movement).x, 
+                                    movementValue.getMovementVector(movement).y);
+        }
     }
 
     /**

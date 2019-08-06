@@ -96,7 +96,8 @@ public class BodyPropertiesTest {
         assertTrue(this.playerR.getWeapon().isPresent());
         assertEquals(this.playerR.getCurrentDirection(), ((Sword) this.entities.get(EntityType.SWORD).get(0)).getCurrentDirection());
         assertEquals(this.playerL.getCurrentDirection(), ((Sword) this.entities.get(EntityType.SWORD).get(1)).getCurrentDirection());
-        this.playerL.dropWeapon(EntityMovement.DROP_LEFT);
+        assertEquals(EntityState.EQUIPPED, ((Sword) this.entities.get(EntityType.SWORD).get(0)).getState());
+        this.playerL.dropWeapon(EntityMovement.DROP_RIGHT);
         assertFalse(this.playerL.getWeapon().isPresent());
         assertFalse(((Sword) this.entities.get(EntityType.SWORD).get(1)).getPlayer().isPresent());
         assertEquals(EntityState.DROPPING, ((Sword) this.entities.get(EntityType.SWORD).get(1)).getState());
@@ -106,5 +107,22 @@ public class BodyPropertiesTest {
         assertTrue(this.playerL.getWeapon().isPresent());
         assertTrue(((Sword) this.entities.get(EntityType.SWORD).get(1)).getPlayer().isPresent());
         assertEquals(EntityState.EQUIPPED, ((Sword) this.entities.get(EntityType.SWORD).get(0)).getState());
+        this.playerL.dropWeapon(EntityMovement.DROP_RIGHT);
+        assertFalse(this.playerL.getWeapon().isPresent());
+    }
+
+    /**
+     * This test looks the change of state.
+     */
+    @Test
+    public void testChangeStatePlayer() {
+        this.playerL.move(EntityMovement.JUMP_RIGHT);
+        assertEquals(EntityState.JUMPING, this.playerL.getState());
+        this.playerL.changeEntityState(EntityState.STAYING_STILL);
+        assertEquals(EntityState.STAYING_STILL, this.playerL.getState());
+        this.playerL.move(EntityMovement.JUMP_LEFT);
+        assertEquals(EntityState.STAYING_STILL, this.playerL.getState());
+        this.playerL.move(EntityMovement.MOVE_LEFT);
+        assertEquals(EntityState.MOVING, this.playerL.getState());
     }
 }
