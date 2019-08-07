@@ -8,7 +8,7 @@ public interface WorldView {
     /**
      * starts the view of the game.
      */
-    void startGame();
+    void startGame() throws Exception;
 
     /**
      * updates the view of the game.
