@@ -12,11 +12,13 @@ import it.unibo.ndgg.model.entity.EntityState;
  * Represents an implementation of PlayerImage, it includes all states and direction with
  * their correspondent sprite sheet and frame number.
  */
-public class PlayerImageImpl implements PlayerImage {
+public class PlayerImageImpl extends EntityFrameInformationImpl implements PlayerImage {
 
     private static final Map<Pair<EntityState, EntityDirection>, PlayerFrames> STATE = new HashMap<>();
-    private static final String PATH_PLAYER_1 = "/images/player_two";
-    private static final String PATH_PLAYER_2 = "/images/player_two";
+    private static final String PATH_PLAYER_1 = "/images/player_two/";
+    private static final String PATH_PLAYER_2 = "/images/player_two/";
+    private static final int FRAME_WIDTH = 500;
+    private static final int FRAME_HEIGHT = 564;
     private static final String EXTENSION = ".png";
 
     static {
@@ -28,6 +30,13 @@ public class PlayerImageImpl implements PlayerImage {
         STATE.put(Pair.of(EntityState.STAYING_STILL, EntityDirection.RIGHT), PlayerFrames.IMAGE_IDLE_RIGHT);
         STATE.put(Pair.of(EntityState.DYING, EntityDirection.LEFT), PlayerFrames.IMAGE_DIE_LEFT);
         STATE.put(Pair.of(EntityState.DYING, EntityDirection.RIGHT), PlayerFrames.IMAGE_DIE_RIGHT);
+    }
+
+    /**
+     * Builds a {@link EntityFrameInformationImpl} thats contains the information about a frame.
+     */
+    public PlayerImageImpl() {
+        super(FRAME_HEIGHT, FRAME_WIDTH);
     }
 
     /**
