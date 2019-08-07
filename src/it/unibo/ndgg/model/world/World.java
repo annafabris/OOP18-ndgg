@@ -1,6 +1,6 @@
 package it.unibo.ndgg.model.world;
 
-import it.unibo.ndgg.model.entity.Entity;
+import it.unibo.ndgg.model.collision.CollisionResult;
 
 /**
  * A class that represents a list of {@link Room} in which the game takes place.
@@ -16,4 +16,10 @@ public interface World {
      * Updates all the {@link Entity} in the {@link World}.
      */
     void update();
+
+    /**
+     * A method that gets called each time a valid collision happens.
+     * @param collisionResult {@link CollisionResult}
+     */
+    void notifyCollision(CollisionResult collisionResult);
 }

@@ -1,16 +1,28 @@
 package it.unibo.ndgg.controller;
 
+import it.unibo.ndgg.view.ViewImpl;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class Nidhogg extends Application{
-
+/**
+ * The main class which starts the whole application.
+ */
+public class Nidhogg extends Application {
+    /**
+     * The method used by JavaFX to start the application. It creates the main controller of
+     * this application.
+     * @param stage the {@link Stage} to use for this application
+     */
     @Override
-    public void start(Stage stage) throws Exception{
-        // TODO Auto-generated method stub
+    public void start(final Stage stage) throws Exception {
+        new MainControllerImpl(new ViewImpl(stage));
     }
 
-    public static void main(String[] args) {
+    /**
+     * Main method which starts the application as requested by JavaFX.
+     * @param args unused
+     */
+    public static void main(final String[] args) {
         launch(args);
     }
 }

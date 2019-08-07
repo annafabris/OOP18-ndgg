@@ -7,10 +7,11 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
+import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
- * {@inheritDoc}.
+ * A class that represent the World in which the physic of the game takes place.
  */
 public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
 
@@ -32,17 +33,21 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
     /**
      * {@inheritDoc}.
      */
+    @Override
     public World getWorld() {
         return this.world;
     }
 
-
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
     public void putPhysicalBodyToBody(final BodyProperties bodyProperties, final Body body, final EntityType type) {
         this.bodyAssociation.setBodyProperties(body, bodyProperties, type);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public Player getPlayerFromBody(final Body body) {
@@ -50,7 +55,7 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public Sword getSwordFromBody(final Body body) {
@@ -58,7 +63,7 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public Door getDoorFromBody(final Body body) {
@@ -66,16 +71,16 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
-    /*@Override
+    @Override
     public Platform getPlatformFromBody(final Body body) {
         return this.bodyAssociation.getPlatform(body);
-    }*/
+    }
 
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public EntityType getEntityTypeFromBody(final Body body) {
@@ -83,7 +88,7 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public BodyProperties getBodyPropertiesFromBody(final Body body) {

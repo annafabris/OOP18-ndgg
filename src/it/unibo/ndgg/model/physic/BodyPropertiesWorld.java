@@ -7,6 +7,7 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
+import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
@@ -31,7 +32,7 @@ public interface BodyPropertiesWorld {
      * @param body {@link Body}
      * @param type {@link EntityType}
      */
-    void putPhysicalBodyToBody(final BodyProperties bodyProperties, final Body body, final EntityType type);
+    void putPhysicalBodyToBody(BodyProperties bodyProperties, Body body, EntityType type);
 
     /**
      * Returns the {@link Player} associated with the correct {@link Player}.
@@ -59,7 +60,7 @@ public interface BodyPropertiesWorld {
      * @param body {@link Body}
      * @return {@link Platform}
      */
-    //Platform getPlatformFromBody(Body body);
+    Platform getPlatformFromBody(Body body);
 
     /**
      * Returns the right {@link EntityType} given its {@link Body}.
