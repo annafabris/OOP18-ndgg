@@ -13,9 +13,14 @@ public enum StaticEntityFrames {
     /**
      * Represents the player two door allocated in the left of the scene.
      */
-    DOOR_LEFT("door_player_two");
+    DOOR_LEFT("door_player_two"),
 
-    private static final String PATH = "/images/";
+    /**
+     * Represents the platform where all entity are.
+     */
+    PLATFORM("platform");
+
+    private static final String PATH = "/images/staticEntity";
     private static final String EXTENSION = ".png";
     private final String staticEntitySprite;
 
