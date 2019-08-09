@@ -1,5 +1,6 @@
 package it.unibo.ndgg.view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +14,14 @@ import it.unibo.ndgg.model.entity.EntityType;
 public class ImageEntityAssociations {
 
     private Map<EntityType, List<String>> images = new HashMap<>();
+    private List<String> backgrounds = new ArrayList<>();
 
     public ImageEntityAssociations() {
-        images.put(EntityType.DOOR, Stream.of("images/doorTest.png").collect(Collectors.toList()));
-        // IMAGES.put(EntityType.PLATFORM, Stream.of().collect(Collectors.toList()));
-        // IMAGES.put(EntityType.POWERUP, Stream.of().collect(Collectors.toList()));
+        this.images.put(EntityType.DOOR, Stream.of("images/door_player_one.png", "images/door_player_two.png")
+                .collect(Collectors.toList()));
+        this.backgrounds.add(0, "images/background_1.png");
+        this.backgrounds.add(1, "images/background_2.png");
+        this.backgrounds.add(2, "images/background_3.png");
     }
 
     /**
@@ -34,7 +38,7 @@ public class ImageEntityAssociations {
      * @param type the {@link it.unibo.ndgg.model.entity.EntityType}
      * @return path of first the image
      */
-    String getImage(final EntityType type){
+    String getImage(final EntityType type) {
         return this.images.get(type).get(0);
     }
 
@@ -46,6 +50,15 @@ public class ImageEntityAssociations {
      */
     String getImage(final EntityType type, final int imageId){
         return this.images.get(type).get(imageId);
+    }
+
+    /**
+     * Returns the path of the chosen background.
+     * @param backgroundId the id of the chosen background
+     * @return path of the background
+     */
+    String getBackground(final int backgroundId) {
+        return this.backgrounds.get(backgroundId);
     }
 
 
