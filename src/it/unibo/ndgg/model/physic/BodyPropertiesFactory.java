@@ -5,7 +5,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
@@ -13,6 +12,7 @@ import org.dyn4j.geometry.Vector2;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 import it.unibo.ndgg.model.physic.body.StaticBodyProperties;
+import it.unibo.ndgg.model.world.World;
 
 //TODO Simple Factory Pattern meglio method facotory?
 /**
@@ -50,9 +50,9 @@ public class BodyPropertiesFactory {
      * @param bodyAssociations the class that contains all the associations necessary for the collisions to work {@link BodyAssociations}
      * @return {@link BodyPropertiesWorld}
      */
-    public BodyPropertiesWorld createPhysicalWorld(final double width, final double height, final BodyAssociations bodyAssociations) {
+    public BodyPropertiesWorld createBodyPropertiesWorld(final World world, final double width, final double height, final BodyAssociations bodyAssociations) {
         this.worldDimensions = new ImmutablePair<>(width, height);
-        this.physicalWorld = new BodyPropertiesWorldImpl(new World(new AxisAlignedBounds(width, height)), bodyAssociations); //TODO width, height controllare
+        this.physicalWorld = new BodyPropertiesWorldImpl(world, new org.dyn4j.dynamics.World(new AxisAlignedBounds(width, height)), bodyAssociations); //TODO width, height controllare
         return this.physicalWorld;
     }
  
@@ -88,7 +88,7 @@ public class BodyPropertiesFactory {
      * @return {@link DynamicBodyProperties}
      */
     //TODO eccezione
-    public StaticBodyProperties createStaticlBodyProperties(final Pair<Double, Double> position, final Double width, 
+    public StaticBodyProperties createStaticBodyProperties(final Pair<Double, Double> position, final Double width, 
             final Double height, final EntityType type) {
         CategoryFilter filter;
         switch (type) {

@@ -1,7 +1,6 @@
 package it.unibo.ndgg.model.physic;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.dynamics.World;
 
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
@@ -9,18 +8,23 @@ import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
+import it.unibo.ndgg.model.world.World;
 
 /**
  * A class that represent the World in which the physic of the game takes place.
  */
 public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
 
-    private final World world;
+    private final org.dyn4j.dynamics.World world;
     private final BodyAssociations bodyAssociation;
+    private final World physicWorld;
 
-    public BodyPropertiesWorldImpl(World world, BodyAssociations bodyAssociations) {
+    public BodyPropertiesWorldImpl(World physicWorld, org.dyn4j.dynamics.World world, BodyAssociations bodyAssociations) {
         this.world = world;
+        this.physicWorld = physicWorld;
         this.bodyAssociation = bodyAssociations;
+        //TODO aggiungere regole collisioni
+        //this.world.addListener();
     }
 
     /**
@@ -34,7 +38,7 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
      * {@inheritDoc}.
      */
     @Override
-    public World getWorld() {
+    public org.dyn4j.dynamics.World getWorld() {
         return this.world;
     }
 
