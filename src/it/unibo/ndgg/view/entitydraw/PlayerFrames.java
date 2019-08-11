@@ -23,7 +23,7 @@ public enum PlayerFrames {
     /**
      * This is the player sprite sheet that represents the dying left.
      */
-    IMAGE_DIE_LEFT("dead_left.png", 6),
+    IMAGE_DIE_LEFT("dead_left", 6),
 
     /**
      * This is the player sprite sheet that represents the state idle.
