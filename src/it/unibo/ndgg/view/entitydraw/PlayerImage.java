@@ -38,10 +38,12 @@ public interface PlayerImage {
      *          it represents the state of the player to represent
      * @param direction
      *          it represents the direction of the player to represent 
+     * @param hasAWeapon 
+     *          true if the weapon is present, otherwise false
      * @return
      *          the sprite sheet path
      */
-    String getPlayer1Path(EntityState state, EntityDirection direction);
+    String getPlayer1Path(EntityState state, EntityDirection direction, boolean hasAWeapon);
 
     /**
      * Return the player two sheet path.
@@ -49,9 +51,11 @@ public interface PlayerImage {
      *          it represents the state of the player to represent
      * @param direction
      *          it represents the direction of the player to represent 
+     * @param hasAWeapon
+     *          true if the weapon is present, otherwise false
      * @return
      *          the sprite sheet path
      */
-    String getPlayer2Path(EntityState state, EntityDirection direction);
+    String getPlayer2Path(EntityState state, EntityDirection direction, boolean hasAWeapon);
 
 }
