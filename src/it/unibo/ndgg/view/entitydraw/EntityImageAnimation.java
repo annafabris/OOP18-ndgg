@@ -17,10 +17,11 @@ public class EntityImageAnimation extends Transition {
  
     private final PixelReader pixelReader;
     private final List<Image> images;
+    private Image image;
     private final int totalFrames; 
     private final int frameWidth; 
     private final int frameHeight; 
-    private long lastIndex;
+    private int lastIndex;
 
     /**
      * Build an animation sprite using a sprite sheet. 
@@ -43,10 +44,12 @@ public class EntityImageAnimation extends Transition {
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
         this.images = new ArrayList<>();
-        for (int i = 0; i < this.totalFrames; i += this.frameWidth) {
-            this.images.add(new WritableImage(this.pixelReader, i, 0, this.frameWidth, this.frameHeight));
+        for (int i = 0; i < this.totalFrames; i++) {
+            final int x = i * this.frameWidth;
+            this.images.add(new WritableImage(this.pixelReader, x, 0, this.frameWidth, this.frameHeight));
         }
         this.lastIndex = 0;
+        this.image = new WritableImage(this.pixelReader, 0, 0, this.frameWidth, this.frameHeight);
         setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
     }
@@ -58,6 +61,15 @@ public class EntityImageAnimation extends Transition {
         final int index = Math.min((int) Math.floor(arg * this.totalFrames), this.totalFrames - 1);
         if (index != lastIndex) {
             this.lastIndex = index;
+            this.image = this.images.get(lastIndex);
         }
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public Image getImage() {
+        return this.image;
     }
 }

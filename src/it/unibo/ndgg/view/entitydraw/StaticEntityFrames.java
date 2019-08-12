@@ -25,7 +25,7 @@ public enum StaticEntityFrames {
      */
     PLATFORM_2("platform_2");
 
-    private static final String PATH = "/images/staticEntity";
+    private static final String PATH = "images/staticEntity";
     private static final String EXTENSION = ".png";
     private final String staticEntitySprite;
 

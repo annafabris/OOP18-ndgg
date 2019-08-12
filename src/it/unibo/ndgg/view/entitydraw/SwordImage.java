@@ -16,7 +16,7 @@ public class SwordImage extends EntityFrameInformationImpl {
     private static final int FRAME_WIDTH = 800;
     private static final int FRAME_HEIGHT = 340;
     private static final Map<Pair<EntityState, EntityDirection>, SwordFrames> STATE = new HashMap<>();
-    private static final String PATH_SWORD = "/images/sword";
+    private static final String PATH_SWORD = "images/sword";
     private static final String EXTENSION = ".png";
 
     static {

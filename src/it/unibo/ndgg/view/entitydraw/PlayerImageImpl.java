@@ -15,9 +15,9 @@ import it.unibo.ndgg.model.entity.EntityState;
 public class PlayerImageImpl extends EntityFrameInformationImpl implements PlayerImage {
 
     private static final Map<Pair<EntityState, EntityDirection>, PlayerFrames> STATE = new HashMap<>();
-    private static final String PATH_PLAYER_1 = "/images/player_one/";
-    private static final String PATH_PLAYER_2 = "/images/player_two/";
-    private static final String WITH_SWORD = "with_sword/";
+    private static final String PATH_PLAYER_1 = "images/player_one/";
+    private static final String PATH_PLAYER_2 = "images/player_two/";
+    private static final String WITH_SWORD = "with_weapon/";
     private static final int FRAME_WIDTH = 500;
     private static final int FRAME_HEIGHT = 564;
     private static final String EXTENSION = ".png";
