@@ -11,8 +11,7 @@ import javafx.scene.image.WritableImage;
 import javafx.util.Duration;
 
 /**
- * 
- *
+ * Represents the dynamic entity animation.
  */
 public class EntityImageAnimation extends Transition {
  
