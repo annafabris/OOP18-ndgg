@@ -4,14 +4,16 @@ import it.unibo.ndgg.view.View;
 
 public class MainControllerImpl implements MainController {
 
+    private final View view;
+
+    
     public MainControllerImpl(View view) {
-        // TODO Auto-generated constructor stub
+        this.view = view;
     }
 
     @Override
     public void startNewGame() {
-        // TODO Auto-generated method stub
-
+        new GameControllerImpl(view.showGame(), this);
     }
 
     @Override
