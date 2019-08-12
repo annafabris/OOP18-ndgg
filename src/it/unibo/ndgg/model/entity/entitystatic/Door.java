@@ -30,4 +30,9 @@ public class Door extends AbstractEntity {
         return null;
     }
 
+    public boolean getDoorStatus() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

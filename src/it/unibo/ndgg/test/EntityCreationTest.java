@@ -33,8 +33,10 @@ import it.unibo.ndgg.model.world.WorldImpl;
 /**
  *
  */
-public class BodyPropertiesTest {
+public class EntityCreationTest {
 
+    private static final double WORLD_WIDTH = 960;
+    private static final double WORLD_HEIGHT = 450;
     private static final Pair<Double, Double> SWORD1_POSITION = new MutablePair<>(1.0, 3.0);
     private static final Pair<Double, Double> SWORD2_POSITION = new MutablePair<>(1.0, 4.0);
     private static final Double SWORD_HEIGHT = 0.5;
@@ -47,10 +49,10 @@ public class BodyPropertiesTest {
     private Player playerR;
     private Player playerL;
 
-    public BodyPropertiesTest() {
+    public EntityCreationTest() {
         this.world = new WorldImpl();
         this.bodyAssociations = new BodyAssociations();
-        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createPhysicalWorld(2.0, 2.0, bodyAssociations);
+        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this.world, WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(1.0, 0.0), EntityDirection.LEFT);
         playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0), EntityDirection.RIGHT);

@@ -4,9 +4,10 @@ import javafx.stage.Stage;
 
 public class ViewImpl implements View {
 
+    private final Stage stage;
 
     public ViewImpl(Stage stage) {
-        // TODO Auto-generated constructor stub
+        this.stage = stage;
     }
 
     @Override
@@ -14,5 +15,9 @@ public class ViewImpl implements View {
         // TODO Auto-generated method stub
 
     }
+
+    public WorldView showGame() throws Exception {
+        return new WorldViewImpl(stage);
+    }    
 
 }

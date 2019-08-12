@@ -17,6 +17,7 @@ import it.unibo.ndgg.model.entity.EntityFactoryImpl;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
@@ -26,6 +27,8 @@ import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
  */
 public class WorldImpl implements World {
 
+    private static final double WORLD_WIDTH = 960; //TODO da prendere in altro modo
+    private static final double WORLD_HEIGHT = 450;
     private static final Double SWORD_HEIGHT = 0.5;
     private static final Double SWORD_WIDTH = 0.5;
     private static final int NUMBER_OF_ROOMS = 3;
@@ -34,13 +37,16 @@ public class WorldImpl implements World {
     private BodyPropertiesWorld bodyPropertiesWorld;
     private BodyPropertiesFactory bodyPropertiesFactory;
     private BodyAssociations bodyAssociations;
+    private Map<EntityType, List<AbstractEntity>> entities;
+
 
     public WorldImpl() {
+        this.entities = new HashMap<>();
         rooms.addAll(Stream.generate(() -> new RoomImpl()).limit(NUMBER_OF_ROOMS).collect(Collectors.toList())); //TODO controllare
         this.currentRoom = NUMBER_OF_ROOMS / 2;
         this.bodyAssociations = new BodyAssociations();
         this.bodyPropertiesFactory = new BodyPropertiesFactory();
-        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createPhysicalWorld(1.0, 1.0, this.bodyAssociations);
+        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, 1.0, 1.0, this.bodyAssociations);
     }
 
     /**
@@ -48,6 +54,7 @@ public class WorldImpl implements World {
      */
     @Override
     public void start() {
+        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
         createEntities();
     }
 
@@ -78,8 +85,10 @@ public class WorldImpl implements World {
                 this.changeRoom();
                 break;
             case SWORDPICKEDUP:
+                this.addSwordToPlayer();
                 break;
             case PLAYERDISARMED:
+                this.removeSwordToPlayer();
                 break;
             case SWORDONTHEGROUND:
                 break;
@@ -88,27 +97,34 @@ public class WorldImpl implements World {
         }
     }
  
+    private void removeSwordToPlayer() {
+
+    }
+
+    private void addSwordToPlayer() {
+        // TODO Auto-generated method stub
+
+    }
     /**
      * A methods that gets called when {@link CollisionResult.DOORTOUCHED} happens and the currentRoom needs to change.
      */
     private void changeRoom() {
-        /*if (this.currentRoom == 0 && .getDoorStatus()) {
-            //TODO game ended
+        Door doorL = (Door) this.entities.get(EntityType.DOOR).get(0);
+        Door doorR = (Door) this.entities.get(EntityType.DOOR).get(1);
+        if (this.currentRoom == 0 && doorL.getDoorStatus()) {
+            //TODO game ended PlayerR won
             return;
-        } else if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS - 1 
-                && this.rooms.get(this.currentRoom).getEntities().get(EntityType.SWORD).get(0).getDoorStatus()){
-            //TODO game ended
+        } else if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS - 1 && doorR.getDoorStatus()){
+            //TODO game ended PlayerL won
             return;
-        } else if ( .getDoorStatus()) {
+        } else if (doorL.getDoorStatus()) {
             this.currentRoom--;
         } else {
             this.currentRoom++;
-        }*/
+        }
     }
 
     private void createEntities() {
-        Map<EntityType, List<AbstractEntity>> entities = new HashMap<>();
-        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createPhysicalWorld(2.0, 2.0, bodyAssociations);
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         Player playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(1.0, 0.0), EntityDirection.LEFT);
         Player playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0), EntityDirection.RIGHT);
