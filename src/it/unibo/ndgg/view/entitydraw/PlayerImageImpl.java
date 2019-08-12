@@ -15,8 +15,9 @@ import it.unibo.ndgg.model.entity.EntityState;
 public class PlayerImageImpl extends EntityFrameInformationImpl implements PlayerImage {
 
     private static final Map<Pair<EntityState, EntityDirection>, PlayerFrames> STATE = new HashMap<>();
-    private static final String PATH_PLAYER_1 = "/images/player_two/";
+    private static final String PATH_PLAYER_1 = "/images/player_one/";
     private static final String PATH_PLAYER_2 = "/images/player_two/";
+    private static final String WITH_SWORD = "with_sword/";
     private static final int FRAME_WIDTH = 500;
     private static final int FRAME_HEIGHT = 564;
     private static final String EXTENSION = ".png";
@@ -59,16 +60,24 @@ public class PlayerImageImpl extends EntityFrameInformationImpl implements Playe
      * {@inheritDoc}
      */
     @Override
-    public String getPlayer1Path(final EntityState state, final EntityDirection direction) {
-        return PATH_PLAYER_1 + this.getPlayerFrames(state, direction).getPlayerSpriteSheet() + EXTENSION;
+    public String getPlayer1Path(final EntityState state, final EntityDirection direction, final boolean hasAWeapon) {
+        if (hasAWeapon) {
+            return PATH_PLAYER_1 + WITH_SWORD + this.getPlayerFrames(state, direction).getPlayerSpriteSheet() + EXTENSION;
+        } else {
+            return PATH_PLAYER_1 + this.getPlayerFrames(state, direction).getPlayerSpriteSheet() + EXTENSION;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getPlayer2Path(final EntityState state, final EntityDirection direction) {
-        return PATH_PLAYER_2 + this.getPlayerFrames(state, direction).getPlayerSpriteSheet() + EXTENSION;
+    public String getPlayer2Path(final EntityState state, final EntityDirection direction, final boolean hasAWeapon) {
+        if (hasAWeapon) {
+            return PATH_PLAYER_2 + WITH_SWORD + this.getPlayerFrames(state, direction).getPlayerSpriteSheet() + EXTENSION;
+        } else {
+            return PATH_PLAYER_2 + this.getPlayerFrames(state, direction).getPlayerSpriteSheet() + EXTENSION;
+        }
     }
 
 }
