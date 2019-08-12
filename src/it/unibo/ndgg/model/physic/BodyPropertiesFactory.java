@@ -21,6 +21,7 @@ import it.unibo.ndgg.model.world.World;
  */
 public class BodyPropertiesFactory {
 
+    //TODO forse cambiare Friction e Density
     private static final long CATEGORY_PLAYER = 1;      // 000001 binary rapresentation 
     private static final long CATEGORY_DOOR = 2;        // 000010 binary rapresentation 
     private static final long CATEGORY_SWORD = 4;       // 000100 binary rapresentation 
@@ -41,7 +42,6 @@ public class BodyPropertiesFactory {
                                                                                         | CATEGORY_DOOR);
 
     private BodyPropertiesWorld physicalWorld;
-    private ImmutablePair<Double, Double> worldDimensions;
  
     /**
      * Create a new {@link World} linked to the {@link BodyPropertiesWorld}.
@@ -51,7 +51,6 @@ public class BodyPropertiesFactory {
      * @return {@link BodyPropertiesWorld}
      */
     public BodyPropertiesWorld createBodyPropertiesWorld(final World world, final double width, final double height, final BodyAssociations bodyAssociations) {
-        this.worldDimensions = new ImmutablePair<>(width, height);
         this.physicalWorld = new BodyPropertiesWorldImpl(world, new org.dyn4j.dynamics.World(new AxisAlignedBounds(width, height)), bodyAssociations); //TODO width, height controllare
         return this.physicalWorld;
     }
