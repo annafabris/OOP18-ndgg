@@ -39,8 +39,15 @@ public class MainControllerImpl implements MainController {
      */
     @Override
     public void quit() {
-        // TODO Auto-generated method stub
+        quitGame();
+        view.quit();
+    }
 
+    /**
+     * Stops the game controller.
+     */
+    private void quitGame() {
+        // TODO Auto-generated method stub
     }
 
 }
