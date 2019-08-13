@@ -1,5 +1,9 @@
 package it.unibo.ndgg.view;
 
+import javafx.application.Platform;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -7,14 +11,20 @@ import javafx.stage.Stage;
  */
 public class ViewImpl implements View {
 
+    private static final String TITLE = "Nidhogg";
+    private static final Image ICON = new Image(ClassLoader.getSystemResource("images/Nidhogg.png").toExternalForm());
+
     private final Stage stage;
 
     /**
-     * Builds a new {@link ViewImpl}.
-     * @param stage the {@link stage} of JavaFX application.
+     * Builds a new {@link ViewImpl} and it initializes it properly.
+     * @param stage the {@link stage} in which to draw all the elements.
      */
     public ViewImpl(final Stage stage) {
         this.stage = stage;
+        this.stage.setTitle(TITLE);
+        this.stage.getIcons().add(ICON);
+        this.setScreenSize();
     }
 
     /**
@@ -39,8 +49,16 @@ public class ViewImpl implements View {
      */
     @Override
     public void quit() {
-        // TODO Auto-generated method stub
-
+        Platform.exit();
     }
 
+    /**
+     * Set the size of the stage depending on the visual bounds of the primary screen.
+     */
+    private void setScreenSize() {
+        final Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setWidth(primaryScreenBounds.getWidth());
+        stage.setHeight(primaryScreenBounds.getHeight());
+        stage.setResizable(false);
+    }
 }
