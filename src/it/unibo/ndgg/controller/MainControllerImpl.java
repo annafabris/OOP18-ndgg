@@ -23,7 +23,7 @@ public class MainControllerImpl implements MainController {
      */
     @Override
     public void menu() {
-        new MenuControllerImpl();
+        new MenuControllerImpl(view.showMenu(), this);
     }
 
     /**

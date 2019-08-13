@@ -32,8 +32,7 @@ public class ViewImpl implements View {
      */
     @Override
     public MenuView showMenu() {
-        // TODO Auto-generated method stub
-        return null;
+        return new MenuViewImpl(stage);
     }
 
     /**
