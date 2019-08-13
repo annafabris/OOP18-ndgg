@@ -87,7 +87,7 @@ public class CollisionRules extends CollisionAdapter {
             return this.processPlayerSwordCollision(player, sword);
         } else if (firstTriple.getRight() == EntityType.PLATFORM && secondTriple.getRight() == EntityType.SWORD 
                 || firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLATFORM) {//verificare come fare nel caso in cui un giocatore con una spada in mano faccia costantemente collisioni.
-            final it.unibo.ndgg.model.entity.entitystatic.Platform platform;
+            final Platform platform;
             final Sword sword;
             if (firstTriple.getRight() == EntityType.PLATFORM) {
                 platform = this.worldProperties.getPlatformFromBody(firstTriple.getLeft());

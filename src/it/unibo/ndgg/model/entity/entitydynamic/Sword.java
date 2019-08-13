@@ -31,7 +31,6 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
         try {
             player.equipWeapon(this);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

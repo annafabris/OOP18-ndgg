@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,6 +25,7 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.AbstractDynamicEntity;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitydynamic.SwordGuard;
 import it.unibo.ndgg.model.entity.entitydynamic.Weapon;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
@@ -89,10 +91,9 @@ public class EntityCreationTest {
 
     /**
      * A general test association with sword and player.
-     * @throws Exception 
      */
     @Test
-    public void testAssociationSwordPlayer() throws Exception {
+    public void testAssociationSwordPlayer() {
         assertTrue(this.playerL.getCurrentDirection() != this.playerR.getCurrentDirection());
         assertTrue(this.playerL.getWeapon().isPresent());
         assertTrue(this.playerR.getWeapon().isPresent());
@@ -111,6 +112,10 @@ public class EntityCreationTest {
         assertEquals(EntityState.EQUIPPED, ((Sword) this.entities.get(EntityType.SWORD).get(0)).getState());
         this.playerL.dropWeapon(EntityMovement.DROP_RIGHT);
         assertFalse(this.playerL.getWeapon().isPresent());
+        this.playerL.die();
+        assertFalse(this.playerL.getWeapon().isPresent());
+        assertFalse(((Sword) this.entities.get(EntityType.SWORD).get(1)).getPlayer().isPresent());
+        assertTrue(((Sword) this.entities.get(EntityType.SWORD).get(0)).getPlayer().isPresent());
     }
 
     /**
@@ -126,5 +131,19 @@ public class EntityCreationTest {
         assertEquals(EntityState.STAYING_STILL, this.playerL.getState());
         this.playerL.move(EntityMovement.MOVE_LEFT);
         assertEquals(EntityState.MOVING, this.playerL.getState());
+    }
+    
+    /**
+     * This test looks the change of state.
+     */
+    @Test
+    public void testGuard() {
+        assertEquals(SwordGuard.LOW, this.playerL.getSwordGuard().get());
+        this.playerL.changeGuard();
+        assertEquals(SwordGuard.HIGH, this.playerL.getSwordGuard().get());
+        this.playerL.dropWeapon(EntityMovement.DROP_LEFT);
+        assertFalse(this.playerL.getSwordGuard().isPresent());
+        this.playerL.equipWeapon((Sword) this.entities.get(EntityType.SWORD).get(1));
+        assertEquals(SwordGuard.LOW, this.playerL.getSwordGuard().get());
     }
 }

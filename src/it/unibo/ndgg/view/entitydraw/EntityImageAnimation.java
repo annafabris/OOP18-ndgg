@@ -15,7 +15,6 @@ import javafx.util.Duration;
  */
 public class EntityImageAnimation extends Transition {
  
-    private final PixelReader pixelReader;
     private final List<Image> images;
     private Image image;
     private final int totalFrames; 
@@ -39,17 +38,17 @@ public class EntityImageAnimation extends Transition {
     public EntityImageAnimation(final Image image, final int totalFrames, final int frameWidth,
                                 final int frameHeight, final Duration duration) {
         super();
-        this.pixelReader = image.getPixelReader();
+        final PixelReader pixelReader = image.getPixelReader();
         this.totalFrames = totalFrames;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
         this.images = new ArrayList<>();
         for (int i = 0; i < this.totalFrames; i++) {
             final int x = i * this.frameWidth;
-            this.images.add(new WritableImage(this.pixelReader, x, 0, this.frameWidth, this.frameHeight));
+            this.images.add(new WritableImage(pixelReader, x, 0, this.frameWidth, this.frameHeight));
         }
         this.lastIndex = 0;
-        this.image = new WritableImage(this.pixelReader, 0, 0, this.frameWidth, this.frameHeight);
+        this.image = new WritableImage(pixelReader, 0, 0, this.frameWidth, this.frameHeight);
         setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
     }
@@ -66,8 +65,9 @@ public class EntityImageAnimation extends Transition {
     }
 
     /**
-     * 
-     * @return
+     * Returns the current image in the animation.
+     * @return 
+     *          the current image in the animation.
      */
     public Image getImage() {
         return this.image;
