@@ -1,5 +1,7 @@
 package it.unibo.ndgg.model.physic;
 
+import java.awt.Toolkit;
+
 import org.dyn4j.dynamics.Body;
 
 import it.unibo.ndgg.model.entity.EntityType;
@@ -15,14 +17,17 @@ import it.unibo.ndgg.model.world.World;
  */
 public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
 
+    public static final double NANO_TO_BASE = 1.0e9;
     private final org.dyn4j.dynamics.World world;
     private final BodyAssociations bodyAssociation;
-    private final World physicWorld;
+    private final World worldImpl;
+    private long last;
 
-    public BodyPropertiesWorldImpl(World physicWorld, org.dyn4j.dynamics.World world, BodyAssociations bodyAssociations) {
+    public BodyPropertiesWorldImpl(World worldImpl, org.dyn4j.dynamics.World world, BodyAssociations bodyAssociations) {
         this.world = world;
-        this.physicWorld = physicWorld;
+        this.worldImpl = worldImpl;
         this.bodyAssociation = bodyAssociations;
+        this.last = System.nanoTime();
         //TODO aggiungere regole collisioni
         //this.world.addListener();
     }
@@ -31,7 +36,12 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
      * {@inheritDoc}.
      */
     public void update() {
-
+        Toolkit.getDefaultToolkit().sync();
+        
+        long diff = System.nanoTime() - this.last;
+        this.last = System.nanoTime();
+        double elapsedTime = diff / NANO_TO_BASE;       // convert from nanoseconds to seconds
+        this.world.update(elapsedTime);
     }
 
     /**

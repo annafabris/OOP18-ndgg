@@ -90,17 +90,20 @@ public class BodyPropertiesFactory {
     public StaticBodyProperties createStaticBodyProperties(final Pair<Double, Double> position, final Double width, 
             final Double height, final EntityType type) {
         CategoryFilter filter;
+        final Body body;
         switch (type) {
             case DOOR:
                 filter = DOOR_FILTER;
+                body = createBody(position, width, height, filter);
                 break;
             case PLATFORM:
                 filter = PLATFORM_FILTER;
+                body = createBody(position, width, height, filter);
+                body.setMass(MassType.INFINITE);
                 break;
             default:
                 throw new IllegalStateException("Static EntityType Does not exist");
         }
-        final Body body = createBody(position, width, height, filter);
         final StaticBodyProperties staticBody = new StaticBodyProperties(body);
         this.physicalWorld.putPhysicalBodyToBody(staticBody, body, EntityType.SWORD);
         return staticBody;
@@ -118,9 +121,8 @@ public class BodyPropertiesFactory {
         final Body body = new Body();
         body.addFixture(Geometry.createRectangle(width, height));
         body.translate(new Vector2(position.getLeft(), position.getRight()));
-        body.setMass(MassType.FIXED_ANGULAR_VELOCITY);
+        body.setMass(MassType.NORMAL);
         body.getFixture(0).setFilter(filter);
-        this.physicalWorld.update();
         this.physicalWorld.getWorld().addBody(body);
         return body;
     }

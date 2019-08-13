@@ -39,7 +39,6 @@ public class WorldImpl implements World {
     private BodyAssociations bodyAssociations;
     private Map<EntityType, List<AbstractEntity>> entities;
 
-
     public WorldImpl() {
         this.entities = new HashMap<>();
         rooms.addAll(Stream.generate(() -> new RoomImpl()).limit(NUMBER_OF_ROOMS).collect(Collectors.toList())); //TODO controllare
@@ -64,6 +63,8 @@ public class WorldImpl implements World {
     @Override
     public void update() {
         this.rooms.get(this.currentRoom).update();
+        this.bodyPropertiesWorld.update();
+        //TODO se volete posso rimuovere le spade qui
     }
 
     /**
@@ -80,6 +81,7 @@ public class WorldImpl implements World {
     public void notifyCollision(final CollisionResult collisionResult) {
         switch (collisionResult) {
             case PLAYERKILLED:
+                this.changeRoom();
                 break;
             case DOORTOUCHED:
                 this.changeRoom();
@@ -105,33 +107,41 @@ public class WorldImpl implements World {
         // TODO Auto-generated method stub
 
     }
+    
     /**
-     * A methods that gets called when {@link CollisionResult.DOORTOUCHED} happens and the currentRoom needs to change.
+     * A methods that gets called when {@link CollisionResult.DOORTOUCHED} or {@link CollisionResult.PLAYERKILLED} 
+     * happens and the currentRoom needs to change.
      */
     private void changeRoom() {
         Door doorL = (Door) this.entities.get(EntityType.DOOR).get(0);
         Door doorR = (Door) this.entities.get(EntityType.DOOR).get(1);
-        if (this.currentRoom == 0 && doorL.getDoorStatus()) {
-            //TODO game ended PlayerR won
-            return;
-        } else if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS - 1 && doorR.getDoorStatus()){
-            //TODO game ended PlayerL won
-            return;
-        } else if (doorL.getDoorStatus()) {
-            this.currentRoom--;
-        } else {
-            this.currentRoom++;
+        Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
+        Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
+        
+        if (doorL.getDoorStatus() || (!playerL.isAlive() && playerR.isAlive())) {       
+            if(this.currentRoom == 0) {
+                //TODO game ended PlayerR won
+            } else {
+                this.currentRoom--;
+                //TODO segnalarlo a View
+            }
+        } else if (doorR.getDoorStatus() || (playerL.isAlive() && !playerR.isAlive())) {
+            if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS - 1) {
+                //TODO game ended PlayerL won
+            } else {
+                this.currentRoom++;
+            }
         }
     }
 
     private void createEntities() {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
-        Player playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(1.0, 0.0), EntityDirection.LEFT);
-        Player playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0), EntityDirection.RIGHT);
-        entities.put(EntityType.PLAYER, Stream.of(playerR, playerL).collect(Collectors.toList()));
+        Player playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(-1.0, 0.0), EntityDirection.RIGHT);
+        Player playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(1.0, 0.0), EntityDirection.LEFT);
+        entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
-                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, new MutablePair<>(1.0, 5.0), playerR, EntityDirection.LEFT), 
-                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, new MutablePair<>(1.0, -5.0), playerL, EntityDirection.RIGHT))
+                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, new MutablePair<>(1.0, 5.0), playerL, EntityDirection.RIGHT), 
+                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, new MutablePair<>(1.0, -5.0), playerR, EntityDirection.LEFT))
                 .collect(Collectors.toList()));
         this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
