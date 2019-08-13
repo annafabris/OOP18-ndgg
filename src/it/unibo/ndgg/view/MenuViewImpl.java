@@ -1,8 +1,10 @@
 package it.unibo.ndgg.view;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import it.unibo.ndgg.controller.MenuObserver;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
@@ -10,6 +12,11 @@ import javafx.stage.Stage;
  * Class implementation of {@link MenuView}.
  */
 public class MenuViewImpl implements MenuView {
+
+    private static final String LAYOUT_PATH = "layouts/";
+    private static final String LAYOUT_EXT = ".fxml";
+    private static final String MENU = LAYOUT_PATH + "MainMenu" + LAYOUT_EXT;
+    private static final String OPTIONS = LAYOUT_PATH + "OPTIONS" + LAYOUT_EXT;
 
     private final Stage stage;
     private Optional<MenuObserver> controller = Optional.empty();
@@ -27,8 +34,7 @@ public class MenuViewImpl implements MenuView {
      */
     @Override
     public void mainMenu() {
-        // TODO Auto-generated method stub
-
+        changeScreen(MENU);
     }
 
     /**
@@ -36,8 +42,7 @@ public class MenuViewImpl implements MenuView {
      */
     @Override
     public void options() {
-        // TODO Auto-generated method stub
-
+        changeScreen(OPTIONS);
     }
 
     /**
@@ -45,7 +50,23 @@ public class MenuViewImpl implements MenuView {
      */
     @Override
     public void setObserver(final MenuObserver observer) {
-        // TODO Auto-generated method stub
+        controller = Optional.of(observer);
+    }
+
+    /**
+     * Performs the loading of the FXML file which is located at the path received and set as root the elements loaded.
+     * @param resourcePath the path of the file in which the elements to load are located
+     */
+    private void changeScreen(final String resourcePath) {
+        final FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemResource(resourcePath));
+        loader.setController(new MenuLogic(controller.get()));
+        try {
+            Parent root = loader.load();
+            this.stage.getScene().setRoot(root);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        this.stage.show();
 
     }
 

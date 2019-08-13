@@ -2,7 +2,9 @@ package it.unibo.ndgg.view;
 
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -25,6 +27,7 @@ public class ViewImpl implements View {
         this.stage.setTitle(TITLE);
         this.stage.getIcons().add(ICON);
         this.setScreenSize();
+        this.stage.setScene(new Scene(new Pane()));
     }
 
     /**
