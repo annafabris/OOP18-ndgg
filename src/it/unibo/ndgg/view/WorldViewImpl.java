@@ -60,17 +60,9 @@ public class WorldViewImpl implements WorldView {
         Timeline gameLoop = new Timeline();
         gameLoop.setCycleCount( Timeline.INDEFINITE );
 
-        Image platform = new Image("images/new.jpg", WORLD_WIDTH / 20, WORLD_HEIGHT / 15, false, false);
-        Image platformC = new Image("images/centrenew.jpg", WORLD_WIDTH / 20, WORLD_HEIGHT / 15, false, false);
-        for (int x = 1; x < 22; x++){
-            graphicsContext.drawImage(platformC, -50 + WORLD_WIDTH*x/20, PLATFORM_HEIGHT * 4 + platformC.getHeight());
-            graphicsContext.drawImage(platformC, -50 + WORLD_WIDTH*x/20, PLATFORM_HEIGHT * 4 + 2*platformC.getHeight());
-            graphicsContext.drawImage(platform, -50 + WORLD_WIDTH*x/20, PLATFORM_HEIGHT * 4);
-        }
 
-        Image player1 = new Image("images/player_one/idle_right.png", 100, 100, false, false);
-        Image player2 = new Image("images/player_one/idle_right.png");
-        Image background = new Image("images/background_1.png", WORLD_WIDTH, WORLD_HEIGHT, false, false);
+        //Image player1 = new Image("images/player_one/idle_right.png", 100, 100, false, false);
+        //Image player2 = new Image("images/player_one/idle_right.png");
         final long timeStart = System.currentTimeMillis();
         
         KeyFrame kf = new KeyFrame(
@@ -84,13 +76,13 @@ public class WorldViewImpl implements WorldView {
                     double x = (128 * t) % WORLD_WIDTH;
 
                     // Clear the canvas
-                    graphicsContext.clearRect(0, 0, 512,512);
+                    //graphicsContext.clearRect(0, 0, 512,512);
                     // background image clears canvas
                     e.drawBackground(graphicsContext, 0);
                     e.drawMainPlatform(graphicsContext);
                     e.drawDoors(graphicsContext);
-                    graphicsContext.drawImage(player1, x, PLATFORM_HEIGHT * 4 - 90);
-                    graphicsContext.drawImage(player2, 300, PLATFORM_HEIGHT * 4 - 90, 100, 100);
+                    //graphicsContext.drawImage(player1, x, PLATFORM_HEIGHT * 4 - 90);
+                    //graphicsContext.drawImage(player2, 300, PLATFORM_HEIGHT * 4 - 90, 100, 100);
                 }
             });
 

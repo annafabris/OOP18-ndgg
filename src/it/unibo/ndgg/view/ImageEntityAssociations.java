@@ -17,7 +17,9 @@ public class ImageEntityAssociations {
     private List<String> backgrounds = new ArrayList<>();
 
     public ImageEntityAssociations() {
-        this.images.put(EntityType.DOOR, Stream.of("images/door_player_one.png", "images/door_player_two.png")
+        this.images.put(EntityType.DOOR, Stream.of("images/staticEntity/door_player_one.png", "images/staticEntity/door_player_two.png")
+                .collect(Collectors.toList()));
+        this.images.put(EntityType.PLATFORM, Stream.of("images/staticEntity/platform_1.png", "images/staticEntity/platform_2.png")
                 .collect(Collectors.toList()));
         this.backgrounds.add(0, "images/background_1.png");
         this.backgrounds.add(1, "images/background_2.png");

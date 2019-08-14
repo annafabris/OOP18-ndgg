@@ -28,9 +28,10 @@ public class MainControllerImpl implements MainController {
 
     /**
      * {@inheritDoc}
+     * @throws Exception 
      */
     @Override
-    public void startNewGame() {
+    public void startNewGame() throws Exception {
         new GameControllerImpl(view.showGame(), this);
     }
 

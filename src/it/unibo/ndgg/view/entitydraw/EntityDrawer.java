@@ -20,9 +20,12 @@ public class EntityDrawer {
      * @param graphicsContext
      */
     public void drawMainPlatform (GraphicsContext graphicsContext) {
-        Image platform = new Image(this.images.getImage(EntityType.PLATFORM), WORLD_WIDTH / 20, WORLD_HEIGHT / 5, false, false);
-        for (int x = 1; x < 22; x++){
-            graphicsContext.drawImage(platform, -50 + WORLD_WIDTH *x/20, PLATFORM_HEIGHT * 4);
+        Image platformBorder = new Image(this.images.getImage(EntityType.PLATFORM , 0), WORLD_WIDTH / 20, WORLD_HEIGHT / 15, false, false);
+        Image platformCenter = new Image(this.images.getImage(EntityType.PLATFORM , 1), WORLD_WIDTH / 20, WORLD_HEIGHT / 15, false, false);
+        for (int i = 1; i < 22; i++){
+            graphicsContext.drawImage(platformCenter, -50 + WORLD_WIDTH*i/20, PLATFORM_HEIGHT * 4 + platformCenter.getHeight());
+            graphicsContext.drawImage(platformCenter, -50 + WORLD_WIDTH*i/20, PLATFORM_HEIGHT * 4 + 2*platformCenter.getHeight());
+            graphicsContext.drawImage(platformBorder, -50 + WORLD_WIDTH*i/20, PLATFORM_HEIGHT * 4);
         }
     }
 

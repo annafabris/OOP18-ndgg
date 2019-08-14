@@ -11,14 +11,14 @@ public class GameControllerImpl implements GameController {
     private final WorldView view; //interfaccia
     private World gameWorld;
 
-    public GameControllerImpl(WorldView view ,final MainController controller) {
+    public GameControllerImpl(WorldView view ,final MainController controller) throws Exception {
         this.controller = controller;
         this.view = view;
         this.gameWorld = new WorldImpl();
         game();
     }
 
-    public void game() {
+    public void game() throws Exception {
         view.startGame();
         this.gameWorld.start();
     }

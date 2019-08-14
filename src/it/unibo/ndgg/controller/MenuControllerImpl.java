@@ -35,7 +35,12 @@ public class MenuControllerImpl implements MenuController, MenuObserver {
      */
     @Override
     public void newGame() {
-        controller.startNewGame();
+        try {
+            controller.startNewGame();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
