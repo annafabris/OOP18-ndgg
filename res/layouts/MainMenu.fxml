@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<GridPane styleClass="mainpane" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints percentWidth="25.0" />
+      <ColumnConstraints hgrow="ALWAYS" />
+    <ColumnConstraints percentWidth="25.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints percentHeight="10.0" />
+    <RowConstraints percentHeight="20.0" />
+    <RowConstraints percentHeight="10.0" />
+      <RowConstraints percentHeight="15.0" />
+      <RowConstraints percentHeight="15.0" />
+      <RowConstraints percentHeight="15.0" />
+      <RowConstraints percentHeight="15.0" />
+  </rowConstraints>
+   <children>
+      <Label alignment="CENTER" 
+          styleClass="nidhogg" 
+          stylesheets="@stylesheet.css" 
+          text="Nidhogg" 
+          textAlignment="CENTER" 
+          GridPane.columnIndex="1" 
+          GridPane.halignment="CENTER" 
+          GridPane.rowIndex="1" 
+          GridPane.valignment="CENTER" />
+      <Button fx:id="newGameButton" 
+          defaultButton="true" 
+          mnemonicParsing="false" 
+          onAction="#newGame" 
+          styleClass="newgame" 
+          stylesheets="@stylesheet.css" 
+          text="New Game" 
+          GridPane.columnIndex="1" 
+          GridPane.halignment="CENTER" 
+          GridPane.rowIndex="3" 
+          GridPane.valignment="CENTER" />
+      <Button fx:id="optionsButton" 
+          mnemonicParsing="false" 
+          onAction="#options" 
+          styleClass="options" 
+          stylesheets="@stylesheet.css" 
+          text="Options" 
+          GridPane.columnIndex="1" 
+          GridPane.halignment="CENTER" 
+          GridPane.rowIndex="4" 
+          GridPane.valignment="CENTER" />
+      <Button fx:id="exitButton" 
+          cancelButton="true" 
+          mnemonicParsing="false" 
+          onAction="#exit" 
+          styleClass="exit" 
+          stylesheets="@stylesheet.css" 
+          text="Exit" 
+          GridPane.columnIndex="1" 
+          GridPane.halignment="CENTER" 
+          GridPane.rowIndex="5" 
+          GridPane.valignment="CENTER" />
+   </children>
+</GridPane>

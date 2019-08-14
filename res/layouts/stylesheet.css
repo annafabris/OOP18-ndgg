@@ -1,0 +1,121 @@
+/* 
+    Nidhogg
+*/
+
+@font-face {
+    font-family: 'Heartless';
+    src: url('../fonts/Heartless.ttf');
+}
+
+@font-face {
+    font-family: 'Who asks Satan';
+    src: url('../fonts/asks.ttf');
+}
+
+.mainpane{
+    -fx-background-image: url("../images/Nidhogg.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: round;
+    -fx-background-color: black;
+    -fx-background-position: center center;
+    -fx-background-attachment: fixed;
+    -fx-pref-height: 1080;
+    -fx-pref-width: 1920;
+}
+
+.nidhogg{
+    -fx-text-fill: #be1111;
+    -fx-font-family: 'Who asks Satan';
+    -fx-font-size: 115;
+    -fx-effect: dropshadow(three-pass-box, black, 20, 0.7, 0, 0);
+    /*-fx-effect: innershadow(three-pass-box, black, 10, 0.4, 0, 0);*/
+}
+
+.optionslabel{
+    -fx-text-fill: black;
+    -fx-font-family: 'Who asks Satan';
+    -fx-font-size: 50;
+    -fx-effect: dropshadow(three-pass-box, white, 20, 0.5, 0, 0);
+    /*-fx-effect: innershadow(three-pass-box, black, 10, 0.4, 0, 0);*/
+}
+
+.newgame{
+    -fx-text-fill: #006464; 
+    -fx-background-color: rgba(255, 255, 255, 0.0);
+    -fx-padding: 5,5,5,5;
+    -fx-font-family: 'Who asks Satan';
+    -fx-font-size: 70;
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
+    -fx-min-height: 0;
+    -fx-min-width: 0;
+    -fx-pref-width: 4.5em;
+    -fx-pref-height: 2em;
+}
+
+.newgame:hover{
+    -fx-font-size: 75;
+    -fx-effect: dropshadow(three-pass-box, rgb(145, 255, 0), 30, 0.5, 0, 0);
+}
+
+}
+
+.options{
+    -fx-text-fill: #c10000; 
+    -fx-background-color: rgba(255, 255, 255, 0.0);
+    -fx-padding: 5,5,5,5;
+    -fx-font-family: 'Who asks Satan';
+    -fx-font-size: 70;
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
+    -fx-min-height: 0;
+    -fx-min-width: 0;
+    -fx-pref-width: 4.5em;
+    -fx-pref-height: 2em;
+}
+
+.options:hover{
+    -fx-font-size: 75;
+    -fx-effect: dropshadow(three-pass-box, rgb(145, 255, 0), 30, 0.5, 0, 0);
+}
+
+.exit{
+    -fx-text-fill: #2711a1;
+    -fx-background-color: rgba(255, 255, 255, 0.0);
+    -fx-padding: 5,5,5,5;
+    -fx-font-family: 'Who asks Satan';
+    -fx-font-size: 70;
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
+    -fx-min-height: 0;
+    -fx-min-width: 0;
+    -fx-pref-width: 4.5em;
+    -fx-pref-height: 2em;
+}
+.exit:hover{
+    -fx-font-size: 75;
+    -fx-effect: dropshadow(three-pass-box, rgb(145, 255, 0), 30, 0.5, 0, 0);
+}
+
+.mainmenu{
+    -fx-text-fill:black;
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-padding: 5,5,5,5;
+    -fx-font-family: 'Who asks Satan';
+    -fx-font-size: 50;
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
+    -fx-min-height: 0;
+    -fx-min-width: 0;
+    -fx-pref-width: 4.5em;
+    -fx-pref-height: 2em;
+}
+.mainmenu:hover{
+    -fx-font-size: 55;
+    -fx-background-color: rgba(145, 255, 0, 0.2);
+    -fx-effect: dropshadow(three-pass-box, rgb(145, 255, 0), 30, 0.5, 0, 0);
+}
+
+.slider .track{
+    -fx-effect: dropshadow(three-pass-box, white, 20, 0.2, 0, 0);
+}
+
+.slider .thumb{
+    -fx-effect: dropshadow(three-pass-box, white, 20, 0.5, 0, 0);
+}
