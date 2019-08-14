@@ -38,7 +38,7 @@ public class ImageEntityAssociations {
      * @param type the {@link it.unibo.ndgg.model.entity.EntityType}
      * @return path of first the image
      */
-    String getImage(final EntityType type) {
+    public String getImage(final EntityType type) {
         return this.images.get(type).get(0);
     }
 
@@ -48,7 +48,7 @@ public class ImageEntityAssociations {
      * @param imageId the number of the wanted image
      * @return path of the image in the right position
      */
-    String getImage(final EntityType type, final int imageId){
+    public String getImage(final EntityType type, final int imageId){
         return this.images.get(type).get(imageId);
     }
 
@@ -57,7 +57,7 @@ public class ImageEntityAssociations {
      * @param backgroundId the id of the chosen background
      * @return path of the background
      */
-    String getBackground(final int backgroundId) {
+    public String getBackground(final int backgroundId) {
         return this.backgrounds.get(backgroundId);
     }
 
