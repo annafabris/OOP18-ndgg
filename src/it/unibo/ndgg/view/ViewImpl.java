@@ -43,7 +43,7 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     @Override
-    public WorldView showGame() throws Exception {
+    public WorldView showGame() {
         return new WorldViewImpl(stage);
     }
 

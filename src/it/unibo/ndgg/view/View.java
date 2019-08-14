@@ -15,7 +15,7 @@ public interface View {
      * @return {@link WorlView} the game view to load
      * @throws Exception
      */
-    WorldView showGame() throws Exception;
+    WorldView showGame();
 
     /**
      * Exits.

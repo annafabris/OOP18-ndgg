@@ -31,7 +31,7 @@ public class MainControllerImpl implements MainController {
      */
     @Override
     public void startNewGame() {
-        //new GameControllerImpl(view.showGame(), this);
+        new GameControllerImpl(view.showGame(), this);
     }
 
     /**
