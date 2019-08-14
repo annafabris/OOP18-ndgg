@@ -43,7 +43,17 @@ public enum PlayerFrames {
     /**
      * This is the player sprite sheet that represents the jump left.
      */
-    IMAGE_JUMP_LEFT("jump_left", 6);
+    IMAGE_JUMP_LEFT("jump_left", 6),
+
+    /**
+     * This is the change of guard for the player in direction left.
+     */
+    IMAGE_GUARD_LEFT("idle_left_high", 1),
+
+    /**
+     * This is the change of guard for the player in direction right.
+     */
+    IMAGE_GUARD_RIGHT("idle_right_high", 1);
 
     private final String playerSpriteSheet;
     private final int numberOfFrames;

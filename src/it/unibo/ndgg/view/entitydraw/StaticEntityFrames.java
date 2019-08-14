@@ -45,9 +45,9 @@ public enum StaticEntityFrames {
     public String getFrameUrl() {
        return PATH + this.staticEntitySprite + EXTENSION;
     }
-    
+
     /**
-     * Returns the {@link it.unibo.ndgg.model.entity.EntityType} of the entity
+     * Returns the {@link it.unibo.ndgg.model.entity.EntityType} of the entity.
      * @return
      *          {@link it.unibo.ndgg.model.entity.EntityType}
      */

@@ -2,8 +2,11 @@ package it.unibo.ndgg.view.entitydraw;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
+import it.unibo.ndgg.model.entity.EntityDirection;
+import it.unibo.ndgg.model.entity.EntityState;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 
 /**
  * A class that draws the main Entities in the View.
@@ -19,6 +22,7 @@ public class EntityDrawer {
     private static final double DOOR_LEFT_SHIFT_PERCENTAGE = 0.00653;
     private static final double DOOR_RIGHT_SHIFT_PERCENTAGE = 0.038;
     private static final double PLATFORM_SHIFT_PERCENTAGE = 0.053;
+    private EntityDirection direction;
     private int worldWidth;
     private int worldHeight;
 
@@ -73,6 +77,22 @@ public class EntityDrawer {
     public void drawBackground(final GraphicsContext graphicsContext, final BackgroundFrames backgroundId) {
         Image background = new Image(backgroundId.getFrameUrl(), this.worldWidth, this.worldHeight, false, false);
         graphicsContext.drawImage(background, 0, 0);
+    }
+
+   /**
+    * Draws the player one.
+    * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
+    * @param backgroundId the {@link BackgroundFrames} of the wanted background 
+    */
+    public void drawPlayerOne(final GraphicsContext graphicsContext, final BackgroundFrames backgroundId, final EntityState state,
+                              final EntityDirection direction, final boolean hasAWeapon) {
+        PlayerImageImpl frame = new PlayerImageImpl();
+        EntityImageAnimation animation = new EntityImageAnimation(new Image(frame.getPlayer1Path(state, direction, hasAWeapon)),
+                                         frame.getNumberOfFrames(state, direction),
+                                         frame.getFrameHeight(), frame.getFrameWidth(), 
+                                         Duration.millis(500));
+        animation.play();
+        graphicsContext.drawImage(animation.getImage(), 0, 0);
     }
 
 }

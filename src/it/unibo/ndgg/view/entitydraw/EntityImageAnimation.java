@@ -18,8 +18,6 @@ public class EntityImageAnimation extends Transition {
     private final List<Image> images;
     private Image image;
     private final int totalFrames; 
-    private final int frameWidth; 
-    private final int frameHeight; 
     private int lastIndex;
 
     /**
@@ -40,15 +38,13 @@ public class EntityImageAnimation extends Transition {
         super();
         final PixelReader pixelReader = image.getPixelReader();
         this.totalFrames = totalFrames;
-        this.frameWidth = frameWidth;
-        this.frameHeight = frameHeight;
         this.images = new ArrayList<>();
         for (int i = 0; i < this.totalFrames; i++) {
-            final int x = i * this.frameWidth;
-            this.images.add(new WritableImage(pixelReader, x, 0, this.frameWidth, this.frameHeight));
+            final int x = i * frameWidth;
+            this.images.add(new WritableImage(pixelReader, x, 0, frameWidth, frameHeight));
         }
         this.lastIndex = 0;
-        this.image = new WritableImage(pixelReader, 0, 0, this.frameWidth, this.frameHeight);
+        this.image = new WritableImage(pixelReader, 0, 0, frameWidth, frameHeight);
         setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
     }
