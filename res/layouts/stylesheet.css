@@ -34,7 +34,7 @@
 .optionslabel{
     -fx-text-fill: black;
     -fx-font-family: 'Who asks Satan';
-    -fx-font-size: 30;
+    -fx-font-size: 50;
     -fx-effect: dropshadow(three-pass-box, white, 20, 0.5, 0, 0);
     /*-fx-effect: innershadow(three-pass-box, black, 10, 0.4, 0, 0);*/
 }
@@ -45,7 +45,7 @@
     -fx-padding: 5,5,5,5;
     -fx-font-family: 'Who asks Satan';
     -fx-font-size: 70;
-    -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 30, 0.5, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
     -fx-min-height: 0;
     -fx-min-width: 0;
     -fx-pref-width: 4.5em;
@@ -65,7 +65,7 @@
     -fx-padding: 5,5,5,5;
     -fx-font-family: 'Who asks Satan';
     -fx-font-size: 70;
-    -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 30, 0.5, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
     -fx-min-height: 0;
     -fx-min-width: 0;
     -fx-pref-width: 4.5em;
@@ -83,7 +83,7 @@
     -fx-padding: 5,5,5,5;
     -fx-font-family: 'Who asks Satan';
     -fx-font-size: 70;
-    -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 30, 0.5, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
     -fx-min-height: 0;
     -fx-min-width: 0;
     -fx-pref-width: 4.5em;
@@ -99,15 +99,23 @@
     -fx-background-color: rgba(255, 255, 255, 0.2);
     -fx-padding: 5,5,5,5;
     -fx-font-family: 'Who asks Satan';
-    -fx-font-size: 27;
-    -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 30, 0.5, 0, 0);
+    -fx-font-size: 50;
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
     -fx-min-height: 0;
     -fx-min-width: 0;
     -fx-pref-width: 4.5em;
     -fx-pref-height: 2em;
 }
 .mainmenu:hover{
-    -fx-font-size: 27;
+    -fx-font-size: 55;
     -fx-background-color: rgba(145, 255, 0, 0.2);
     -fx-effect: dropshadow(three-pass-box, rgb(145, 255, 0), 30, 0.5, 0, 0);
+}
+
+.slider .track{
+    -fx-effect: dropshadow(three-pass-box, white, 20, 0.2, 0, 0);
+}
+
+.slider .thumb{
+    -fx-effect: dropshadow(three-pass-box, white, 20, 0.5, 0, 0);
 }
