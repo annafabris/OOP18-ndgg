@@ -1,5 +1,7 @@
 package it.unibo.ndgg.view.entitydraw;
 
+import it.unibo.ndgg.model.entity.EntityType;
+
 /**
  * Represents all static entities's sprite.
  */
@@ -8,29 +10,31 @@ public enum StaticEntityFrames {
     /**
      * Represents the player one door allocated in the right of the scene.
      */
-    DOOR_RIGHT("door_player_one"),
+    DOOR_RIGHT(EntityType.DOOR, "door_player_one"),
 
     /**
      * Represents the player two door allocated in the left of the scene.
      */
-    DOOR_LEFT("door_player_two"),
+    DOOR_LEFT(EntityType.DOOR, "door_player_two"),
 
     /**
-     * Represents the first platform where all entity are.
+     * Represents the border of the platform where all entity are.
      */
-    PLATFORM_1("platform_1"),
+    PLATFORM_BORDER(EntityType.PLATFORM, "platform_1"),
 
     /**
-     * Represents the second platform where all entity are.
+     * Represents the center of the platform where all entity are.
      */
-    PLATFORM_2("platform_2");
+    PLATFORM_CENTER(EntityType.PLATFORM, "platform_2");
 
-    private static final String PATH = "images/staticEntity";
+    private static final String PATH = "images/staticEntity/";
     private static final String EXTENSION = ".png";
+    private final EntityType entityType;
     private final String staticEntitySprite;
 
-    StaticEntityFrames(final String staticEntitySprite) {
+    StaticEntityFrames(final EntityType entityType, final String staticEntitySprite) {
         this.staticEntitySprite = staticEntitySprite;
+        this.entityType = entityType;
     }
 
     /**
@@ -39,7 +43,15 @@ public enum StaticEntityFrames {
      *          the frame path of the static entity
      */
     public String getFrameUrl() {
-       return PATH + staticEntitySprite + EXTENSION;
+       return PATH + this.staticEntitySprite + EXTENSION;
     }
-
+    
+    /**
+     * Returns the {@link it.unibo.ndgg.model.entity.EntityType} of the entity
+     * @return
+     *          {@link it.unibo.ndgg.model.entity.EntityType}
+     */
+    public EntityType getEntityType() {
+        return this.entityType;
+    }
 }
