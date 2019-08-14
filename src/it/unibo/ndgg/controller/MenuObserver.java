@@ -1,7 +1,7 @@
 package it.unibo.ndgg.controller;
 
 /**
- * Observer for {@link MainMenu}.
+ * {@link MenuController} as an observer for MenuView.
  */
 public interface MenuObserver {
 

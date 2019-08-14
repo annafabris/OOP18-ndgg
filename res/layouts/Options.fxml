@@ -1,8 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
-
+<GridPane styleClass="mainpane" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+      <ColumnConstraints percentWidth="25.0" />
+    <ColumnConstraints hgrow="ALWAYS" />
+    <ColumnConstraints percentWidth="25.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints percentHeight="10.0" />
+      <RowConstraints percentHeight="15.0" />
+      <RowConstraints percentHeight="5.0" />
+      <RowConstraints percentHeight="15.0" />
+      <RowConstraints percentHeight="15.0" />
+      <RowConstraints percentHeight="15.0" />
+      <RowConstraints percentHeight="15.0" />
+    <RowConstraints percentHeight="10.0" />
+  </rowConstraints>
+   <children>
+      <Label styleClass="nidhogg" stylesheets="@stylesheet.css" text="Options" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="5.0" />
+            <ColumnConstraints percentWidth="25.0" />
+            <ColumnConstraints percentWidth="5.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+          <ColumnConstraints percentWidth="5.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints percentHeight="10.0" />
+          <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" />
+        </rowConstraints>
+         <children>
+            <Label styleClass="optionslabel" stylesheets="@stylesheet.css" text="Volume" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Slider GridPane.columnIndex="3" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <children>
+            <Label styleClass="optionslabel" stylesheets="@stylesheet.css" text="Music" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Slider GridPane.columnIndex="3" GridPane.rowIndex="1" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints percentWidth="5.0" />
+            <ColumnConstraints percentWidth="25.0" />
+            <ColumnConstraints percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+            <ColumnConstraints percentWidth="5.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints percentHeight="10.0" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="10.0" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <children>
+            <Label styleClass="optionslabel" stylesheets="@stylesheet.css" text="Effects" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Slider GridPane.columnIndex="3" GridPane.rowIndex="1" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints percentWidth="5.0" />
+            <ColumnConstraints percentWidth="25.0" />
+            <ColumnConstraints percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+            <ColumnConstraints percentWidth="5.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints percentHeight="10.0" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="10.0" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="6">
+         <columnConstraints>
+            <ColumnConstraints percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+            <ColumnConstraints percentWidth="5.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints percentHeight="15.0" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="15.0" />
+         </rowConstraints>
+         <children>
+            <Button fx:id="mainMenuButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mainMenu" styleClass="mainmenu" stylesheets="@stylesheet.css" text="Main Menu" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+   </children>
+</GridPane>
