@@ -15,5 +15,8 @@ public interface WorldView {
      */
     void update();
     
+    /**
+     * gets called when one of the Players won and it display the final view
+     */
     void PlayerWon(final int PlayerID);
 }

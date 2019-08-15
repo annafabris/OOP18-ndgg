@@ -1,6 +1,5 @@
 package it.unibo.ndgg.model.physic;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.collision.CategoryFilter;
@@ -12,7 +11,7 @@ import org.dyn4j.geometry.Vector2;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 import it.unibo.ndgg.model.physic.body.StaticBodyProperties;
-import it.unibo.ndgg.model.world.World;
+import it.unibo.ndgg.model.world.WorldImpl;
 
 //TODO Simple Factory Pattern meglio method facotory?
 /**
@@ -50,7 +49,7 @@ public class BodyPropertiesFactory {
      * @param bodyAssociations the class that contains all the associations necessary for the collisions to work {@link BodyAssociations}
      * @return {@link BodyPropertiesWorld}
      */
-    public BodyPropertiesWorld createBodyPropertiesWorld(final World world, final double width, final double height, final BodyAssociations bodyAssociations) {
+    public BodyPropertiesWorld createBodyPropertiesWorld(final WorldImpl world, final double width, final double height, final BodyAssociations bodyAssociations) {
         this.physicalWorld = new BodyPropertiesWorldImpl(world, new org.dyn4j.dynamics.World(new AxisAlignedBounds(width, height)), bodyAssociations); //TODO width, height controllare
         return this.physicalWorld;
     }

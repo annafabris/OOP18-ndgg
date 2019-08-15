@@ -1,10 +1,12 @@
 package it.unibo.ndgg.view;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
-import it.unibo.jmpcoon.view.game.Sounds;
 import it.unibo.ndgg.controller.WorldDimensions;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.view.entitydraw.BackgroundFrames;
@@ -27,14 +29,17 @@ import javafx.util.Duration;
  */
 public class WorldViewImpl implements WorldView {
 
-    private static final String BACKGROUND = "images/bg1.png"; //TODO da togliere
     private final Group root = new Group();
     private final Stage stage;
+    private EntityDrawer entityDrawer;
+    private final int viewWidth;
+    private final int viewHeight;
 
     public WorldViewImpl(Stage stage) {
         this.stage = stage;
-        WorldDimensions.setWorldHeight((int) this.stage.getHeight());
-        WorldDimensions.setWorldWidth((int) this.stage.getWidth());
+        this.viewWidth = (int) (this.stage.getWidth() - 1.0);
+        this.viewHeight = (int) (this.stage.getHeight() - 1.0);
+        this.entityDrawer = new EntityDrawer(new MutablePair<>(viewWidth, viewHeight));
     }
 
     /**
@@ -43,7 +48,7 @@ public class WorldViewImpl implements WorldView {
      */
     @Override
     public void startGame() throws Exception {
-        this.stage.setScene(loadScene());
+        this.stage.setScene(loadStaticEntities());
         this.stage.show();
     }
 
@@ -52,26 +57,34 @@ public class WorldViewImpl implements WorldView {
      */
     @Override
     public void update() {
-        
-
+        this.loadStaticEntities();
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     public void PlayerWon(final int PlayerID) {
         //TODO da fare
+        //this.stage.setScene(value);
     }
-    
-    private Scene loadScene() throws Exception {
+
+    private Scene loadStaticEntities() {
         this.stage.setTitle("Nidhogg");
-        Canvas canvas = new Canvas(WorldDimensions.getWorldWidth(), WorldDimensions.getWorldHeight());
+        Canvas canvas = new Canvas(viewWidth, viewHeight);
         root.getChildren().add(canvas);
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
-        Timeline gameLoop = new Timeline();
+        this.entityDrawer.drawBackground(graphicsContext, BackgroundFrames.BACKGROUND_1);
+        this.entityDrawer.drawMainPlatform(graphicsContext);
+        this.entityDrawer.drawDoors(graphicsContext);
+
+        //TODO va messo 
+         /*Timeline gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);
 
         final long timeStart = System.currentTimeMillis();
 
-        KeyFrame kf = new KeyFrame(
+       KeyFrame kf = new KeyFrame(
             Duration.seconds(0.17),            // 60 FPS
             new EventHandler<ActionEvent>() {
                 private EntityDrawer e = new EntityDrawer(new MutablePair<Integer, Integer>
@@ -92,10 +105,10 @@ public class WorldViewImpl implements WorldView {
             });
 
         gameLoop.getKeyFrames().add(kf);
-        gameLoop.play();
+        gameLoop.play();*/
 
         stage.sizeToScene();
-        return new Scene(root, WorldDimensions.getWorldWidth(), WorldDimensions.getWorldHeight());
+        return new Scene(root, viewWidth, viewHeight);
     }
 
 }

@@ -23,8 +23,8 @@ public class EntityDrawer {
     private static final double DOOR_RIGHT_SHIFT_PERCENTAGE = 0.038;
     private static final double PLATFORM_SHIFT_PERCENTAGE = 0.053;
     private EntityDirection direction;
-    private int worldWidth;
-    private int worldHeight;
+    private Integer worldWidth;
+    private Integer worldHeight;
 
     public EntityDrawer(final MutablePair<Integer, Integer> worldDimension) {
         this.worldWidth = worldDimension.getLeft();
