@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityState;
+import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
@@ -80,19 +81,17 @@ public class EntityDrawer {
     }
 
    /**
-    * Draws the player one.
+    * Draws the players.
     * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
     * @param backgroundId the {@link BackgroundFrames} of the wanted background 
+    * @param player
+    *             it is the player that have to be draw
+    * @param
     */
-    public void drawPlayerOne(final GraphicsContext graphicsContext, final BackgroundFrames backgroundId, final EntityState state,
-                              final EntityDirection direction, final boolean hasAWeapon) {
-        PlayerImageImpl frame = new PlayerImageImpl();
-        EntityImageAnimation animation = new EntityImageAnimation(new Image(frame.getPlayer1Path(state, direction, hasAWeapon)),
-                                         frame.getNumberOfFrames(state, direction),
-                                         frame.getFrameHeight(), frame.getFrameWidth(), 
-                                         Duration.millis(500));
-        animation.play();
-        graphicsContext.drawImage(animation.getImage(), 0, 0);
+    public void drawPlayer(final GraphicsContext graphicsContext, final BackgroundFrames backgroundId, final Player player,
+                           final boolean isThePlayerOne) {
+        PlayerAnimation playerAnimation = new PlayerAnimation(isThePlayerOne, player);
+        graphicsContext.drawImage(playerAnimation.getCurrentAnimation().getImage(), 0, 0);
     }
 
 }

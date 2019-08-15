@@ -32,6 +32,19 @@ public class SwordImage extends EntityFrameInformationImpl {
     public SwordImage() {
         super(FRAME_HEIGHT, FRAME_WIDTH);
     }
+    
+    /**
+     * Returns the number of frames in a specific sprite sheet.
+     * @param state 
+     *          it represents the state of the sword to represent
+     * @param direction
+     *          it represents the direction of the sword to represent 
+     * @return
+     *          the number of frames in the sprite sheet
+     */
+    public int getNumberOfFrames(final EntityState state, final EntityDirection direction) {
+        return STATE.get(Pair.of(state, direction)).getNumberOfFrame();
+    }
 
     /**
      * Returns the number of frames and the image of the sword.
