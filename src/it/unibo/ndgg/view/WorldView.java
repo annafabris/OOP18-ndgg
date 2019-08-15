@@ -14,4 +14,6 @@ public interface WorldView {
      * updates the view of the game.
      */
     void update();
+    
+    void PlayerWon(final int PlayerID);
 }

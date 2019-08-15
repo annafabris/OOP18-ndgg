@@ -30,7 +30,7 @@ public class CollisionRules extends CollisionAdapter {
     private WorldImpl outerWorld;
     private BodyPropertiesWorld worldProperties; //TODO interfaccia?
 
-    CollisionRules(final WorldImpl outerWorld, final BodyPropertiesWorld worldProperties) {
+    public CollisionRules(final WorldImpl outerWorld, final BodyPropertiesWorld worldProperties) {
         super();
         this.checkIfFirstIstance(isCollisionRulesAlreadyCreated, COLLISION_ALREADY_CREATED_ERR);
         this.isCollisionRulesAlreadyCreated = true;

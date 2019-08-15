@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 
 import org.dyn4j.dynamics.Body;
 
+import it.unibo.ndgg.model.collision.CollisionRules;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
@@ -11,6 +12,7 @@ import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.world.World;
+import it.unibo.ndgg.model.world.WorldImpl;
 
 /**
  * A class that represent the World in which the physic of the game takes place.
@@ -20,16 +22,18 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
     public static final double NANO_TO_BASE = 1.0e9;
     private final org.dyn4j.dynamics.World world;
     private final BodyAssociations bodyAssociation;
-    private final World worldImpl;
+    private final WorldImpl worldImpl;
+    private final CollisionRules collisionRules;
     private long last;
 
-    public BodyPropertiesWorldImpl(World worldImpl, org.dyn4j.dynamics.World world, BodyAssociations bodyAssociations) {
+    public BodyPropertiesWorldImpl(WorldImpl worldImpl, org.dyn4j.dynamics.World world, BodyAssociations bodyAssociations) {
         this.world = world;
         this.worldImpl = worldImpl;
         this.bodyAssociation = bodyAssociations;
         this.last = System.nanoTime();
-        //TODO aggiungere regole collisioni
-        //this.world.addListener();
+        this.collisionRules = new CollisionRules(this.worldImpl, this);
+        this.world.addListener(this.collisionRules);
+        //TODO controllare regole collisioni
     }
 
     /**
@@ -37,7 +41,6 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
      */
     public void update() {
         Toolkit.getDefaultToolkit().sync();
-        
         long diff = System.nanoTime() - this.last;
         this.last = System.nanoTime();
         double elapsedTime = diff / NANO_TO_BASE;       // convert from nanoseconds to seconds

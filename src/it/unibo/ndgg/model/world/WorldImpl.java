@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
+import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.collision.CollisionResult;
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityFactory;
 import it.unibo.ndgg.model.entity.EntityFactoryImpl;
+import it.unibo.ndgg.model.entity.EntityMovement;
+import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
@@ -21,6 +25,7 @@ import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
+import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
  * {@inheritDoc}.
@@ -38,8 +43,10 @@ public class WorldImpl implements World {
     private BodyPropertiesFactory bodyPropertiesFactory;
     private BodyAssociations bodyAssociations;
     private Map<EntityType, List<AbstractEntity>> entities;
+    private GameState currentGameState;
 
     public WorldImpl() {
+        this.currentGameState = GameState.IS_GOING;
         this.entities = new HashMap<>();
         rooms.addAll(Stream.generate(() -> new RoomImpl()).limit(NUMBER_OF_ROOMS).collect(Collectors.toList())); //TODO controllare
         this.currentRoom = NUMBER_OF_ROOMS / 2;
@@ -99,6 +106,10 @@ public class WorldImpl implements World {
         }
     }
  
+    public GameState getCurrentGameState() {
+        return this.currentGameState;
+    }
+    
     private void removeSwordToPlayer() {
 
     }
@@ -106,6 +117,34 @@ public class WorldImpl implements World {
     private void addSwordToPlayer() {
         // TODO Auto-generated method stub
 
+    }
+
+    public Player getPlayer(final int PlayerId) {
+        return (Player) this.entities.get(EntityType.PLAYER).get(PlayerId);
+    }
+    
+    public Sword getSword(final int SwordId) {
+        return (Sword) this.entities.get(EntityType.SWORD).get(SwordId);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    //@Override
+    public void movePlayer(final EntityMovement movement, final int PlayerId) {
+        Player player = getPlayer(PlayerId);
+        final EntityState playerState = player.getState();
+        if(playerState == EntityState.STAYING_STILL) {
+            //TODO può avere spada
+        }
+        player.move(movement);
+    }
+
+    public void throwSword(final EntityMovement movement, final int SwordId) {
+        Sword sword = getSword(SwordId);
+        if(sword.getState() == movement.getAssociatedEntityState()) {
+            sword.move(movement);
+        }
     }
     
     /**
@@ -117,17 +156,17 @@ public class WorldImpl implements World {
         Door doorR = (Door) this.entities.get(EntityType.DOOR).get(1);
         Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
         Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
-        
+
         if (doorL.getDoorStatus() || (!playerL.isAlive() && playerR.isAlive())) {       
             if(this.currentRoom == 0) {
-                //TODO game ended PlayerR won
+                this.currentGameState = GameState.PLAYERR_WON;
             } else {
                 this.currentRoom--;
                 //TODO segnalarlo a View
             }
         } else if (doorR.getDoorStatus() || (playerL.isAlive() && !playerR.isAlive())) {
             if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS - 1) {
-                //TODO game ended PlayerL won
+                this.currentGameState = GameState.PLAYERL_WON;
             } else {
                 this.currentRoom++;
             }

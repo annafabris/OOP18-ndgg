@@ -1,9 +1,10 @@
 package it.unibo.ndgg.controller;
 
+
+import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.world.World;
 import it.unibo.ndgg.model.world.WorldImpl;
 import it.unibo.ndgg.view.WorldView;
-import it.unibo.ndgg.view.WorldViewImpl;
 
 public class GameControllerImpl implements GameController {
 
@@ -23,6 +24,22 @@ public class GameControllerImpl implements GameController {
         this.gameWorld.start();
     }
 
+    public void updateModelAndView() {
+        GameState gameState = this.gameWorld.getCurrentGameState();
+        if (gameState == GameState.PLAYERL_WON) {
+            this.view.PlayerWon(0);
+            this.exit();
+        } else if(gameState == GameState.PLAYERL_WON) {
+            this.view.PlayerWon(0);
+            this.exit();
+        } else {
+            //TODO muovi giocatore e/o spada
+            this.gameWorld.update();
+            this.view.update();
+        }
+
+    }
+    
     public void exit() {
         controller.quit();
     }

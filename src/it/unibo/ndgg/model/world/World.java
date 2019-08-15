@@ -1,5 +1,6 @@
 package it.unibo.ndgg.model.world;
 
+import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.collision.CollisionResult;
 
 /**
@@ -22,4 +23,6 @@ public interface World {
      * @param collisionResult {@link CollisionResult}
      */
     void notifyCollision(CollisionResult collisionResult);
+    
+    GameState getCurrentGameState();
 }
