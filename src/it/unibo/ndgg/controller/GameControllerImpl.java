@@ -13,39 +13,51 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
 
+/**
+ * {@inheritDoc}.
+ */
 public class GameControllerImpl implements GameController {
 
+    private static final double FPS = 24.0;
     private final MainController controller;
     private final WorldView view; //interfaccia
     private World gameWorld;
 
-    public GameControllerImpl(WorldView view ,final MainController controller) throws Exception {
+    public GameControllerImpl(final WorldView view ,final MainController controller) throws Exception {
         this.controller = controller;
         this.view = view;
         this.gameWorld = new WorldImpl();
         game();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void game() throws Exception {
         this.gameWorld.start();
         view.startGame(this);
         this.updateModelAndView();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void updateModelAndView() {
         Timeline gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);
 
         KeyFrame kf = new KeyFrame(
-            Duration.seconds(0.042),            // 24 FPS
+            Duration.seconds(1 / FPS),
             new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent ae) {
+                public void handle(final ActionEvent ae) {
                     GameState gameState = gameWorld.getCurrentGameState();
                     if (gameState == GameState.PLAYERL_WON) {
                         view.playerWon(0);
+                        gameLoop.stop();
                         exit();
                     } else if (gameState == GameState.PLAYERL_WON) {
                         view.playerWon(0);
+                        gameLoop.stop();
                         exit();
                     } else {
                         //TODO muovi giocatore e/o spada
@@ -58,16 +70,25 @@ public class GameControllerImpl implements GameController {
         gameLoop.getKeyFrames().add(kf);
         gameLoop.play();
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public void exit() {
         controller.quit();
     }
-    
-    public Player getPlayer(int playerID) {
+
+    /**
+     * {@inheritDoc}
+     */
+    public Player getPlayer(final int playerID) {
         return this.gameWorld.getPlayer(playerID);
     }
-    
-    public Sword getSword(int swordId) {
+
+    /**
+     * {@inheritDoc}
+     */
+    public Sword getSword(final int swordId) {
         return this.gameWorld.getSword(swordId);
     }
 

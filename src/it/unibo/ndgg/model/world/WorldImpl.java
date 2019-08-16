@@ -108,7 +108,7 @@ public class WorldImpl implements World {
     public GameState getCurrentGameState() {
         return this.currentGameState;
     }
-    
+
     private void removeSwordToPlayer() {
 
     }
@@ -121,11 +121,11 @@ public class WorldImpl implements World {
     public Player getPlayer(final int PlayerId) {
         return (Player) this.entities.get(EntityType.PLAYER).get(PlayerId);
     }
-    
+
     public Sword getSword(final int SwordId) {
         return (Sword) this.entities.get(EntityType.SWORD).get(SwordId);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -133,7 +133,7 @@ public class WorldImpl implements World {
     public void movePlayer(final EntityMovement movement, final int PlayerId) {
         Player player = getPlayer(PlayerId);
         final EntityState playerState = player.getState();
-        if(playerState == EntityState.STAYING_STILL) {
+        if (playerState == EntityState.STAYING_STILL) {
             //TODO può avere spada
         }
         player.move(movement);
@@ -141,11 +141,11 @@ public class WorldImpl implements World {
 
     public void throwSword(final EntityMovement movement, final int SwordId) {
         Sword sword = getSword(SwordId);
-        if(sword.getState() == movement.getAssociatedEntityState()) {
+        if (sword.getState() == movement.getAssociatedEntityState()) {
             sword.move(movement);
         }
     }
-    
+
     /**
      * A methods that gets called when {@link CollisionResult.DOORTOUCHED} or {@link CollisionResult.PLAYERKILLED} 
      * happens and the currentRoom needs to change.
@@ -156,8 +156,8 @@ public class WorldImpl implements World {
         Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
         Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
 
-        if (doorL.getDoorStatus() || (!playerL.isAlive() && playerR.isAlive())) {       
-            if(this.currentRoom == 0) {
+        if (doorL.getDoorStatus() || (!playerL.isAlive() && playerR.isAlive())) {
+            if (this.currentRoom == 0) {
                 this.currentGameState = GameState.PLAYERR_WON;
             } else {
                 this.currentRoom--;
@@ -175,7 +175,7 @@ public class WorldImpl implements World {
     private void createEntities() {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         Player playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(100.0, 400.0), EntityDirection.RIGHT);
-        Player playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(1.0, 0.0), EntityDirection.LEFT);
+        Player playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(100.0, 400.0), EntityDirection.LEFT);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
                 (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, new MutablePair<>(1.0, 5.0), playerL, EntityDirection.RIGHT), 

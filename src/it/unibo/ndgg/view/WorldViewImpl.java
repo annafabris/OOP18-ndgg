@@ -3,33 +3,16 @@ package it.unibo.ndgg.view;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import it.unibo.ndgg.controller.GameControllerImpl;
-import it.unibo.ndgg.model.entity.EntityDirection;
-import it.unibo.ndgg.model.entity.EntityFactory;
-import it.unibo.ndgg.model.entity.EntityFactoryImpl;
 import it.unibo.ndgg.model.entity.EntityState;
-import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
-import it.unibo.ndgg.model.physic.BodyAssociations;
-import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
-import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
-import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
-import it.unibo.ndgg.model.world.WorldImpl;
 import it.unibo.ndgg.view.entitydraw.BackgroundFrames;
 import it.unibo.ndgg.view.entitydraw.EntityDrawer;
 import it.unibo.ndgg.view.entitydraw.PlayerAnimation;
-import it.unibo.ndgg.view.entitydraw.StaticEntityFrames;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  * The class implementation of {@link WorldView}.
@@ -42,7 +25,7 @@ public class WorldViewImpl implements WorldView {
     private GameControllerImpl gameControllerImpl;
     private final int viewWidth;
     private final int viewHeight;
-    final long timeStart;
+    private final long timeStart;
     private PlayerAnimation playerAnimation1;
     private PlayerAnimation playerAnimation2;
     private Player player1;
@@ -60,12 +43,15 @@ public class WorldViewImpl implements WorldView {
 
     /**
      * {@inheritDoc}.
-     * @throws Exception 
      */
     @Override
-    public void startGame(GameControllerImpl gameControllerImpl) throws Exception {
+    public void startGame(GameControllerImpl gameControllerImpl) {
         this.gameControllerImpl = gameControllerImpl;
-        this.stage.setScene(startLoop());
+        this.player1 = this.gameControllerImpl.getPlayer(0);
+        this.player2 = this.gameControllerImpl.getPlayer(1);
+        this.playerAnimation1 = new PlayerAnimation(true, player1);
+        this.playerAnimation2 = new PlayerAnimation(false, player2);
+        this.stage.setScene(createScene());
         this.stage.show();
     }
 
@@ -74,43 +60,43 @@ public class WorldViewImpl implements WorldView {
      */
     @Override
     public void update() {
-        this.loadStaticEntities();
+        this.draw();
     }
 
     /**
      * {@inheritDoc}.
      */
-    public void playerWon(final int PlayerID) {
+    public void playerWon(final int playerID) {
         //TODO da fare
         //this.stage.setScene(value);
     }
 
-    private Scene startLoop() {
+
+    /**
+     * Creates the new {@link javafx.scene.Scene} and calls the method 'draw'.
+     * @return {@link javafx.scene.Scene}
+     */
+    private Scene createScene() {
         this.stage.setTitle("Nidhogg");
         Canvas canvas = new Canvas(viewWidth, viewHeight);
         root.getChildren().add(canvas);
         graphicsContext = canvas.getGraphicsContext2D();
-        player1 = this.gameControllerImpl.getPlayer(0);
-        player2 = this.gameControllerImpl.getPlayer(1);
 
+        //TODO Giada se vuoi puoi cancellarlo, gli ho lasciati per te
         /*BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
         BodyPropertiesWorld bodyPropertiesWorld = bodyPropertiesFactory.createBodyPropertiesWorld(new WorldImpl(), 960, 450, new BodyAssociations());
 
         EntityFactory entityFactory = new EntityFactoryImpl(bodyPropertiesFactory);
-        player1 = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(100.0, 400.0), EntityDirection.RIGHT);
-*/
-        this.playerAnimation1 = new PlayerAnimation(true, player1);
-        this.playerAnimation2 = new PlayerAnimation(false, player2);
-
-        this.entityDrawer.drawBackground(graphicsContext, BackgroundFrames.BACKGROUND_1);
-        this.entityDrawer.drawMainPlatform(graphicsContext);
-        this.entityDrawer.drawDoors(graphicsContext);
-        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, 0);
-        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, 100);
+        player1 = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(100.0, 400.0), EntityDirection.RIGHT);*/
+        this.draw();
         stage.sizeToScene();
         return new Scene(root, viewWidth, viewHeight);
     }
-    private void loadStaticEntities() {
+
+    /**
+     * Draws all the static and dynamic entities.
+     */
+    private void draw() {
         this.entityDrawer.drawBackground(this.graphicsContext, BackgroundFrames.BACKGROUND_1);
         this.entityDrawer.drawMainPlatform(graphicsContext);
         this.entityDrawer.drawDoors(graphicsContext);
@@ -118,7 +104,7 @@ public class WorldViewImpl implements WorldView {
         player1.changeEntityState(EntityState.MOVING);
         double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
         double x1 = (128 * t) % viewWidth;
-        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.viewWidth - x1);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, x1 -100);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, x1);
 
         /*Timeline gameLoop = new Timeline();

@@ -8,17 +8,19 @@ import it.unibo.ndgg.controller.GameControllerImpl;
 public interface WorldView {
 
     /**
-     * starts the view of the game.
+     * Starts the view of the game.
+     * @param gameControllerImpl {@link GameControllerImpl}
      */
-    void startGame(GameControllerImpl gameControllerImpl) throws Exception;
+    void startGame(GameControllerImpl gameControllerImpl);
 
     /**
-     * updates the view of the game.
+     * Updates the view of the game.
      */
     void update();
 
     /**
-     * gets called when one of the players won and it display the final view.
+     * Gets called when one of the players won and it display the final view.
+     * @param playerID the Id of the winner
      */
-    void playerWon(final int PlayerID);
+    void playerWon(int playerID);
 }
