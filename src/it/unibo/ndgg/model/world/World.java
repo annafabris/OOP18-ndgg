@@ -25,9 +25,9 @@ public interface World {
      * @param collisionResult {@link CollisionResult}
      */
     void notifyCollision(CollisionResult collisionResult);
-    
+
     GameState getCurrentGameState();
-    
+
     Player getPlayer(final int PlayerId);
 
     Sword getSword(final int SwordId);

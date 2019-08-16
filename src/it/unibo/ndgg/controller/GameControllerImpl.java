@@ -7,6 +7,11 @@ import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.world.World;
 import it.unibo.ndgg.model.world.WorldImpl;
 import it.unibo.ndgg.view.WorldView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.util.Duration;
 
 public class GameControllerImpl implements GameController {
 
@@ -24,22 +29,34 @@ public class GameControllerImpl implements GameController {
     public void game() throws Exception {
         this.gameWorld.start();
         view.startGame(this);
+        this.updateModelAndView();
     }
 
     public void updateModelAndView() {
-        GameState gameState = this.gameWorld.getCurrentGameState();
-        if (gameState == GameState.PLAYERL_WON) {
-            this.view.PlayerWon(0);
-            this.exit();
-        } else if(gameState == GameState.PLAYERL_WON) {
-            this.view.PlayerWon(0);
-            this.exit();
-        } else {
-            //TODO muovi giocatore e/o spada
-            this.gameWorld.update();
-            this.view.update();
-        }
+        Timeline gameLoop = new Timeline();
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
 
+        KeyFrame kf = new KeyFrame(
+            Duration.seconds(0.042),            // 24 FPS
+            new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent ae) {
+                    GameState gameState = gameWorld.getCurrentGameState();
+                    if (gameState == GameState.PLAYERL_WON) {
+                        view.playerWon(0);
+                        exit();
+                    } else if (gameState == GameState.PLAYERL_WON) {
+                        view.playerWon(0);
+                        exit();
+                    } else {
+                        //TODO muovi giocatore e/o spada
+                        gameWorld.update();
+                        view.update();
+                    }
+                }
+            });
+
+        gameLoop.getKeyFrames().add(kf);
+        gameLoop.play();
     }
     
     public void exit() {

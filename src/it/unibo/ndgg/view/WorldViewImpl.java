@@ -1,10 +1,5 @@
 package it.unibo.ndgg.view;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.util.Arrays;
-
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import it.unibo.ndgg.controller.GameControllerImpl;
@@ -47,12 +42,20 @@ public class WorldViewImpl implements WorldView {
     private GameControllerImpl gameControllerImpl;
     private final int viewWidth;
     private final int viewHeight;
+    final long timeStart;
+    private PlayerAnimation playerAnimation1;
+    private PlayerAnimation playerAnimation2;
+    private Player player1;
+    private Player player2;
+    private GraphicsContext graphicsContext;
+
 
     public WorldViewImpl(Stage stage) {
         this.stage = stage;
         this.viewWidth = (int) (this.stage.getWidth() - 1.0);
         this.viewHeight = (int) (this.stage.getHeight() - 1.0);
         this.entityDrawer = new EntityDrawer(new MutablePair<>(viewWidth, viewHeight));
+        this.timeStart = System.currentTimeMillis();
     }
 
     /**
@@ -62,7 +65,7 @@ public class WorldViewImpl implements WorldView {
     @Override
     public void startGame(GameControllerImpl gameControllerImpl) throws Exception {
         this.gameControllerImpl = gameControllerImpl;
-        this.stage.setScene(loadStaticEntities());
+        this.stage.setScene(startLoop());
         this.stage.show();
     }
 
@@ -77,36 +80,50 @@ public class WorldViewImpl implements WorldView {
     /**
      * {@inheritDoc}.
      */
-    public void PlayerWon(final int PlayerID) {
+    public void playerWon(final int PlayerID) {
         //TODO da fare
         //this.stage.setScene(value);
     }
 
-    private Scene loadStaticEntities() {
+    private Scene startLoop() {
         this.stage.setTitle("Nidhogg");
         Canvas canvas = new Canvas(viewWidth, viewHeight);
         root.getChildren().add(canvas);
-        GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-//        Player player1 = this.gameControllerImpl.getPlayer(0);
-        BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
+        graphicsContext = canvas.getGraphicsContext2D();
+        player1 = this.gameControllerImpl.getPlayer(0);
+        player2 = this.gameControllerImpl.getPlayer(1);
+
+        /*BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
         BodyPropertiesWorld bodyPropertiesWorld = bodyPropertiesFactory.createBodyPropertiesWorld(new WorldImpl(), 960, 450, new BodyAssociations());
 
         EntityFactory entityFactory = new EntityFactoryImpl(bodyPropertiesFactory);
-        Player player1 = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(100.0, 400.0), EntityDirection.RIGHT);
+        player1 = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(100.0, 400.0), EntityDirection.RIGHT);
+*/
+        this.playerAnimation1 = new PlayerAnimation(true, player1);
+        this.playerAnimation2 = new PlayerAnimation(false, player2);
 
         this.entityDrawer.drawBackground(graphicsContext, BackgroundFrames.BACKGROUND_1);
         this.entityDrawer.drawMainPlatform(graphicsContext);
         this.entityDrawer.drawDoors(graphicsContext);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, 0);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, 100);
+        stage.sizeToScene();
+        return new Scene(root, viewWidth, viewHeight);
+    }
+    private void loadStaticEntities() {
+        this.entityDrawer.drawBackground(this.graphicsContext, BackgroundFrames.BACKGROUND_1);
+        this.entityDrawer.drawMainPlatform(graphicsContext);
+        this.entityDrawer.drawDoors(graphicsContext);
 
-        PlayerAnimation playerAnimation1 = new PlayerAnimation(true, player1);
-        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, 128);
         player1.changeEntityState(EntityState.MOVING);
+        double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
+        double x1 = (128 * t) % viewWidth;
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.viewWidth - x1);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, x1);
 
-        //TODO va messo 
-        Timeline gameLoop = new Timeline();
+        /*Timeline gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);
 
-        final long timeStart = System.currentTimeMillis();
 
         KeyFrame kf = new KeyFrame(
             Duration.seconds(0.042),            // 24 FPS
@@ -130,10 +147,6 @@ public class WorldViewImpl implements WorldView {
             });
 
         gameLoop.getKeyFrames().add(kf);
-        gameLoop.play();
-
-        stage.sizeToScene();
-        return new Scene(root, viewWidth, viewHeight);
+        gameLoop.play();*/
     }
-
 }

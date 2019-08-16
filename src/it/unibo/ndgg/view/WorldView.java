@@ -1,5 +1,7 @@
 package it.unibo.ndgg.view;
 
+import it.unibo.ndgg.controller.GameControllerImpl;
+
 /**
  * A class that takes care of the view of the game.
  */
@@ -8,15 +10,15 @@ public interface WorldView {
     /**
      * starts the view of the game.
      */
-    void startGame() throws Exception;
+    void startGame(GameControllerImpl gameControllerImpl) throws Exception;
 
     /**
      * updates the view of the game.
      */
     void update();
-    
+
     /**
-     * gets called when one of the Players won and it display the final view
+     * gets called when one of the players won and it display the final view.
      */
-    void PlayerWon(final int PlayerID);
+    void playerWon(final int PlayerID);
 }

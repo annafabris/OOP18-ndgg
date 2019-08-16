@@ -8,12 +8,12 @@ public enum PlayerFrames {
     /**
      * This is the player sprite sheet that represents the moving left.
      */
-    IMAGE_MOVE_LEFT("run_left", 5),
+    IMAGE_MOVE_LEFT("move_left", 5),
 
     /**
      * This is the player sprite sheet that represents the moving right.
      */
-    IMAGE_MOVE_RIGHT("run_right", 5),
+    IMAGE_MOVE_RIGHT("move_right", 5),
 
     /**
      * This is the player sprite sheet that represents the dying right.
