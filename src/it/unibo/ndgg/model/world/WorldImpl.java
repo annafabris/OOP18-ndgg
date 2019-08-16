@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -175,7 +174,7 @@ public class WorldImpl implements World {
 
     private void createEntities() {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
-        Player playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(-1.0, 0.0), EntityDirection.RIGHT);
+        Player playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(100.0, 400.0), EntityDirection.RIGHT);
         Player playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(1.0, 0.0), EntityDirection.LEFT);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
