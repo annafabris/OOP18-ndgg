@@ -23,9 +23,10 @@ public class EntityDrawer {
     private static final double DOOR_LEFT_SHIFT_PERCENTAGE = 0.00653;
     private static final double DOOR_RIGHT_SHIFT_PERCENTAGE = 0.038;
     private static final double PLATFORM_SHIFT_PERCENTAGE = 0.053;
-    private EntityDirection direction;
-    private Integer worldWidth;
-    private Integer worldHeight;
+    private static final double PLAYER_HEIGHT_PERCENTAGE = 0.280;
+    private static final double PLAYER_WIDTH_PERCENTAGE = 0.110;
+    private final Integer worldWidth;
+    private final Integer worldHeight;
 
     public EntityDrawer(final MutablePair<Integer, Integer> worldDimension) {
         this.worldWidth = worldDimension.getLeft();
@@ -83,15 +84,16 @@ public class EntityDrawer {
    /**
     * Draws the players.
     * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
-    * @param backgroundId the {@link BackgroundFrames} of the wanted background 
-    * @param player
-    *             it is the player that have to be draw
-    * @param
+    * @param positionX
+    *             this is the variable position x of the player
     */
-    public void drawPlayer(final GraphicsContext graphicsContext, final BackgroundFrames backgroundId, final Player player,
-                           final boolean isThePlayerOne) {
-        PlayerAnimation playerAnimation = new PlayerAnimation(isThePlayerOne, player);
-        graphicsContext.drawImage(playerAnimation.getCurrentAnimation().getImage(), 0, 0);
+    public void drawPlayer(final GraphicsContext graphicsContext, final PlayerAnimation playerAnimation,
+                           final double positionX) {
+        graphicsContext.drawImage(playerAnimation.updatePosition(), 
+                                  positionX,
+                                  495,
+                                  100, 
+                                  110);
     }
 
 }

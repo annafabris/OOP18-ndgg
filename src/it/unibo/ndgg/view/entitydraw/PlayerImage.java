@@ -2,6 +2,7 @@ package it.unibo.ndgg.view.entitydraw;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -82,7 +83,7 @@ public class PlayerImage extends EntityFrameInformationImpl {
      *          the sprite sheet path
      */
     public String getPlayer1Path(final EntityState state, final EntityDirection direction, final boolean hasAWeapon,
-                                 final SwordGuard guard) {
+                                 final Optional<SwordGuard> guard) {
         final PlayerFrames frame = this.getAHighSwordGuardIfPresent(guard, direction, state);
         if (hasAWeapon) {
             return PATH_PLAYER_1 + WITH_SWORD + frame.getPlayerSpriteSheet() + EXTENSION;
@@ -105,7 +106,7 @@ public class PlayerImage extends EntityFrameInformationImpl {
      *          the sprite sheet path
      */
     public String getPlayer2Path(final EntityState state, final EntityDirection direction, final boolean hasAWeapon,
-                                 final SwordGuard guard) {
+                                 final Optional<SwordGuard> guard) {
         final PlayerFrames frame = this.getAHighSwordGuardIfPresent(guard, direction, state);
         if (hasAWeapon) {
             return PATH_PLAYER_2 + WITH_SWORD + frame.getPlayerSpriteSheet() + EXTENSION;
@@ -114,19 +115,18 @@ public class PlayerImage extends EntityFrameInformationImpl {
         }
     }
 
-    private PlayerFrames getAHighSwordGuardIfPresent(final SwordGuard guard, final EntityDirection direction,
+    private PlayerFrames getAHighSwordGuardIfPresent(final Optional<SwordGuard> guard, final EntityDirection direction,
                                                      final EntityState state) {
-        final PlayerFrames frame;
-        if (guard == SwordGuard.HIGH && state == EntityState.STAYING_STILL) {
-            if (direction == EntityDirection.RIGHT) {
-                frame = PlayerFrames.IMAGE_GUARD_RIGHT; 
-            } else {
-                frame = PlayerFrames.IMAGE_GUARD_LEFT;
+        if (guard.isPresent()) {
+            if (guard.get() == SwordGuard.HIGH && state == EntityState.STAYING_STILL) {
+                if (direction == EntityDirection.RIGHT) {
+                    return PlayerFrames.IMAGE_GUARD_RIGHT; 
+                } else {
+                    return PlayerFrames.IMAGE_GUARD_LEFT;
+                }
             }
-        } else {
-            frame = STATE.get(Pair.of(state, direction));
         }
-        return frame;
+        return STATE.get(Pair.of(state, direction));
     }
 
 }

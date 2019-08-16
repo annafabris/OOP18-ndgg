@@ -73,6 +73,7 @@ public class EntityCreationTest {
      */
     @Test
     public void testEntityCreation() {
+        assertEquals(EntityState.STAYING_STILL, this.playerL.getState());
         assertEquals(1, this.entities.get(EntityType.PLAYER).stream().filter(i -> i.getBody() == playerR.getBody()).count());
         assertEquals(1, this.entities.get(EntityType.PLAYER).stream().filter(i -> i.getBody() == playerL.getBody()).count());
         assertEquals(2, this.entities.get(EntityType.PLAYER).stream().count());

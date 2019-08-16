@@ -1,6 +1,5 @@
 package it.unibo.ndgg.view.entitydraw;
 
-import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import javafx.animation.Animation;
@@ -13,7 +12,7 @@ import javafx.util.Duration;
  */
 public class PlayerAnimation {
 
-    private static final int DURATION = 120;
+    private static final double DURATION = 0.100;
 
     private EntityImageAnimation currentAnimation;
     private Player player;
@@ -36,15 +35,18 @@ public class PlayerAnimation {
             this.setCurrentAnimation();
         }
         this.currentState = this.player.getState();
-        this.currentAnimation.play();
     }
 
     /**
      * Updates the image in the animation.
+     * @return image
+     *            this is the image of the animation
      */
-    public void updatePosition() {
+    public Image updatePosition() {
         this.changeAnimation(this.player.getState());
         this.currentAnimation.play();
+        this.currentAnimation.setCycleCount(Animation.INDEFINITE);
+        return this.currentAnimation.getImage();
     }
 
     /**
@@ -61,20 +63,22 @@ public class PlayerAnimation {
             this.currentAnimation.stop();
             this.setCurrentAnimation();
             this.currentAnimation.setCycleCount(Animation.INDEFINITE);
+            this.currentState = state;
         }
     }
 
     private void setCurrentAnimation() {
-        Image image = new Image(new PlayerImage().getPlayer1Path(this.player.getState(), 
+        Image image = new Image(this.playerImage.getPlayer1Path(this.player.getState(), 
                                                                  this.player.getCurrentDirection(), 
                                                                  this.player.getWeapon().isPresent(), 
-                                                                 this.player.getSwordGuard().get()));
+                                                                 this.player.getSwordGuard()));
         this.currentAnimation = new EntityImageAnimation(image, 
-                                                         playerImage.getNumberOfFrames(EntityState.STAYING_STILL,
-                                                                                       EntityDirection.RIGHT), 
+                                                         playerImage.getNumberOfFrames(player.getState(),
+                                                                                       player.getCurrentDirection()), 
                                                          playerImage.getFrameWidth(),
                                                          playerImage.getFrameHeight(),
-                                                         Duration.millis(DURATION));
+                                                         Duration.seconds(DURATION));
+        this.currentAnimation.play();
     }
 
 
