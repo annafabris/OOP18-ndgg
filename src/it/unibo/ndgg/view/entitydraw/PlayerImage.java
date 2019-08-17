@@ -31,8 +31,10 @@ public class PlayerImage extends EntityFrameInformationImpl {
     static {
         STATE.put(Pair.of(EntityState.MOVING, EntityDirection.LEFT), PlayerFrames.IMAGE_MOVE_LEFT);
         STATE.put(Pair.of(EntityState.MOVING, EntityDirection.RIGHT), PlayerFrames.IMAGE_MOVE_RIGHT);
-        STATE.put(Pair.of(EntityState.JUMPING, EntityDirection.RIGHT), PlayerFrames.IMAGE_JUMP_RIGHT);
-        STATE.put(Pair.of(EntityState.JUMPING, EntityDirection.LEFT), PlayerFrames.IMAGE_JUMP_LEFT);
+        STATE.put(Pair.of(EntityState.JUMPING_UP, EntityDirection.RIGHT), PlayerFrames.IMAGE_JUMP_UP_RIGHT);
+        STATE.put(Pair.of(EntityState.JUMPING_DOWN, EntityDirection.RIGHT), PlayerFrames.IMAGE_JUMP_DOWN_RIGHT);
+        STATE.put(Pair.of(EntityState.JUMPING_UP, EntityDirection.LEFT), PlayerFrames.IMAGE_JUMP_UP_LEFT);
+        STATE.put(Pair.of(EntityState.JUMPING_DOWN, EntityDirection.LEFT), PlayerFrames.IMAGE_JUMP_DOWN_LEFT);
         STATE.put(Pair.of(EntityState.STAYING_STILL, EntityDirection.LEFT), PlayerFrames.IMAGE_IDLE_LEFT);
         STATE.put(Pair.of(EntityState.STAYING_STILL, EntityDirection.RIGHT), PlayerFrames.IMAGE_IDLE_RIGHT);
         STATE.put(Pair.of(EntityState.DYING, EntityDirection.LEFT), PlayerFrames.IMAGE_DIE_LEFT);
