@@ -33,8 +33,8 @@ public class WorldViewImpl implements WorldView {
     private PlayerAnimation playerAnimation2;
     private SwordAnimation swordAnimation1;
     private SwordAnimation swordAnimation2;
-    private Player player1;
-    private Player player2;
+    private Player playerL;
+    private Player playerR;
     private Sword sword1;
     private Sword sword2;
     private GraphicsContext graphicsContext;
@@ -54,10 +54,10 @@ public class WorldViewImpl implements WorldView {
     @Override
     public void startGame(GameControllerImpl gameControllerImpl) {
         this.gameControllerImpl = gameControllerImpl;
-        this.player1 = this.gameControllerImpl.getPlayer(0);
-        this.player2 = this.gameControllerImpl.getPlayer(1);
-        this.playerAnimation1 = new PlayerAnimation(true, player1);
-        this.playerAnimation2 = new PlayerAnimation(false, player2);
+        this.playerL = this.gameControllerImpl.getPlayer(0);
+        this.playerR = this.gameControllerImpl.getPlayer(1);
+        this.playerAnimation1 = new PlayerAnimation(true, playerL);
+        this.playerAnimation2 = new PlayerAnimation(false, playerR);
         this.sword1 = this.gameControllerImpl.getSword(0);
         this.sword2 = this.gameControllerImpl.getSword(1);
         this.swordAnimation1 = new SwordAnimation(sword1);
@@ -94,6 +94,8 @@ public class WorldViewImpl implements WorldView {
         graphicsContext = canvas.getGraphicsContext2D();
         this.draw();
         stage.sizeToScene();
+        this.playerL.changeEntityState(EntityState.MOVING);
+        this.playerR.changeEntityState(EntityState.MOVING);
         return new Scene(root, viewWidth, viewHeight);
     }
 
@@ -101,48 +103,14 @@ public class WorldViewImpl implements WorldView {
      * Draws all the static and dynamic entities.
      */
     private void draw() {
+        double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
+        double x1 = (128 * t) % viewWidth;
         this.entityDrawer.drawBackground(this.graphicsContext);
         this.entityDrawer.drawMainPlatform(graphicsContext);
         this.entityDrawer.drawDoors(graphicsContext);
-
-        player1.changeEntityState(EntityState.MOVING);
-        double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
-        double x1 = (128 * t) % viewWidth;
-        this.player2.changeEntityState(EntityState.MOVING);
-        //this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.viewWidth - x1);
-        //this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, x1);
-        this.player1.dropWeapon(EntityMovement.THROW_RIGHT);
-        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.viewWidth - x1);
-        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, x1);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, this.playerL);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.playerR);
         this.entityDrawer.drawSword(graphicsContext, swordAnimation1, x1, sword1.getState());
         this.entityDrawer.drawSword(graphicsContext, swordAnimation2, this.viewWidth - x1, sword2.getState());
-
-        /*Timeline gameLoop = new Timeline();
-        gameLoop.setCycleCount(Timeline.INDEFINITE);
-
-
-        KeyFrame kf = new KeyFrame(
-            Duration.seconds(0.042),            // 24 FPS
-            new EventHandler<ActionEvent>() {
-                private EntityDrawer e = new EntityDrawer(new MutablePair<Integer, Integer>
-                    (1366, 768));
-
-                public void handle(ActionEvent ae) {
-                    double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
-                    double x1 = (128 * t) % viewWidth;
-                    // Clear the canvas
-                    //graphicsContext.clearRect(0, 0, viewWidth, viewHeight);
-                    //background image clears canvas
-                    e.drawBackground(graphicsContext, BackgroundFrames.BACKGROUND_1);
-                    e.drawMainPlatform(graphicsContext);
-                    e.drawDoors(graphicsContext);
-                    e.drawPlayer(graphicsContext, playerAnimation1, x1);
-                    //graphicsContext.drawImage(player1, x, PLATFORM_HEIGHT * 4 - 90);
-                    //graphicsContext.drawImage(player2, 300, PLATFORM_HEIGHT * 4 - 90, 100, 100);
-                }
-            });
-
-        gameLoop.getKeyFrames().add(kf);
-        gameLoop.play();*/
     }
 }

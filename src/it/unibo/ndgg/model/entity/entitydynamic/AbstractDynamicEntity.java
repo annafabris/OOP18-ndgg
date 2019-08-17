@@ -65,7 +65,7 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
                 || movement.getAssociatedEntityState() == EntityState.MOVING) {
 
             final MovementVectorValues movementValue = new MovementVectorValuesImpl();
-            this.body.applyMovement(movement, movementValue.getMovementVector(movement).x, 
+            this.body.translate(movement, movementValue.getMovementVector(movement).x, 
                                     movementValue.getMovementVector(movement).y);
         }
     }

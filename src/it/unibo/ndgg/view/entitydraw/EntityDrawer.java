@@ -98,11 +98,10 @@ public class EntityDrawer {
     * @param positionX
     *             this is the variable position x of the player
     */
-    public void drawPlayer(final GraphicsContext graphicsContext, final PlayerAnimation playerAnimation,
-                           final double positionX) {
+    public void drawPlayer(final GraphicsContext graphicsContext, final PlayerAnimation playerAnimation, final Player player) {
         graphicsContext.drawImage(playerAnimation.updatePosition(), 
-                                  positionX,
-                                  495,
+                                  player.getPosition().getLeft(),
+                                  player.getPosition().getRight(),
                                   100, 
                                   110);
     }
