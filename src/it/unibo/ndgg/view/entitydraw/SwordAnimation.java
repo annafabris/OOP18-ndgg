@@ -28,17 +28,24 @@ public class SwordAnimation {
     public SwordAnimation(final Sword sword) {
         this.swordImage = new SwordImage();
         this.sword = sword;
-        this.setCurrentAnimation();
+       // this.setCurrentAnimation();
         this.currentState = this.sword.getState();
-        this.currentAnimation.play();
+        //this.currentAnimation.play();
     }
 
     /**
      * Updates the image in the animation.
+     * @return
+     *       the current image of the animation
      */
-    public void updatePosition() {
+    public Image updatePosition() {
         this.changeAnimation(this.sword.getState());
-        this.currentAnimation.play();
+        if (this.currentState != EntityState.EQUIPPED) {
+            this.currentAnimation.play();
+            this.currentAnimation.setCycleCount(Animation.INDEFINITE);
+            return this.currentAnimation.getImage();
+        }
+        return null;
     }
 
     /**
@@ -51,11 +58,11 @@ public class SwordAnimation {
     }
 
     private void changeAnimation(final EntityState state) {
-        if (this.currentState != state) {
+        if (this.currentState != state && this.currentState !=EntityState.EQUIPPED) {
             this.currentAnimation.stop();
             this.setCurrentAnimation();
-            this.currentAnimation.setCycleCount(Animation.INDEFINITE);
         }
+        this.currentState = state;
     }
 
     private void setCurrentAnimation() {
@@ -66,7 +73,7 @@ public class SwordAnimation {
                                                                                      EntityDirection.RIGHT), 
                                                         swordImage.getFrameWidth(),
                                                         swordImage.getFrameHeight(),
-                                                        Duration.millis(DURATION)
+                                                        Duration.millis(DURATION),
                                                         this.sword.getCurrentDirection());
     }
 }

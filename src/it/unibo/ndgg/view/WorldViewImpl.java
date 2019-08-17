@@ -3,11 +3,14 @@ package it.unibo.ndgg.view;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import it.unibo.ndgg.controller.GameControllerImpl;
+import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
+import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.view.entitydraw.BackgroundFrames;
 import it.unibo.ndgg.view.entitydraw.EntityDrawer;
 import it.unibo.ndgg.view.entitydraw.PlayerAnimation;
+import it.unibo.ndgg.view.entitydraw.SwordAnimation;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -28,8 +31,12 @@ public class WorldViewImpl implements WorldView {
     private final long timeStart;
     private PlayerAnimation playerAnimation1;
     private PlayerAnimation playerAnimation2;
+    private SwordAnimation swordAnimation1;
+    private SwordAnimation swordAnimation2;
     private Player player1;
     private Player player2;
+    private Sword sword1;
+    private Sword sword2;
     private GraphicsContext graphicsContext;
 
 
@@ -51,6 +58,10 @@ public class WorldViewImpl implements WorldView {
         this.player2 = this.gameControllerImpl.getPlayer(1);
         this.playerAnimation1 = new PlayerAnimation(true, player1);
         this.playerAnimation2 = new PlayerAnimation(false, player2);
+        this.sword1 = this.gameControllerImpl.getSword(0);
+        this.sword2 = this.gameControllerImpl.getSword(1);
+        this.swordAnimation1 = new SwordAnimation(sword1);
+        this.swordAnimation2 = new SwordAnimation(sword2);
         this.stage.setScene(createScene());
         this.stage.show();
     }
@@ -81,13 +92,6 @@ public class WorldViewImpl implements WorldView {
         Canvas canvas = new Canvas(viewWidth, viewHeight);
         root.getChildren().add(canvas);
         graphicsContext = canvas.getGraphicsContext2D();
-
-        //TODO Giada se vuoi puoi cancellarlo, gli ho lasciati per te
-        /*BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
-        BodyPropertiesWorld bodyPropertiesWorld = bodyPropertiesFactory.createBodyPropertiesWorld(new WorldImpl(), 960, 450, new BodyAssociations());
-
-        EntityFactory entityFactory = new EntityFactoryImpl(bodyPropertiesFactory);
-        player1 = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(100.0, 400.0), EntityDirection.RIGHT);*/
         this.draw();
         stage.sizeToScene();
         return new Scene(root, viewWidth, viewHeight);
@@ -107,6 +111,10 @@ public class WorldViewImpl implements WorldView {
         this.player2.changeEntityState(EntityState.MOVING);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.viewWidth - x1);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, x1);
+        this.player1.dropWeapon(EntityMovement.THROW_RIGHT);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.viewWidth - x1);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, x1);
+        this.entityDrawer.drawSword(graphicsContext, swordAnimation1, x1, sword1.getState());
 
         /*Timeline gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);

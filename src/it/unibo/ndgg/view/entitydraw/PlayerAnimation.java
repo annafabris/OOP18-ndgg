@@ -51,7 +51,6 @@ public class PlayerAnimation {
         if (this.currentState != state) {
             this.currentAnimation.stop();
             this.setCurrentAnimation();
-            this.currentAnimation.setCycleCount(Animation.INDEFINITE);
             this.currentState = state;
         }
     }
@@ -76,8 +75,5 @@ public class PlayerAnimation {
                                                          playerImage.getFrameHeight(),
                                                          Duration.seconds(DURATION),
                                                          player.getCurrentDirection());
-        this.currentAnimation.play();
     }
-
-
 }
