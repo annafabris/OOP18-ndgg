@@ -36,6 +36,8 @@ public class EntityImageAnimation extends Transition {
      *          the height of the frame
      * @param duration
      *          the duration of the animation
+     * @param direction 
+     *          the direction of the animation
      */
     public EntityImageAnimation(final Image image, final int totalFrames, final int frameWidth,
                                 final int frameHeight, final Duration duration, final EntityDirection direction) {

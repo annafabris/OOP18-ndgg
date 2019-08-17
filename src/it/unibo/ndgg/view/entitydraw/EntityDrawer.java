@@ -106,7 +106,7 @@ public class EntityDrawer {
                                   100, 
                                   110);
     }
-    
+
     /**
      * Draws the swords.
      * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
@@ -114,13 +114,15 @@ public class EntityDrawer {
      *             it is its animation
      * @param positionX
      *             this is the variable position x of the sword
+     * @param state 
+     *             this is the current state of the sword
      */
     public void drawSword(final GraphicsContext graphicsContext, final SwordAnimation swordAnimation,
-                          final double positionX, EntityState state) {
+                          final double positionX, final EntityState state) {
         if (state != EntityState.EQUIPPED) {
             graphicsContext.drawImage(swordAnimation.updatePosition(), 
                                       positionX,
-                                      495,
+                                      500,
                                       50, 
                                       15);
         }

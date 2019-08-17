@@ -15,8 +15,8 @@ public class PlayerAnimation {
     private static final double DURATION = 0.100;
 
     private EntityImageAnimation currentAnimation;
-    private Player player;
-    private PlayerImage playerImage;
+    private final Player player;
+    private final PlayerImage playerImage;
     private EntityState currentState;
     private final boolean isThePlayerOne;
 

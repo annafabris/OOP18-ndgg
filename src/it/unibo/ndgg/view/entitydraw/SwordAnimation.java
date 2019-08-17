@@ -2,10 +2,8 @@ package it.unibo.ndgg.view.entitydraw;
 
 import java.util.Optional;
 
-import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
-import javafx.animation.Animation;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 
@@ -18,8 +16,8 @@ public class SwordAnimation {
     private static final int DURATION = 120;
 
     private Optional<EntityImageAnimation> currentAnimation;
-    private Sword sword;
-    private SwordImage swordImage;
+    private final Sword sword;
+    private final SwordImage swordImage;
     private EntityState currentState;
 
     /**
@@ -32,7 +30,6 @@ public class SwordAnimation {
         this.sword = sword;
         this.setCurrentAnimation();
         this.currentState = this.sword.getState();
-        //this.currentAnimation.play();
     }
 
     /**
@@ -70,15 +67,14 @@ public class SwordAnimation {
     }
 
     private void setCurrentAnimation() {
-        System.out.println(this.sword.getState());
         if (this.sword.getState() == EntityState.EQUIPPED) {
             this.currentAnimation = Optional.empty();
         } else {
-            Image image = new Image(new SwordImage().getSwordPath(this.sword.getState(),
-                                                                  this.sword.getCurrentDirection()));
+            final Image image = new Image(this.swordImage.getSwordPath(this.sword.getState(),
+                                                                       this.sword.getCurrentDirection()));
             this.currentAnimation = Optional.of(new EntityImageAnimation(image, 
-                                                                         swordImage.getNumberOfFrames(EntityState.STAYING_STILL,
-                                                                                                      EntityDirection.RIGHT), 
+                                                                         swordImage.getNumberOfFrames(this.sword.getState(),
+                                                                                                      this.sword.getCurrentDirection()), 
                                                                          swordImage.getFrameWidth(),
                                                                          swordImage.getFrameHeight(),
                                                                          Duration.millis(DURATION),

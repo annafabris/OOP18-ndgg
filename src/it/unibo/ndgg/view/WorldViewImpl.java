@@ -109,12 +109,13 @@ public class WorldViewImpl implements WorldView {
         double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
         double x1 = (128 * t) % viewWidth;
         this.player2.changeEntityState(EntityState.MOVING);
-       // this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.viewWidth - x1);
+        //this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.viewWidth - x1);
         //this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, x1);
         this.player1.dropWeapon(EntityMovement.THROW_RIGHT);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.viewWidth - x1);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, x1);
         this.entityDrawer.drawSword(graphicsContext, swordAnimation1, x1, sword1.getState());
+        this.entityDrawer.drawSword(graphicsContext, swordAnimation2, this.viewWidth - x1, sword2.getState());
 
         /*Timeline gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);
