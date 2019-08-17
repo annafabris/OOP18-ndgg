@@ -1,5 +1,8 @@
 package it.unibo.ndgg.view.entitydraw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import it.unibo.ndgg.model.entity.EntityDirection;
@@ -27,10 +30,28 @@ public class EntityDrawer {
     private static final double PLAYER_WIDTH_PERCENTAGE = 0.110;
     private final Integer worldWidth;
     private final Integer worldHeight;
+    private final List<Image> images;
 
-    public EntityDrawer(final MutablePair<Integer, Integer> worldDimension) {
+    /**
+     * 
+     * @param worldDimension the dimensions of the View
+     * @param backgroundId the {@link BackgroundFrames} of the wanted background
+     */
+    public EntityDrawer(final MutablePair<Integer, Integer> worldDimension, final BackgroundFrames backgroundId) {
         this.worldWidth = worldDimension.getLeft();
         this.worldHeight = worldDimension.getRight();
+        this.images = new ArrayList<>();
+        this.images.add(0, new Image(StaticEntityFrames.PLATFORM_BORDER.getFrameUrl(), 
+                PLATFORM_TILE_WIDTH_PERCENTAGE * this.worldWidth, 
+                PLATFORM_TILE_HEIGHT_PERCENTAGE * this.worldHeight, false, false));
+        this.images.add(1, new Image(StaticEntityFrames.PLATFORM_CENTER.getFrameUrl(),
+                PLATFORM_TILE_WIDTH_PERCENTAGE * this.worldWidth, 
+                PLATFORM_TILE_HEIGHT_PERCENTAGE * this.worldHeight, false, false));
+        this.images.add(2, new Image(StaticEntityFrames.DOOR_LEFT.getFrameUrl(), DOOR_WIDTH_PERCENTAGE * this.worldWidth, 
+                DOOR_HEIGHT_PERCENTAGE * this.worldHeight, false, false));
+        this.images.add(3, new Image(StaticEntityFrames.DOOR_RIGHT.getFrameUrl(), DOOR_WIDTH_PERCENTAGE * this.worldWidth, 
+                DOOR_HEIGHT_PERCENTAGE * this.worldHeight, false, false));
+        this.images.add(4, new Image(backgroundId.getFrameUrl(), this.worldWidth, this.worldHeight, false, false));
     }
 
     /**
@@ -38,20 +59,14 @@ public class EntityDrawer {
      * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
      */
     public void drawMainPlatform(final GraphicsContext graphicsContext) {
-        Image platformBorder = new Image(StaticEntityFrames.PLATFORM_BORDER.getFrameUrl(), 
-                PLATFORM_TILE_WIDTH_PERCENTAGE * this.worldWidth, 
-                PLATFORM_TILE_HEIGHT_PERCENTAGE * this.worldHeight, false, false);
-        Image platformCenter = new Image(StaticEntityFrames.PLATFORM_CENTER.getFrameUrl(), 
-                PLATFORM_TILE_WIDTH_PERCENTAGE * this.worldWidth, 
-                PLATFORM_TILE_HEIGHT_PERCENTAGE * this.worldHeight, false, false);
         for (int i = 0; i <= TILES_COLUMN_NUMBER; i++) {
-            graphicsContext.drawImage(platformCenter, -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
-                    / (TILES_COLUMN_NUMBER - 1), PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight + 3 * platformCenter.getHeight());
-            graphicsContext.drawImage(platformCenter, -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
-                    / (TILES_COLUMN_NUMBER - 1), PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight + platformCenter.getHeight());
-            graphicsContext.drawImage(platformCenter, -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
-                    / (TILES_COLUMN_NUMBER - 1), PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight + 2 * platformCenter.getHeight());
-            graphicsContext.drawImage(platformBorder, -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
+            graphicsContext.drawImage(this.images.get(1), -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
+                    / (TILES_COLUMN_NUMBER - 1), PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight + 3 * this.images.get(1).getHeight());
+            graphicsContext.drawImage(this.images.get(1), -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
+                    / (TILES_COLUMN_NUMBER - 1), PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight + this.images.get(1).getHeight());
+            graphicsContext.drawImage(this.images.get(1), -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
+                    / (TILES_COLUMN_NUMBER - 1), PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight + 2 * this.images.get(1).getHeight());
+            graphicsContext.drawImage(this.images.get(0), -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
                     / (TILES_COLUMN_NUMBER - 1), (PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight));
         }
     }
@@ -61,24 +76,18 @@ public class EntityDrawer {
      * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
      */
     public void drawDoors(final GraphicsContext graphicsContext) {
-        Image door1 = new Image(StaticEntityFrames.DOOR_LEFT.getFrameUrl(), DOOR_WIDTH_PERCENTAGE * this.worldWidth, 
-                DOOR_HEIGHT_PERCENTAGE * this.worldHeight, false, false);
-        Image door2 = new Image(StaticEntityFrames.DOOR_RIGHT.getFrameUrl(), DOOR_WIDTH_PERCENTAGE * this.worldWidth, 
-                DOOR_HEIGHT_PERCENTAGE * this.worldHeight, false, false);
-        graphicsContext.drawImage(door1, -DOOR_LEFT_SHIFT_PERCENTAGE * this.worldWidth, PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight
-                - door1.getHeight() + DOOR_RIGHT_SHIFT_PERCENTAGE * this.worldWidth);
-        graphicsContext.drawImage(door2, this.worldWidth - door2.getWidth(), 
-                PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight - door2.getHeight() + DOOR_RIGHT_SHIFT_PERCENTAGE * this.worldWidth);
+        graphicsContext.drawImage(this.images.get(2), -DOOR_LEFT_SHIFT_PERCENTAGE * this.worldWidth, PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight
+                - this.images.get(2).getHeight() + DOOR_RIGHT_SHIFT_PERCENTAGE * this.worldWidth);
+        graphicsContext.drawImage(this.images.get(3), this.worldWidth - this.images.get(3).getWidth(), 
+                PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight - this.images.get(3).getHeight() + DOOR_RIGHT_SHIFT_PERCENTAGE * this.worldWidth);
     }
 
     /**
      * Draws the background.
      * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
-     * @param backgroundId the {@link BackgroundFrames} of the wanted background
      */
-    public void drawBackground(final GraphicsContext graphicsContext, final BackgroundFrames backgroundId) {
-        Image background = new Image(backgroundId.getFrameUrl(), this.worldWidth, this.worldHeight, false, false);
-        graphicsContext.drawImage(background, 0, 0);
+    public void drawBackground(final GraphicsContext graphicsContext) {
+        graphicsContext.drawImage(this.images.get(4), 0, 0);
     }
 
    /**

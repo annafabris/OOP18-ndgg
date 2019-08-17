@@ -37,7 +37,7 @@ public class WorldViewImpl implements WorldView {
         this.stage = stage;
         this.viewWidth = (int) (this.stage.getWidth() - 1.0);
         this.viewHeight = (int) (this.stage.getHeight() - 1.0);
-        this.entityDrawer = new EntityDrawer(new MutablePair<>(viewWidth, viewHeight));
+        this.entityDrawer = new EntityDrawer(new MutablePair<>(viewWidth, viewHeight), BackgroundFrames.BACKGROUND_1);
         this.timeStart = System.currentTimeMillis();
     }
 
@@ -97,7 +97,7 @@ public class WorldViewImpl implements WorldView {
      * Draws all the static and dynamic entities.
      */
     private void draw() {
-        this.entityDrawer.drawBackground(this.graphicsContext, BackgroundFrames.BACKGROUND_1);
+        this.entityDrawer.drawBackground(this.graphicsContext);
         this.entityDrawer.drawMainPlatform(graphicsContext);
         this.entityDrawer.drawDoors(graphicsContext);
 
