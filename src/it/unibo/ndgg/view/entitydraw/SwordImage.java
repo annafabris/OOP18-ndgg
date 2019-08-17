@@ -1,12 +1,15 @@
 package it.unibo.ndgg.view.entitydraw;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityState;
+import javafx.scene.image.Image;
 
 /**
  * Represents the sword association between a sword and a image.
@@ -47,20 +50,29 @@ public class SwordImage extends EntityFrameInformationImpl {
     }
 
     /**
-     * Returns the number of frames and the image of the sword.
+     * Returns the image of one of two sword with its state and direction.
      * @param state
-     *         represents the state of the sword
+     *          it is the sword's state
      * @param direction
-     *         represents the direction of the sword
+     *          it is the sword's direction
      * @return
-     *          the image and the number of frames
+     *          the image of one of two sword with its state and direction
      */
-    public SwordFrames getSwordFrames(final EntityState state, final EntityDirection direction) {
-        return STATE.get(Pair.of(state, direction));
+    public Image getImage(final EntityState state, final EntityDirection direction) {
+        return new Image(this.getSwordPath(state, direction));
     }
 
     /**
-     * Returns the frames.
+     * Represents all possible sword's state.
+     * @return
+     *        a list of a pair with a state and a direction, that represents all possible sword's state
+     */
+    public List<Pair<EntityState, EntityDirection>> allPossibleStates() {
+        return STATE.keySet().stream().collect(Collectors.toList());
+    }
+
+    /**
+     * Returns the paths of the sword Image.
      * @param state
      *         represents the state of the sword
      * @param direction
@@ -68,7 +80,7 @@ public class SwordImage extends EntityFrameInformationImpl {
      * @return
      *          the image and the number of frames
      */
-    public String getSwordPath(final EntityState state, final EntityDirection direction) {
-        return PATH_SWORD + this.getSwordFrames(state, direction).getSwordSpriteSheet() + EXTENSION;
-    }
+    private String getSwordPath(final EntityState state, final EntityDirection direction) {
+        return PATH_SWORD + STATE.get(Pair.of(state, direction)).getSwordSpriteSheet() + EXTENSION;
+    } 
 }

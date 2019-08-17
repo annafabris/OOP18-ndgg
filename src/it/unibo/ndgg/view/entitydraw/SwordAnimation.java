@@ -47,15 +47,6 @@ public class SwordAnimation {
         return null;
     }
 
-    /**
-     * Return the current animation.
-     * @return 
-     *        the current animation of the player
-     */
-    public Optional<EntityImageAnimation> getCurrentAnimation() {
-        return this.currentAnimation;
-    }
-
     private void changeAnimation(final EntityState state) {
         if (this.currentState != state) {
             if (this.currentAnimation.isPresent()) {
@@ -70,8 +61,8 @@ public class SwordAnimation {
         if (this.sword.getState() == EntityState.EQUIPPED) {
             this.currentAnimation = Optional.empty();
         } else {
-            final Image image = new Image(this.swordImage.getSwordPath(this.sword.getState(),
-                                                                       this.sword.getCurrentDirection()));
+            final Image image = this.swordImage.getImage(this.sword.getState(),
+                                                         this.sword.getCurrentDirection());
             this.currentAnimation = Optional.of(new EntityImageAnimation(image, 
                                                                          swordImage.getNumberOfFrames(this.sword.getState(),
                                                                                                       this.sword.getCurrentDirection()), 

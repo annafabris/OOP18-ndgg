@@ -1,14 +1,17 @@
 package it.unibo.ndgg.view.entitydraw;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.SwordGuard;
+import javafx.scene.image.Image;
 
 /**
  * Represents an association between a {@link PlayerFrames} and a {@link it.unibo.ndgg.model.entity.EntityState} 
@@ -44,19 +47,6 @@ public class PlayerImage extends EntityFrameInformationImpl {
     }
 
     /**
-     * Returns the player frame associates an EntityState and a Entitydirection.
-     * @param state
-     *          it represents the state of the player to represent
-     * @param direction
-     *          it represents the direction of the player to represent 
-     * @return
-     *          the player frame associates an EntityState and a EntityDirection
-     */
-    public PlayerFrames getPlayerFrames(final EntityState state, final EntityDirection direction) {
-        return STATE.get(Pair.of(state, direction));
-    }
-
-    /**
      * Returns the number of frames in a specific sprite sheet.
      * @param state 
      *          it represents the state of the player to represent
@@ -67,6 +57,39 @@ public class PlayerImage extends EntityFrameInformationImpl {
      */
     public int getNumberOfFrames(final EntityState state, final EntityDirection direction) {
         return STATE.get(Pair.of(state, direction)).getNumberOfFrame();
+    }
+
+    /**
+     * Returns the image that represents a particular state and a direction of a player.
+     * @param state
+     *          it is the player's state
+     * @param direction
+     *          it is the player's direction
+     * @param hasAWeapon
+     *          true if the player has a weapon, otherwise false
+     * @param guard
+     *          it is a empty optional if the sword isn't present, otherwise represents the sword guard
+     * @param isThePlayerOne
+     *          true if it is the first player, otherwise false
+     * @return
+     *          the image that represents one of players with his direction and state
+     */
+    public Image getImage(final EntityState state, final EntityDirection direction, final boolean hasAWeapon,
+                          final Optional<SwordGuard> guard, final boolean isThePlayerOne) {
+        if (isThePlayerOne) {
+            return new Image(this.getPlayer1Path(state, direction, hasAWeapon, guard));
+        } else {
+            return new Image(this.getPlayer2Path(state, direction, hasAWeapon, guard));
+        }
+    }
+
+    /**
+     * Represents all possible player's state.
+     * @return
+     *        a list of a pair with a state and a direction, that represents all possible player's state
+     */
+    public List<Pair<EntityState, EntityDirection>> getAllPossibleStates() {
+        return STATE.keySet().stream().collect(Collectors.toList());
     }
 
     /**
@@ -82,7 +105,7 @@ public class PlayerImage extends EntityFrameInformationImpl {
      * @return
      *          the sprite sheet path
      */
-    public String getPlayer1Path(final EntityState state, final EntityDirection direction, final boolean hasAWeapon,
+    private String getPlayer1Path(final EntityState state, final EntityDirection direction, final boolean hasAWeapon,
                                  final Optional<SwordGuard> guard) {
         final PlayerFrames frame = this.getAHighSwordGuardIfPresent(guard, direction, state);
         if (hasAWeapon) {
@@ -105,7 +128,7 @@ public class PlayerImage extends EntityFrameInformationImpl {
      * @return
      *          the sprite sheet path
      */
-    public String getPlayer2Path(final EntityState state, final EntityDirection direction, final boolean hasAWeapon,
+    private String getPlayer2Path(final EntityState state, final EntityDirection direction, final boolean hasAWeapon,
                                  final Optional<SwordGuard> guard) {
         final PlayerFrames frame = this.getAHighSwordGuardIfPresent(guard, direction, state);
         if (hasAWeapon) {
