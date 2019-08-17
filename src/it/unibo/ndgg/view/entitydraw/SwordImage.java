@@ -14,9 +14,9 @@ import it.unibo.ndgg.model.entity.EntityState;
 public class SwordImage extends EntityFrameInformationImpl {
 
     private static final int FRAME_WIDTH = 800;
-    private static final int FRAME_HEIGHT = 340;
+    private static final int FRAME_HEIGHT = 330;
     private static final Map<Pair<EntityState, EntityDirection>, SwordFrames> STATE = new HashMap<>();
-    private static final String PATH_SWORD = "images/sword";
+    private static final String PATH_SWORD = "images/sword/";
     private static final String EXTENSION = ".png";
 
     static {
@@ -32,7 +32,7 @@ public class SwordImage extends EntityFrameInformationImpl {
     public SwordImage() {
         super(FRAME_HEIGHT, FRAME_WIDTH);
     }
-    
+
     /**
      * Returns the number of frames in a specific sprite sheet.
      * @param state 

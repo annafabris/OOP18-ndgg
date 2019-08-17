@@ -121,8 +121,8 @@ public class EntityDrawer {
             graphicsContext.drawImage(swordAnimation.updatePosition(), 
                                       positionX,
                                       495,
-                                      100, 
-                                      110);
+                                      50, 
+                                      15);
         }
     }
 }

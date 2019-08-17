@@ -1,5 +1,7 @@
 package it.unibo.ndgg.view.entitydraw;
 
+import java.util.Optional;
+
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
@@ -15,7 +17,7 @@ public class SwordAnimation {
 
     private static final int DURATION = 120;
 
-    private EntityImageAnimation currentAnimation;
+    private Optional<EntityImageAnimation> currentAnimation;
     private Sword sword;
     private SwordImage swordImage;
     private EntityState currentState;
@@ -28,7 +30,7 @@ public class SwordAnimation {
     public SwordAnimation(final Sword sword) {
         this.swordImage = new SwordImage();
         this.sword = sword;
-       // this.setCurrentAnimation();
+        this.setCurrentAnimation();
         this.currentState = this.sword.getState();
         //this.currentAnimation.play();
     }
@@ -40,10 +42,10 @@ public class SwordAnimation {
      */
     public Image updatePosition() {
         this.changeAnimation(this.sword.getState());
-        if (this.currentState != EntityState.EQUIPPED) {
-            this.currentAnimation.play();
-            this.currentAnimation.setCycleCount(Animation.INDEFINITE);
-            return this.currentAnimation.getImage();
+        if (this.currentAnimation.isPresent()) {
+            this.currentAnimation.get().play();
+            this.currentAnimation.get().setCycleCount(1);
+            return this.currentAnimation.get().getImage();
         }
         return null;
     }
@@ -53,27 +55,35 @@ public class SwordAnimation {
      * @return 
      *        the current animation of the player
      */
-    public EntityImageAnimation getCurrentAnimation() {
+    public Optional<EntityImageAnimation> getCurrentAnimation() {
         return this.currentAnimation;
     }
 
     private void changeAnimation(final EntityState state) {
-        if (this.currentState != state && this.currentState !=EntityState.EQUIPPED) {
-            this.currentAnimation.stop();
+        if (this.currentState != state) {
+            if (this.currentAnimation.isPresent()) {
+                this.currentAnimation.get().stop();
+            }
             this.setCurrentAnimation();
+            this.currentState = state;
         }
-        this.currentState = state;
     }
 
     private void setCurrentAnimation() {
-        Image image = new Image(new SwordImage().getSwordPath(this.sword.getState(),
-                                                              this.sword.getCurrentDirection()));
-        this.currentAnimation = new EntityImageAnimation(image, 
-                                                        swordImage.getNumberOfFrames(EntityState.STAYING_STILL,
-                                                                                     EntityDirection.RIGHT), 
-                                                        swordImage.getFrameWidth(),
-                                                        swordImage.getFrameHeight(),
-                                                        Duration.millis(DURATION),
-                                                        this.sword.getCurrentDirection());
+        System.out.println(this.sword.getState());
+        if (this.sword.getState() == EntityState.EQUIPPED) {
+            this.currentAnimation = Optional.empty();
+        } else {
+            Image image = new Image(new SwordImage().getSwordPath(this.sword.getState(),
+                                                                  this.sword.getCurrentDirection()));
+            this.currentAnimation = Optional.of(new EntityImageAnimation(image, 
+                                                                         swordImage.getNumberOfFrames(EntityState.STAYING_STILL,
+                                                                                                      EntityDirection.RIGHT), 
+                                                                         swordImage.getFrameWidth(),
+                                                                         swordImage.getFrameHeight(),
+                                                                         Duration.millis(DURATION),
+                                                                         this.sword.getCurrentDirection()));
+        }
     }
+
 }
