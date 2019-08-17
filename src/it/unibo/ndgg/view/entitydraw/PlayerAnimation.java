@@ -18,6 +18,7 @@ public class PlayerAnimation {
     private Player player;
     private PlayerImage playerImage;
     private EntityState currentState;
+    private final boolean isThePlayerOne;
 
     /**
      * Builds a player animation.
@@ -29,11 +30,8 @@ public class PlayerAnimation {
     public PlayerAnimation(final boolean isThePlayerOne, final Player player) {
         this.playerImage = new PlayerImage();
         this.player = player;
-        if (isThePlayerOne) {
-            this.setCurrentAnimation(); 
-        } else {
-            this.setCurrentAnimation();
-        }
+        this.isThePlayerOne = isThePlayerOne;
+        this.setCurrentAnimation();
         this.currentState = this.player.getState();
     }
 
@@ -49,15 +47,6 @@ public class PlayerAnimation {
         return this.currentAnimation.getImage();
     }
 
-    /**
-     * Return the current animation.
-     * @return 
-     *        the current animation of the player
-     */
-    public EntityImageAnimation getCurrentAnimation() {
-        return this.currentAnimation;
-    }
-
     private void changeAnimation(final EntityState state) {
         if (this.currentState != state) {
             this.currentAnimation.stop();
@@ -68,16 +57,25 @@ public class PlayerAnimation {
     }
 
     private void setCurrentAnimation() {
-        Image image = new Image(this.playerImage.getPlayer1Path(this.player.getState(), 
-                                                                 this.player.getCurrentDirection(), 
-                                                                 this.player.getWeapon().isPresent(), 
-                                                                 this.player.getSwordGuard()));
+        Image image;
+        if (this.isThePlayerOne) {
+            image = new Image(this.playerImage.getPlayer1Path(this.player.getState(), 
+                     this.player.getCurrentDirection(), 
+                     this.player.getWeapon().isPresent(), 
+                     this.player.getSwordGuard()));
+        } else {
+            image = new Image(this.playerImage.getPlayer2Path(this.player.getState(), 
+                    this.player.getCurrentDirection(), 
+                    this.player.getWeapon().isPresent(), 
+                    this.player.getSwordGuard()));
+        }
         this.currentAnimation = new EntityImageAnimation(image, 
                                                          playerImage.getNumberOfFrames(player.getState(),
                                                                                        player.getCurrentDirection()), 
                                                          playerImage.getFrameWidth(),
                                                          playerImage.getFrameHeight(),
-                                                         Duration.seconds(DURATION));
+                                                         Duration.seconds(DURATION),
+                                                         player.getCurrentDirection());
         this.currentAnimation.play();
     }
 

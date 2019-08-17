@@ -93,6 +93,8 @@ public class EntityDrawer {
    /**
     * Draws the players.
     * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
+    * @param playerAnimation 
+    *             it is its animation
     * @param positionX
     *             this is the variable position x of the player
     */

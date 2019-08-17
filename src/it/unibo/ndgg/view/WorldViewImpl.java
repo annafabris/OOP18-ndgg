@@ -104,7 +104,8 @@ public class WorldViewImpl implements WorldView {
         player1.changeEntityState(EntityState.MOVING);
         double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
         double x1 = (128 * t) % viewWidth;
-        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, x1 -100);
+        this.player2.changeEntityState(EntityState.MOVING);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.viewWidth - x1);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, x1);
 
         /*Timeline gameLoop = new Timeline();

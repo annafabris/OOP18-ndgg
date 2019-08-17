@@ -1,6 +1,9 @@
 package it.unibo.ndgg.view.entitydraw;
 
 import java.util.List;
+
+import it.unibo.ndgg.model.entity.EntityDirection;
+
 import java.util.ArrayList;
 
 import javafx.animation.Interpolator;
@@ -18,6 +21,7 @@ public class EntityImageAnimation extends Transition {
     private final List<Image> images;
     private Image image;
     private final int totalFrames; 
+    private final EntityDirection currentDirection;
     private int lastIndex;
 
     /**
@@ -34,8 +38,9 @@ public class EntityImageAnimation extends Transition {
      *          the duration of the animation
      */
     public EntityImageAnimation(final Image image, final int totalFrames, final int frameWidth,
-                                final int frameHeight, final Duration duration) {
+                                final int frameHeight, final Duration duration, final EntityDirection direction) {
         super();
+        this.currentDirection = direction;
         final PixelReader pixelReader = image.getPixelReader();
         this.totalFrames = totalFrames;
         this.images = new ArrayList<>();
@@ -43,7 +48,7 @@ public class EntityImageAnimation extends Transition {
             final int x = i * frameWidth;
             this.images.add(new WritableImage(pixelReader, x, 0, frameWidth, frameHeight));
         }
-        this.lastIndex = 0;
+        this.lastIndex = totalFrames - 1;
         this.image = new WritableImage(pixelReader, 0, 0, frameWidth, frameHeight);
         setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
@@ -55,9 +60,14 @@ public class EntityImageAnimation extends Transition {
     protected void interpolate(final double arg) {
         final int index = Math.min((int) Math.floor(arg * this.totalFrames), this.totalFrames - 1);
         if (index != lastIndex) {
-            this.lastIndex = index;
-            this.image = this.images.get(lastIndex);
-        }
+            if (this.currentDirection == EntityDirection.LEFT) {
+                this.lastIndex = (this.totalFrames - 1) - index;
+                this.image = this.images.get(this.lastIndex);
+            } else {
+                this.lastIndex = index;
+                this.image = this.images.get(lastIndex);
+            }
+        } 
     }
 
     /**

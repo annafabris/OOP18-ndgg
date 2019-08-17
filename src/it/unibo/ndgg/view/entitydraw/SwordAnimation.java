@@ -66,6 +66,7 @@ public class SwordAnimation {
                                                                                      EntityDirection.RIGHT), 
                                                         swordImage.getFrameWidth(),
                                                         swordImage.getFrameHeight(),
-                                                        Duration.millis(DURATION));
+                                                        Duration.millis(DURATION)
+                                                        this.sword.getCurrentDirection());
     }
 }
