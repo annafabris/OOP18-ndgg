@@ -5,18 +5,16 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
-import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
+import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.util.Duration;
 
 /**
  * A class that draws the main Entities in the View.
  */
 public class EntityDrawer {
-    //TODO attenzione a valori dopo perchè assegnati dopo
     private static final double PLATFORM_HEIGHT_POSITION_PERCENTAGE = 0.75;
     private static final int TILES_COLUMN_NUMBER = 21;
     private static final double PLATFORM_TILE_HEIGHT_PERCENTAGE = 0.067;
@@ -95,8 +93,8 @@ public class EntityDrawer {
     * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
     * @param playerAnimation 
     *             it is its animation
-    * @param positionX
-    *             this is the variable position x of the player
+    * @param player
+    *             the player to draw
     */
     public void drawPlayer(final GraphicsContext graphicsContext, final PlayerAnimation playerAnimation, final Player player) {
         graphicsContext.drawImage(playerAnimation.updatePosition(), 
@@ -117,11 +115,11 @@ public class EntityDrawer {
      *             this is the current state of the sword
      */
     public void drawSword(final GraphicsContext graphicsContext, final SwordAnimation swordAnimation,
-                          final double positionX, final EntityState state) {
+                          final EntityState state, final Sword sword) {
         if (state != EntityState.EQUIPPED) {
             graphicsContext.drawImage(swordAnimation.updatePosition(), 
-                                      positionX,
-                                      500,
+                                      sword.getPosition().getLeft(),
+                                      sword.getPosition().getRight(),
                                       50, 
                                       15);
         }

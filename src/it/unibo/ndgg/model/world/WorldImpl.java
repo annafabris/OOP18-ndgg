@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.collision.CollisionResult;
@@ -24,7 +25,6 @@ import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
-import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
  * {@inheritDoc}.
@@ -43,8 +43,10 @@ public class WorldImpl implements World {
     private BodyAssociations bodyAssociations;
     private Map<EntityType, List<AbstractEntity>> entities;
     private GameState currentGameState;
+    private Pair<Double, Double> worldDimension;
 
-    public WorldImpl() {
+    public WorldImpl(Pair<Double, Double> worldDimension) {
+        this.worldDimension = worldDimension;
         this.currentGameState = GameState.IS_GOING;
         this.entities = new HashMap<>();
         rooms.addAll(Stream.generate(() -> new RoomImpl()).limit(NUMBER_OF_ROOMS).collect(Collectors.toList())); //TODO controllare
@@ -129,21 +131,25 @@ public class WorldImpl implements World {
     /**
      * {@inheritDoc}
      */
-    //@Override
+    @Override
     public void movePlayer(final EntityMovement movement, final int PlayerId) {
         Player player = getPlayer(PlayerId);
         final EntityState playerState = player.getState();
         if (playerState == EntityState.STAYING_STILL) {
             //TODO può avere spada
         }
-        player.move(movement);
+        if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT ) {
+            player.move(movement);
+        }
     }
 
-    public void throwSword(final EntityMovement movement, final int SwordId) {
-        Sword sword = getSword(SwordId);
-        if (sword.getState() == movement.getAssociatedEntityState()) {
-            sword.move(movement);
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void throwSword(final EntityMovement movement, final int swordId) {
+        Player player = getPlayer(swordId);
+        player.dropWeapon(movement);
     }
 
     /**
@@ -174,14 +180,17 @@ public class WorldImpl implements World {
 
     private void createEntities() {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
-        Player playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(100.0, 400.0), EntityDirection.RIGHT);
-        Player playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(100.0, 400.0), EntityDirection.LEFT);
+        Player playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>
+            (this.worldDimension.getLeft() / 10, this.worldDimension.getRight() * 0.8), EntityDirection.RIGHT);
+        Player playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>
+            (this.worldDimension.getLeft()* 9 / 10, this.worldDimension.getRight() * 0.8), EntityDirection.LEFT);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
-                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, new MutablePair<>(1.0, 5.0), playerL, EntityDirection.RIGHT), 
-                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, new MutablePair<>(1.0, -5.0), playerR, EntityDirection.LEFT))
+                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, new MutablePair<>(100.0, 50.0), playerL, EntityDirection.RIGHT), 
+                (Sword) entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, new MutablePair<>(100.0, 50.0), playerR, EntityDirection.LEFT))
                 .collect(Collectors.toList()));
         this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }
+
 }

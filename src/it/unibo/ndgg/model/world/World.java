@@ -2,6 +2,7 @@ package it.unibo.ndgg.model.world;
 
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.collision.CollisionResult;
+import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 
@@ -30,6 +31,16 @@ public interface World {
 
     Player getPlayer(final int PlayerId);
 
+    /**
+     * 
+     * @param SwordId
+     * @return
+     */
     Sword getSword(final int SwordId);
+
+    void movePlayer(EntityMovement movement, int PlayerId);
+    
+    void throwSword(EntityMovement movement, int SwordId);
+
 
 }

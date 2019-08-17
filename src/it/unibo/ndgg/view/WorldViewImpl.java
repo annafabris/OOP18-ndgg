@@ -94,8 +94,8 @@ public class WorldViewImpl implements WorldView {
         graphicsContext = canvas.getGraphicsContext2D();
         this.draw();
         stage.sizeToScene();
-        this.playerL.changeEntityState(EntityState.MOVING);
-        this.playerR.changeEntityState(EntityState.MOVING);
+        this.playerL.changeEntityState(EntityState.STAYING_STILL);
+        this.playerR.changeEntityState(EntityState.STAYING_STILL);
         return new Scene(root, viewWidth, viewHeight);
     }
 
@@ -110,7 +110,7 @@ public class WorldViewImpl implements WorldView {
         this.entityDrawer.drawDoors(graphicsContext);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, this.playerL);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.playerR);
-        this.entityDrawer.drawSword(graphicsContext, swordAnimation1, x1, sword1.getState());
-        this.entityDrawer.drawSword(graphicsContext, swordAnimation2, this.viewWidth - x1, sword2.getState());
+        this.entityDrawer.drawSword(graphicsContext, swordAnimation1, sword1.getState(), this.sword1);
+        this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), this.sword2);
     }
 }
