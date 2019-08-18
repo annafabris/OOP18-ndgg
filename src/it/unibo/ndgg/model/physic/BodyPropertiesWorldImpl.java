@@ -1,8 +1,11 @@
 package it.unibo.ndgg.model.physic;
 
 import java.awt.Toolkit;
+import java.util.Vector;
 
 import org.dyn4j.dynamics.Body;
+import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.collision.CollisionRules;
 import it.unibo.ndgg.model.entity.EntityType;
@@ -26,6 +29,7 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
 
     public BodyPropertiesWorldImpl(WorldImpl worldImpl, org.dyn4j.dynamics.World world, BodyAssociations bodyAssociations) {
         this.world = world;
+        this.world.setGravity(new Vector2(0, 9.81));
         this.worldImpl = worldImpl;
         this.bodyAssociation = bodyAssociations;
         this.last = System.nanoTime();

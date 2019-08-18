@@ -53,8 +53,6 @@ public interface EntityFactory {
      *          the position of the body in the {@link World}
      * @param type
      *          the entity's type
-     * @return 
-     *          the entity {@link Platform}
      */
-    Platform createPlatform(Double height, Double width, Pair<Double, Double> position, EntityType type);
+    Platform createPlatform(Double height, Double width, Pair<Double, Double> position);
 }

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.dyn4j.dynamics.Body;
 
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.collision.CollisionResult;
@@ -22,6 +23,7 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
+import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
@@ -53,7 +55,7 @@ public class WorldImpl implements World {
         this.currentRoom = NUMBER_OF_ROOMS / 2;
         this.bodyAssociations = new BodyAssociations();
         this.bodyPropertiesFactory = new BodyPropertiesFactory();
-        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, 1.0, 1.0, this.bodyAssociations);
+        //this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, 1000, 1000, this.bodyAssociations);
     }
 
     /**
@@ -141,11 +143,21 @@ public class WorldImpl implements World {
      */
     @Override
     public void movePlayer(final EntityMovement movement, final int playerId) {
-        Player player = getPlayer(playerId);
-        final EntityState playerState = player.getState();
+        Player player1 = getPlayer(0);
+        Player player2 = getPlayer(1);
+        final EntityState playerState = player1.getState();
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
-            player.move(movement);
+            player1.move(movement);
         }
+        System.out.println("df " + player1.getPosition() + "");
+        Body body1 = player1.getBody().getPhysicalBody();
+        Body body2 = player2.getBody().getPhysicalBody();
+        System.out.println("Active: " + body1.isActive());
+        System.out.println("\nAsleep:  " + body1.isAsleep());
+        System.out.println("\nContact: " + body1.isInContact(body2));
+        System.out.println(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
+        System.out.println(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body2) + "\n");
+        System.out.println(this.worldDimension + "de");
     }
 
     /**
@@ -190,10 +202,10 @@ public class WorldImpl implements World {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         Player playerL = entityFactory.createPlayer(this.worldDimension.getLeft() * PLAYER_HEIGHT_PERCENTAGE, 
                 this.worldDimension.getRight() * PLAYER_WIDTH_PERCENTAGE, new MutablePair<Double, Double>
-            (this.worldDimension.getLeft() / 10, this.worldDimension.getRight() * 0.8), EntityDirection.RIGHT);
+            (650.0, 300.0), EntityDirection.RIGHT);
         Player playerR = entityFactory.createPlayer(this.worldDimension.getLeft() * PLAYER_HEIGHT_PERCENTAGE, 
                 this.worldDimension.getRight() * PLAYER_WIDTH_PERCENTAGE, new MutablePair<>
-            (this.worldDimension.getLeft()* 9 / 10, this.worldDimension.getRight() * 0.8), EntityDirection.LEFT);
+            (550.0, 300.0), EntityDirection.LEFT);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
@@ -202,7 +214,10 @@ public class WorldImpl implements World {
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
                         this.worldDimension.getRight() * SWORD_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerR, EntityDirection.LEFT))
                 .collect(Collectors.toList()));
-        this.bodyAssociations.setEntities(entities);
+       entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(this.worldDimension.getLeft(), 
+                (Double) this.worldDimension.getRight() / 5, new MutablePair<Double, Double>(
+                (Double)this.worldDimension.getLeft() / 5.0,(Double)this.worldDimension.getRight() * 0.9))).collect(Collectors.toList()));
+       this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }
 

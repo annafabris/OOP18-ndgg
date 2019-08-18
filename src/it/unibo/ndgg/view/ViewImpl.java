@@ -1,5 +1,8 @@
 package it.unibo.ndgg.view;
 
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -55,6 +58,10 @@ public class ViewImpl implements View {
         Platform.exit();
     }
 
+    public Pair<Double, Double> getViewDimension() {
+        return new MutablePair<>(this.stage.getWidth(), this.stage.getHeight());
+    }
+    
     /**
      * Set the size of the stage depending on the visual bounds of the primary screen.
      */

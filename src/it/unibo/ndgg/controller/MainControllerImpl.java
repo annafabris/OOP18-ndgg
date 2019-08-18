@@ -32,7 +32,7 @@ public class MainControllerImpl implements MainController {
      */
     @Override
     public void startNewGame() throws Exception {
-        new GameControllerImpl(view.showGame(), this);
+        new GameControllerImpl(view.showGame(), this, this.view.getViewDimension());
     }
 
     /**

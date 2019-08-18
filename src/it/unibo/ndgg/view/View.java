@@ -1,4 +1,7 @@
 package it.unibo.ndgg.view;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 /**
  * Represents the view of this application. It can show the initial menu or the game view.
  */
@@ -22,4 +25,5 @@ public interface View {
      */
     void quit();
 
+    Pair<Double, Double> getViewDimension();
 }

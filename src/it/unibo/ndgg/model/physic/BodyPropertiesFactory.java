@@ -5,6 +5,7 @@ import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Geometry;
+import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 
@@ -50,7 +51,7 @@ public class BodyPropertiesFactory {
      * @return {@link BodyPropertiesWorld}
      */
     public BodyPropertiesWorld createBodyPropertiesWorld(final WorldImpl world, final double width, final double height, final BodyAssociations bodyAssociations) {
-        this.physicalWorld = new BodyPropertiesWorldImpl(world, new org.dyn4j.dynamics.World(new AxisAlignedBounds(width, height)), bodyAssociations); //TODO width, height controllare
+        this.physicalWorld = new BodyPropertiesWorldImpl(world, new org.dyn4j.dynamics.World(new AxisAlignedBounds(width, height)), bodyAssociations);
         return this.physicalWorld;
     }
  
@@ -67,6 +68,15 @@ public class BodyPropertiesFactory {
         final Body body;
         if (type == EntityType.PLAYER) {
             body = createBody(position, width, height, PLAYER_FILTER);
+            body.getFixture(0).setFriction(0.25);
+            body.getFixture(0).setDensity(80);
+            body.setGravityScale(1);
+            System.out.println("d " + body.isActive());
+            System.out.println("d " + body.isAsleep());
+            //System.out.println("d " + body.isInContact(arg0));
+            body.setLinearDamping(0.5);
+            body.setGravityScale(100);
+            body.setMass(MassType.FIXED_ANGULAR_VELOCITY);
         } else if (type == EntityType.SWORD) {
             body = createBody(position, width, height, SWORD_FILTER);
         } else {
@@ -99,6 +109,7 @@ public class BodyPropertiesFactory {
                 filter = PLATFORM_FILTER;
                 body = createBody(position, width, height, filter);
                 body.setMass(MassType.INFINITE);
+                body.getFixture(0).setFriction(0.25);
                 break;
             default:
                 throw new IllegalStateException("Static EntityType Does not exist");
@@ -120,7 +131,7 @@ public class BodyPropertiesFactory {
         final Body body = new Body();
         body.addFixture(Geometry.createRectangle(width, height));
         body.translate(new Vector2(position.getLeft(), position.getRight()));
-        body.setMass(MassType.NORMAL);
+        body.setMass(MassType.FIXED_ANGULAR_VELOCITY);
         body.getFixture(0).setFilter(filter);
         this.physicalWorld.getWorld().addBody(body);
         return body;

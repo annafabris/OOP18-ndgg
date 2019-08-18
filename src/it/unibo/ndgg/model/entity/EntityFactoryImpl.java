@@ -45,9 +45,8 @@ public class EntityFactoryImpl implements EntityFactory {
      * {@inheritDoc}
      */
     @Override
-    public Platform createPlatform(final Double height, final Double width, final Pair<Double, Double> position,
-                                   final EntityType type) {
-        return new Platform(this.body.createStaticBodyProperties(position, width, height, type));
+    public Platform createPlatform(final Double height, final Double width, final Pair<Double, Double> position) {
+        return new Platform(this.body.createStaticBodyProperties(position, width, height, EntityType.PLATFORM));
     }
 
 }

@@ -50,7 +50,7 @@ public class DynamicBodyProperties extends AbstractBodyProperties {
      */
     public void translate(final EntityMovement entityMovement, final double x, final double y) {
         this.currentState = entityMovement.getAssociatedEntityState();
-        this.body.translate(new Vector2(x, y));
+        this.body.applyImpulse(new Vector2(x, y));
     }
 
     /**

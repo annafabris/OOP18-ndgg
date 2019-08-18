@@ -1,6 +1,8 @@
 package it.unibo.ndgg.model.physic.body;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.dyn4j.dynamics.Body;
+
 import it.unibo.ndgg.model.entity.EntityState;
 
 /**
@@ -42,4 +44,6 @@ public interface BodyProperties {
      *          if the body exits
      */
     boolean exists();
+    
+    Body getPhysicalBody();
 }
