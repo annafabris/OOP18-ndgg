@@ -26,8 +26,10 @@ public class MovementVectorValuesImpl implements MovementVectorValues {
         VALUES.put(EntityMovement.DIE_RIGHT, new Vector2(DIE_X_MOVEMENT, -DIE_Y_MOVEMENT));
         VALUES.put(EntityMovement.DROP_LEFT, new Vector2(0, -DROP_Y_MOVEMENT));
         VALUES.put(EntityMovement.DROP_RIGHT, new Vector2(0, -DROP_Y_MOVEMENT));
-        VALUES.put(EntityMovement.JUMP_LEFT, new Vector2(0, JUMP_Y_MOVEMENT));
-        VALUES.put(EntityMovement.JUMP_RIGHT, new Vector2(0, JUMP_Y_MOVEMENT));
+        VALUES.put(EntityMovement.JUMP_UP_LEFT, new Vector2(0, JUMP_Y_MOVEMENT));
+        VALUES.put(EntityMovement.JUMP_UP_RIGHT, new Vector2(0, JUMP_Y_MOVEMENT));
+        VALUES.put(EntityMovement.JUMP_DOWN_LEFT, new Vector2(0, -JUMP_Y_MOVEMENT));
+        VALUES.put(EntityMovement.JUMP_DOWN_RIGHT, new Vector2(0, -JUMP_Y_MOVEMENT));
         VALUES.put(EntityMovement.MOVE_LEFT, new Vector2(-MOVE_X_MOVEMENT, 0));
         VALUES.put(EntityMovement.MOVE_RIGHT, new Vector2(MOVE_X_MOVEMENT, 0));
         VALUES.put(EntityMovement.THROW_LEFT, new Vector2(-THROW_X_MOVEMENT, 0));

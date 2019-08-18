@@ -27,6 +27,8 @@ public class SwordImage extends EntityFrameInformationImpl {
         STATE.put(Pair.of(EntityState.STAYING_STILL, EntityDirection.LEFT), SwordFrames.SWORD_LEFT);
         STATE.put(Pair.of(EntityState.THROWING, EntityDirection.LEFT), SwordFrames.THROW_SWORD_LEFT);
         STATE.put(Pair.of(EntityState.THROWING, EntityDirection.RIGHT), SwordFrames.THROW_SWORD_RIGHT);
+        STATE.put(Pair.of(EntityState.DROPPING, EntityDirection.RIGHT), SwordFrames.SWORD_RIGHT);
+        STATE.put(Pair.of(EntityState.DROPPING, EntityDirection.LEFT), SwordFrames.SWORD_LEFT);
     }
 
     /**
