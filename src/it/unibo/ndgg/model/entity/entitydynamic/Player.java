@@ -7,6 +7,7 @@ import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
+import it.unibo.ndgg.view.entitydraw.dynamic.SoundsTypes;
 
 /**
  * Represents one of two players in play, it is an implementation of {@link AbstractEntity}.
@@ -124,6 +125,7 @@ public class Player extends AbstractDynamicEntity {
             }
             this.move(EntityMovement.DIE_LEFT);
         }
+        SoundsTypes.PLAYERKILLED.getSound().play();
     }
 
 }

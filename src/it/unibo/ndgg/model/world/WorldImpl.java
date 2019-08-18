@@ -143,20 +143,15 @@ public class WorldImpl implements World {
      */
     @Override
     public void movePlayer(final EntityMovement movement, final int playerId) {
-        Player player1 = getPlayer(0);
-        Player player2 = getPlayer(1);
-        final EntityState playerState = player1.getState();
+        Player player1 = getPlayer(playerId);
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
         System.out.println("df " + player1.getPosition() + "");
         Body body1 = player1.getBody().getPhysicalBody();
-        Body body2 = player2.getBody().getPhysicalBody();
         System.out.println("Active: " + body1.isActive());
         System.out.println("\nAsleep:  " + body1.isAsleep());
-        System.out.println("\nContact: " + body1.isInContact(body2));
         System.out.println(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
-        System.out.println(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body2) + "\n");
         System.out.println(this.worldDimension + "de");
     }
 
@@ -202,7 +197,7 @@ public class WorldImpl implements World {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         Player playerL = entityFactory.createPlayer(this.worldDimension.getLeft() * PLAYER_HEIGHT_PERCENTAGE, 
                 this.worldDimension.getRight() * PLAYER_WIDTH_PERCENTAGE, new MutablePair<Double, Double>
-            (650.0, 300.0), EntityDirection.RIGHT);
+            (200.0, 300.0), EntityDirection.RIGHT);
         Player playerR = entityFactory.createPlayer(this.worldDimension.getLeft() * PLAYER_HEIGHT_PERCENTAGE, 
                 this.worldDimension.getRight() * PLAYER_WIDTH_PERCENTAGE, new MutablePair<>
             (550.0, 300.0), EntityDirection.LEFT);
@@ -214,9 +209,9 @@ public class WorldImpl implements World {
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
                         this.worldDimension.getRight() * SWORD_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerR, EntityDirection.LEFT))
                 .collect(Collectors.toList()));
-       entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(this.worldDimension.getLeft(), 
-                (Double) this.worldDimension.getRight() / 5, new MutablePair<Double, Double>(
-                (Double)this.worldDimension.getLeft() / 5.0,(Double)this.worldDimension.getRight() * 0.9))).collect(Collectors.toList()));
+       entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(this.worldDimension.getRight()/5, 
+                (Double) this.worldDimension.getLeft(), new MutablePair<Double, Double>(
+                 0.0,620.0))).collect(Collectors.toList()));
        this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }

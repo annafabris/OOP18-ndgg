@@ -43,8 +43,8 @@ public class WorldViewImpl implements WorldView {
 
     public WorldViewImpl(Stage stage) {
         this.stage = stage;
-        this.viewWidth = (int) (this.stage.getWidth() - 1.0);
-        this.viewHeight = (int) (this.stage.getHeight() - 1.0);
+        this.viewWidth = (int) (this.stage.getWidth());
+        this.viewHeight = (int) (this.stage.getHeight());
         this.entityDrawer = new EntityDrawer(new MutablePair<>(viewWidth, viewHeight), BackgroundFrames.BACKGROUND_1);
         this.timeStart = System.currentTimeMillis();
     }
@@ -105,7 +105,6 @@ public class WorldViewImpl implements WorldView {
      */
     private void draw() {
         double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
-        double x1 = (128 * t) % viewWidth;
         this.entityDrawer.drawBackground(this.graphicsContext);
         this.entityDrawer.drawMainPlatform(graphicsContext);
         this.entityDrawer.drawDoors(graphicsContext);
@@ -113,6 +112,5 @@ public class WorldViewImpl implements WorldView {
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.playerR);
         this.entityDrawer.drawSword(graphicsContext, swordAnimation1, sword1.getState(), this.sword1);
         this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), this.sword2);
-        SoundsTypes.ATTACK.getSound().play();
     }
 }

@@ -111,8 +111,10 @@ public class BodyAssociations {
      * @return {@link it.unibo.ndgg.model.entity.AbstractEntity}
      */
     private AbstractEntity getEntity(final List<AbstractEntity> entity, final BodyProperties bodyProperties) {
-        entity.stream().filter(i -> i.getBody().equals(bodyProperties)).collect(Collectors.toList());
-        if (entity.size() != 1) {
+        List<AbstractEntity> abstractEntity = entity.stream().filter(i -> i.getBody().equals(bodyProperties)).collect(Collectors.toList());
+        System.out.println(entity.size());
+        System.out.println(abstractEntity.size());
+        if (abstractEntity.size() != 1) {
             throw new IllegalStateException("The right BodyProperty is not present in Sword");
         } else {
             return entity.get(0);

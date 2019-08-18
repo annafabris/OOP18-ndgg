@@ -59,8 +59,8 @@ public class GameControllerImpl implements GameController {
                         view.playerWon(0);
                         gameLoop.stop();
                         exit();
-                    } else if (gameState == GameState.PLAYERL_WON) {
-                        view.playerWon(0);
+                    } else if (gameState == GameState.PLAYERR_WON) {
+                        view.playerWon(1);
                         gameLoop.stop();
                         exit();
                     } else {

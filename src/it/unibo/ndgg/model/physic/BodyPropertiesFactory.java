@@ -83,7 +83,7 @@ public class BodyPropertiesFactory {
             throw new IllegalStateException("Dynamic EntityType Does not exist");
         }
         final DynamicBodyProperties dynamicBody = new DynamicBodyProperties(body);
-        this.physicalWorld.putPhysicalBodyToBody(dynamicBody, body, EntityType.PLAYER);
+        this.physicalWorld.putPhysicalBodyToBody(dynamicBody, body, type);
         return dynamicBody;
     }
 
