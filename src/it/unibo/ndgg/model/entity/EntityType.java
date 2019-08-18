@@ -1,9 +1,11 @@
 package it.unibo.ndgg.model.entity;
 
+import java.io.Serializable;
+
 /**
  * Represents the possible {@link Entity}'s type.
  */
-public enum EntityType {
+public enum EntityType implements Serializable {
 
     /**
      * An {@link Entity} that represents one of the two players in game.
