@@ -31,8 +31,6 @@ import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
  */
 public class WorldImpl implements World {
 
-    private static final double WORLD_WIDTH = 960; //TODO da prendere in altro modo
-    private static final double WORLD_HEIGHT = 450;
     private static final Double SWORD_HEIGHT = 0.5;
     private static final Double SWORD_WIDTH = 0.5;
     private static final int NUMBER_OF_ROOMS = 3;
@@ -61,7 +59,8 @@ public class WorldImpl implements World {
      */
     @Override
     public void start() {
-        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
+        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, this.worldDimension.getLeft(), 
+                this.worldDimension.getRight(), bodyAssociations);
         createEntities();
     }
 
@@ -95,10 +94,8 @@ public class WorldImpl implements World {
                 this.changeRoom();
                 break;
             case SWORDPICKEDUP:
-                this.addSwordToPlayer();
                 break;
             case PLAYERDISARMED:
-                this.removeSwordToPlayer();
                 break;
             case SWORDONTHEGROUND:
                 break;
@@ -107,38 +104,38 @@ public class WorldImpl implements World {
         }
     }
  
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public GameState getCurrentGameState() {
         return this.currentGameState;
-    }
-
-    private void removeSwordToPlayer() {
-
-    }
-
-    private void addSwordToPlayer() {
-        // TODO Auto-generated method stub
-
-    }
-
-    public Player getPlayer(final int PlayerId) {
-        return (Player) this.entities.get(EntityType.PLAYER).get(PlayerId);
-    }
-
-    public Sword getSword(final int SwordId) {
-        return (Sword) this.entities.get(EntityType.SWORD).get(SwordId);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void movePlayer(final EntityMovement movement, final int PlayerId) {
-        Player player = getPlayer(PlayerId);
+    public Player getPlayer(final int playerId) {
+        return (Player) this.entities.get(EntityType.PLAYER).get(playerId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Sword getSword(final int swordId) {
+        return (Sword) this.entities.get(EntityType.SWORD).get(swordId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void movePlayer(final EntityMovement movement, final int playerId) {
+        Player player = getPlayer(playerId);
         final EntityState playerState = player.getState();
-        if (playerState == EntityState.STAYING_STILL) {
-            //TODO può avere spada
-        }
-        if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT ) {
+        if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player.move(movement);
         }
     }
@@ -147,7 +144,7 @@ public class WorldImpl implements World {
      * {@inheritDoc}
      */
     @Override
-    public void throwSword(final EntityMovement movement, final int swordId) {
+    public void moveSword(final EntityMovement movement, final int swordId) {
         Player player = getPlayer(swordId);
         player.dropWeapon(movement);
     }
@@ -178,6 +175,9 @@ public class WorldImpl implements World {
         }
     }
 
+    /**
+     * Creates all the entities.
+     */
     private void createEntities() {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         Player playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>

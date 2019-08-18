@@ -7,17 +7,17 @@ import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 
 /**
- * A class that represents a list of {@link Room} in which the game takes place.
+ * A class that represents the game World and a list of {@link Room} in which the game takes place.
  */
 public interface World {
 
     /**
-     * Initialize all the {@link Entity} and ....
+     * Initialize all the {@link it.unibo.ndgg.model.entity}s.
      */
     void start();
 
     /**
-     * Updates all the {@link Entity} in the {@link World}.
+     * Updates all the {@link it.unibo.ndgg.model.entity} in the {@link World}.
      */
     void update();
 
@@ -27,20 +27,39 @@ public interface World {
      */
     void notifyCollision(CollisionResult collisionResult);
 
+    /**
+     * Returns the current {@link it.unibo.ndgg.model.GameState}.
+     * @return {@link it.unibo.ndgg.model.GameState}
+     */
     GameState getCurrentGameState();
 
-    Player getPlayer(final int PlayerId);
+    /**
+     * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Player}.
+     * @param playerId the Id of the Sword Player
+     * @return the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}
+     */
+    Player getPlayer(int playerId);
 
     /**
-     * 
-     * @param SwordId
-     * @return
+     * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}.
+     * @param swordId the Id of the Sword
+     * @return the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}
      */
-    Sword getSword(final int SwordId);
+    Sword getSword(int swordId);
 
-    void movePlayer(EntityMovement movement, int PlayerId);
-    
-    void throwSword(EntityMovement movement, int SwordId);
+    /**
+     * Makes the player center of mass move if necessary.
+     * @param movement the {@link it.unibo.ndgg.model.entity.EntityMovement}
+     * @param playerId the Id of the Player
+     */
+    void movePlayer(EntityMovement movement, int playerId);
+
+    /**
+     * Makes the sword center of mass move if necessary.
+     * @param movement the {@link it.unibo.ndgg.model.entity.EntityMovement}
+     * @paramsSwordId the Id of the Player associated to the sword to move
+     */
+    void moveSword(EntityMovement movement, int swordId);
 
 
 }

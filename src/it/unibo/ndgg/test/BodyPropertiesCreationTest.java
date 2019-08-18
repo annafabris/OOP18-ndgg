@@ -24,7 +24,7 @@ public class BodyPropertiesCreationTest {
     public BodyPropertiesCreationTest() {
         BodyAssociations bodyAssociations = new BodyAssociations();
         this.factory = new BodyPropertiesFactory();
-        this.factory.createBodyPropertiesWorld(new WorldImpl(), WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
+        this.factory.createBodyPropertiesWorld(new WorldImpl(new MutablePair<>(WORLD_WIDTH, WORLD_HEIGHT)), WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
     }
 
     /**

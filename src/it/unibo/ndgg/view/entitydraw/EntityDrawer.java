@@ -24,8 +24,10 @@ public class EntityDrawer {
     private static final double DOOR_LEFT_SHIFT_PERCENTAGE = 0.00653;
     private static final double DOOR_RIGHT_SHIFT_PERCENTAGE = 0.038;
     private static final double PLATFORM_SHIFT_PERCENTAGE = 0.053;
-    private static final double PLAYER_HEIGHT_PERCENTAGE = 0.280;
-    private static final double PLAYER_WIDTH_PERCENTAGE = 0.110;
+    private static final double PLAYER_HEIGHT_PERCENTAGE = 0.17;
+    private static final double PLAYER_WIDTH_PERCENTAGE = 0.095;
+    private static final double SWORD_HEIGHT_PERCENTAGE = 0.018;
+    private static final double SWORD_WIDTH_PERCENTAGE = 0.04;
     private final Integer worldWidth;
     private final Integer worldHeight;
     private final List<Image> images;
@@ -100,8 +102,8 @@ public class EntityDrawer {
         graphicsContext.drawImage(playerAnimation.updatePosition(), 
                                   player.getPosition().getLeft(),
                                   player.getPosition().getRight(),
-                                  100, 
-                                  110);
+                                  PLAYER_WIDTH_PERCENTAGE * this.worldWidth, 
+                                  PLAYER_HEIGHT_PERCENTAGE * this.worldHeight);
     }
 
     /**
@@ -109,10 +111,10 @@ public class EntityDrawer {
      * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
      * @param swordAnimation
      *             it is its animation
-     * @param positionX
-     *             this is the variable position x of the sword
      * @param state 
      *             this is the current state of the sword
+     * @param sword
+     *             the sword to draw
      */
     public void drawSword(final GraphicsContext graphicsContext, final SwordAnimation swordAnimation,
                           final EntityState state, final Sword sword) {
@@ -120,8 +122,8 @@ public class EntityDrawer {
             graphicsContext.drawImage(swordAnimation.updatePosition(), 
                                       sword.getPosition().getLeft(),
                                       sword.getPosition().getRight(),
-                                      50, 
-                                      15);
+                                      SWORD_WIDTH_PERCENTAGE * this.worldWidth, 
+                                      SWORD_HEIGHT_PERCENTAGE * this.worldHeight);
         }
     }
 }
