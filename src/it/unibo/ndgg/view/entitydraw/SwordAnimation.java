@@ -79,6 +79,7 @@ public class SwordAnimation {
                                                                          this.sword.getCurrentDirection()));
         }
     }
+
     private void setImageMap() {
         this.swordImage.allPossibleStates().stream()
                                            .forEach(key -> this.images.put(key, 
