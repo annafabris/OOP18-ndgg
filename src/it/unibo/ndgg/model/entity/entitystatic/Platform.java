@@ -3,18 +3,18 @@ package it.unibo.ndgg.model.entity.entitystatic;
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
+import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
+import it.unibo.ndgg.model.physic.body.StaticBodyProperties;
 
 public class Platform extends AbstractEntity {
 
-    public Platform(BodyProperties body) {
+    public Platform(StaticBodyProperties body) {
         super(body);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public EntityType getType() {
-        // TODO Auto-generated method stub
-        return null;
+        return EntityType.PLATFORM;
     }
 
 }

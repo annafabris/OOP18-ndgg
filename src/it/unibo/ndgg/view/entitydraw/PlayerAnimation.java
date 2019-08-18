@@ -18,7 +18,6 @@ public class PlayerAnimation {
     private final Player player;
     private final PlayerImage playerImage;
     private EntityState currentState;
-    private final boolean isThePlayerOne;
     private boolean hasAWeapon;
 
     /**
@@ -29,10 +28,9 @@ public class PlayerAnimation {
      *          it is the associated entity
      */
     public PlayerAnimation(final boolean isThePlayerOne, final Player player) {
-        this.playerImage = new PlayerImage();
+        this.playerImage = new PlayerImage(isThePlayerOne);
         this.player = player;
         this.hasAWeapon = this.player.getWeapon().isPresent();
-        this.isThePlayerOne = isThePlayerOne;
         this.setCurrentAnimation();
         this.currentState = this.player.getState();
     }
@@ -60,10 +58,9 @@ public class PlayerAnimation {
 
     private void setCurrentAnimation() {
         Image image = this.playerImage.getImage(this.player.getState(), 
-                     this.player.getCurrentDirection(), 
-                     this.player.getWeapon().isPresent(), 
-                     this.player.getSwordGuard(),
-                     this.isThePlayerOne);
+                                                this.player.getCurrentDirection(), 
+                                                this.player.getWeapon().isPresent(), 
+                                                this.player.getSwordGuard());
         this.currentAnimation = new EntityImageAnimation(image, 
                                                          playerImage.getNumberOfFrames(player.getState(),
                                                                                        player.getCurrentDirection()), 

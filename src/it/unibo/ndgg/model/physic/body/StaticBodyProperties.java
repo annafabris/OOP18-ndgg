@@ -7,7 +7,7 @@ import it.unibo.ndgg.model.entity.EntityState;
 
 public class StaticBodyProperties extends AbstractBodyProperties {
 
-    public StaticBodyProperties(Body body) {
+    public StaticBodyProperties(final Body body) {
         super(body);
     }
 

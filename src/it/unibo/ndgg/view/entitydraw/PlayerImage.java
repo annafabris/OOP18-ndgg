@@ -41,11 +41,14 @@ public class PlayerImage extends EntityFrameInformationImpl {
         STATE.put(Pair.of(EntityState.DYING, EntityDirection.RIGHT), PlayerFrames.IMAGE_DIE_RIGHT);
     }
 
+    private final boolean isThePlayerOne;
+
     /**
      * Builds a {@link EntityFrameInformationImpl} thats contains the information about a frame.
      */
-    public PlayerImage() {
+    public PlayerImage(final boolean isThePlayerOne) {
         super(FRAME_HEIGHT, FRAME_WIDTH);
+        this.isThePlayerOne = isThePlayerOne;
     }
 
     /**
@@ -71,14 +74,12 @@ public class PlayerImage extends EntityFrameInformationImpl {
      *          true if the player has a weapon, otherwise false
      * @param guard
      *          it is a empty optional if the sword isn't present, otherwise represents the sword guard
-     * @param isThePlayerOne
-     *          true if it is the first player, otherwise false
      * @return
      *          the image that represents one of players with his direction and state
      */
     public Image getImage(final EntityState state, final EntityDirection direction, final boolean hasAWeapon,
-                          final Optional<SwordGuard> guard, final boolean isThePlayerOne) {
-        if (isThePlayerOne) {
+                          final Optional<SwordGuard> guard) {
+        if (this.isThePlayerOne) {
             return new Image(this.getPlayer1Path(state, direction, hasAWeapon, guard));
         } else {
             return new Image(this.getPlayer2Path(state, direction, hasAWeapon, guard));

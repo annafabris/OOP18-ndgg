@@ -5,6 +5,9 @@ package it.unibo.ndgg.view.entitydraw;
  */
 public enum BackgroundFrames {
 
+    /**
+     * Represents the first possible background.
+     */
     BACKGROUND_1("background_1s"),
 
     /**

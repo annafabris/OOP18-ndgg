@@ -1,6 +1,8 @@
 package it.unibo.ndgg.controller;
 
 
+import org.apache.commons.lang3.tuple.MutablePair;
+
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
@@ -26,7 +28,7 @@ public class GameControllerImpl implements GameController {
     public GameControllerImpl(final WorldView view ,final MainController controller) throws Exception {
         this.controller = controller;
         this.view = view;
-        this.gameWorld = new WorldImpl();
+        this.gameWorld = new WorldImpl(new MutablePair<>(1300.0, 600.0));
         game();
     }
 

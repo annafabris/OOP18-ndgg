@@ -12,9 +12,14 @@ import it.unibo.ndgg.model.entity.EntityState;
  */
 public class DynamicBodyProperties extends AbstractBodyProperties {
 
-    protected final Body body;
-    protected EntityState currentState;
+    private final Body body;
+    private EntityState currentState;
 
+    /**
+     * Builds a physical dynamic body.
+     * @param body 
+     *          a physical body
+     */
     public DynamicBodyProperties(final Body body) {
         super(body);
         this.body = body;
@@ -65,5 +70,14 @@ public class DynamicBodyProperties extends AbstractBodyProperties {
      */
     public void changeCurrentState(final EntityState state) {
         this.currentState = state;
+    }
+
+    /**
+     * Returns the physics body.
+     * @return
+     *   the body of the {@link DynamicEntity}
+     */
+    public Body getPhysicalBody() {
+        return this.body;
     }
 }
