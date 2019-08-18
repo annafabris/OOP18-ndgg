@@ -10,6 +10,7 @@ import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.view.entitydraw.BackgroundFrames;
 import it.unibo.ndgg.view.entitydraw.EntityDrawer;
 import it.unibo.ndgg.view.entitydraw.dynamic.PlayerAnimation;
+import it.unibo.ndgg.view.entitydraw.dynamic.SoundsTypes;
 import it.unibo.ndgg.view.entitydraw.dynamic.SwordAnimation;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -112,5 +113,6 @@ public class WorldViewImpl implements WorldView {
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.playerR);
         this.entityDrawer.drawSword(graphicsContext, swordAnimation1, sword1.getState(), this.sword1);
         this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), this.sword2);
+        SoundsTypes.ATTACK.getSound().play();
     }
 }
