@@ -1,4 +1,4 @@
-package it.unibo.ndgg.view.entitydraw;
+package it.unibo.ndgg.view.entitydraw.dynamic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.view.entitydraw.EntityImageAnimation;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 
@@ -16,7 +17,7 @@ import javafx.util.Duration;
  * Represents the animation of the sword, it is used to move the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}
  * in the world.
  */
-public class SwordAnimation {
+public class SwordAnimation implements DynamicAnimation {
 
     private static final int DURATION = 120;
 
@@ -40,9 +41,7 @@ public class SwordAnimation {
     }
 
     /**
-     * Updates the image in the animation.
-     * @return
-     *       the current image of the animation
+     * {@inheritDoc}
      */
     public Image updatePosition() {
         this.changeAnimation(this.sword.getState());
@@ -81,7 +80,7 @@ public class SwordAnimation {
     }
 
     private void setImageMap() {
-        this.swordImage.allPossibleStates().stream()
+        this.swordImage.getAllPossibleStates().stream()
                                            .forEach(key -> this.images.put(key, 
                                                                            this.swordImage.getImage(key.getLeft(), 
                                                                                                     key.getRight())));

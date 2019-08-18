@@ -1,4 +1,4 @@
-package it.unibo.ndgg.view.entitydraw;
+package it.unibo.ndgg.view.entitydraw.dynamic;
 
 /**
  * Represents all sword frames.

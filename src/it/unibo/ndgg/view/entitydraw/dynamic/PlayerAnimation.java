@@ -1,7 +1,8 @@
-package it.unibo.ndgg.view.entitydraw;
+package it.unibo.ndgg.view.entitydraw.dynamic;
 
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
+import it.unibo.ndgg.view.entitydraw.EntityImageAnimation;
 import javafx.animation.Animation;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
@@ -10,7 +11,7 @@ import javafx.util.Duration;
  * Represents the animation of the player, it is used to move the {@link it.unibo.ndgg.model.entity.entitydynamic.Player}
  * in the world.
  */
-public class PlayerAnimation {
+public class PlayerAnimation implements DynamicAnimation {
 
     private static final double DURATION = 0.100;
 
@@ -36,10 +37,9 @@ public class PlayerAnimation {
     }
 
     /**
-     * Updates the image in the animation.
-     * @return image
-     *            this is the image of the animation
+     * {@inheritDoc}
      */
+    @Override
     public Image updatePosition() {
         this.changeAnimation(this.player.getState());
         this.currentAnimation.play();

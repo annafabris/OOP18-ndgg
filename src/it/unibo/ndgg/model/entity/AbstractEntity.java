@@ -8,6 +8,7 @@ import it.unibo.ndgg.model.physic.body.BodyProperties;
  *
  */
 public abstract class AbstractEntity implements Entity {
+
     private final BodyProperties body;
 
     /**

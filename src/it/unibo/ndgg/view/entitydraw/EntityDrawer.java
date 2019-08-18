@@ -8,6 +8,8 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.view.entitydraw.dynamic.PlayerAnimation;
+import it.unibo.ndgg.view.entitydraw.dynamic.SwordAnimation;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
