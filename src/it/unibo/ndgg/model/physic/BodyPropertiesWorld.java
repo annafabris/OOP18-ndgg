@@ -11,7 +11,7 @@ import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
- * An interface for the {@link BodyPropertiesWorldImpl} class.
+ * Represent the World in which the physic of the game takes place.
  */
 public interface BodyPropertiesWorld {
 
@@ -21,58 +21,59 @@ public interface BodyPropertiesWorld {
     void update();
 
     /**
-     * Returns the {@link World} associated with this {@link BodyPropertiesWorld}.
-     * @return {@link World}.
+     * Returns the {@link org.dyn4j.dynamics.World} associated with this {@link BodyPropertiesWorld}.
+     * @return {@link org.dyn4j.dynamics.World}.
      */
     World getWorld();
 
     /**
-     * Puts an association inside this PhysicalWorld between a {@link Body}, its {@link BodyProperties} and its {@link EntityType}.
-     * @param bodyProperties {@link BodyProperties}
-     * @param body {@link Body}
-     * @param type {@link EntityType}
+     * Puts an association inside this PhysicalWorld between a {@link org.dyn4j.dynamics.Body}, its 
+     * {@link it.unibo.ndgg.model.physic.body.BodyProperties} and its {@link it.unibo.ndgg.model.entity.EntityType}.
+     * @param bodyProperties {@link it.unibo.ndgg.model.physic.body.BodyProperties}
+     * @param body {@link org.dyn4j.dynamics.Body}
+     * @param type {@link it.unibo.ndgg.model.entity.EntityType}
      */
     void putPhysicalBodyToBody(BodyProperties bodyProperties, Body body, EntityType type);
 
     /**
-     * Returns the {@link Player} associated with the correct {@link Player}.
-     * @param body {@link Body}
-     * @return {@link Sword}
+     * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Player} associated with the correct {@link org.dyn4j.dynamics.Body}.
+     * @param body {@link org.dyn4j.dynamics.Body}
+     * @return {@link it.unibo.ndgg.model.entity.entitydynamic.Player}
      */
     Player getPlayerFromBody(Body body);
 
     /**
-     * Returns the {@link Sword} associated with the correct {@link Body}.
-     * @param body {@link Body}
-     * @return {@link Sword}
+     * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword} associated with the correct {@link org.dyn4j.dynamics.Body}.
+     * @param body {@link org.dyn4j.dynamics.Body}
+     * @return {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}
      */
     Sword getSwordFromBody(Body body);
 
     /**
-     * Returns the {@link Door} given its {@link Body}.
-     * @param body {@link Body}
-     * @return {@link Door}
+     * Returns the {@link it.unibo.ndgg.model.entity.entitystatic.Door} given its {@link org.dyn4j.dynamics.Body}.
+     * @param body {@link org.dyn4j.dynamics.Body}
+     * @return {@link it.unibo.ndgg.model.entity.entitystatic.Door}
      */
     Door getDoorFromBody(Body body);
 
     /**
-     * Returns the {@link Platform} given its {@link Body}.
-     * @param body {@link Body}
-     * @return {@link Platform}
+     * Returns the {@link it.unibo.ndgg.model.entity.entitystatic.Platform} given its {@link org.dyn4j.dynamics.Body}.
+     * @param body {@link org.dyn4j.dynamics.Body}
+     * @return {@link it.unibo.ndgg.model.entity.entitystatic.Platform}
      */
     Platform getPlatformFromBody(Body body);
 
     /**
-     * Returns the right {@link EntityType} given its {@link Body}.
-     * @param body {@link Body}
-     * @return {@link EntityType}
+     * Returns the right {@link it.unibo.ndgg.model.entity.EntityType} given its {@link org.dyn4j.dynamics.Body}.
+     * @param body {@link org.dyn4j.dynamics.Body}
+     * @return {@link it.unibo.ndgg.model.entity.EntityType}
      */
     EntityType getEntityTypeFromBody(Body body);
 
     /**
-     * Returns the {@link BodyProperties} given its {@link Body}.
-     * @param body {@link Body}
-     * @return {@link BodyProperties}
+     * Returns the {@link it.unibo.ndgg.model.physic.body.BodyProperties} given its {@link org.dyn4j.dynamics.Body}.
+     * @param body {@link org.dyn4j.dynamics.Body}
+     * @return {@link it.unibo.ndgg.model.physic.body.BodyProperties}
      */
     BodyProperties getBodyPropertiesFromBody(Body body);
 }

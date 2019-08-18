@@ -17,10 +17,11 @@ import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 
-//TODO potrebbe essere classe locale a BodyPropertiesWorldImp ? ANNA
 /**
- * A class that contains all the associations between the {@link Body}, {@link BodyProperties} and {@link AbstractEntity}.
- * {@link EntityType} is memorized to get the correct implementations of {@link BodyProperties}
+ * A class that contains all the associations between the {@link org.dyn4j.dynamics.Body}, 
+ * {@link it.unibo.ndgg.model.physic.body.BodyProperties} and {@link it.unibo.ndgg.model.entity.AbstractEntity}.
+ * {@link it.unibo.ndgg.model.entity.EntityType} is memorized to get the correct implementations of 
+ * {@link it.unibo.ndgg.model.physic.body.BodyProperties}.
  */
 public class BodyAssociations {
 
@@ -28,62 +29,74 @@ public class BodyAssociations {
     private Map<Body, Pair<EntityType, BodyProperties>> bodyToPropertiesAssociation = new HashMap<>();
 
     /**
-     * {@inheritDoc}
+     * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}.
+     * @param body the {@link org.dyn4j.dynamics.Body}
+     * @return the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}
      */
     public Sword getSword(final Body body) {
         return (Sword) getEntity(this.entities.get(EntityType.SWORD), getBodyProperties(body));
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Player}.
+     * @param body the {@link org.dyn4j.dynamics.Body}
+     * @return the {@link it.unibo.ndgg.model.entity.entitydynamic.Player}
      */
     public Player getPlayer(final Body body) {
         return (Player) getEntity(this.entities.get(EntityType.PLAYER), getBodyProperties(body));
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the {@link it.unibo.ndgg.model.entity.entitystatic.Door}.
+     * @param body the {@link org.dyn4j.dynamics.Body}
+     * @return the {@link it.unibo.ndgg.model.entity.entitystatic.Door}
      */
     public Door getDoor(final Body body) {
         return (Door) getEntity(this.entities.get(EntityType.DOOR), getBodyProperties(body));
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * Returns the {@link it.unibo.ndgg.model.entity.entitystatic.Platform}.
+     * @param body the {@link org.dyn4j.dynamics.Body}
+     * @return the {@link it.unibo.ndgg.model.entity.entitystatic.Platform}
+     */
     public Platform getPlatform(final Body body) {
         return (Platform) getEntity(this.entities.get(EntityType.PLATFORM), getBodyProperties(body));
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the {@link it.unibo.ndgg.model.entity.EntityType}.
+     * @param body the {@link org.dyn4j.dynamics.Body}
+     * @return the {@link it.unibo.ndgg.model.entity.EntityType}
      */
     public EntityType getEntityType(final Body body) {
         return this.bodyToPropertiesAssociation.get(body).getLeft();
     }
 
     /**
-     * Sets one association between {@link Body}, {@link BodyProperties} and {@link EntityType}.
-     * @param body {@link Body}
-     * @param bodyProperties {@link BodyProperties}
-     * @param entityType {@link EntityType}
+     * Sets one association between {@link org.dyn4j.dynamics.Body}, {@link it.unibo.ndgg.model.physic.body.BodyProperties} and 
+     * {@link it.unibo.ndgg.model.entity.EntityType}.
+     * @param body {@link org.dyn4j.dynamics.Body}
+     * @param bodyProperties {@link it.unibo.ndgg.model.physic.body.BodyProperties}
+     * @param entityType {@link it.unibo.ndgg.model.entity.EntityType}
      */
     public void setBodyProperties(final Body body, final BodyProperties bodyProperties, final EntityType entityType) {
         this.bodyToPropertiesAssociation.put(body, new MutablePair<>(entityType, bodyProperties));
     }
 
     /**
-     * Sets the Map consisting of an association between the {@link EntityType} and a list of {@link AbstractEntity}.
-     * @param entities
+     * Sets the Map consisting of an association between the {@link it.unibo.ndgg.model.entity.EntityType} and a list of 
+     * {@link it.unibo.ndgg.model.entity.AbstractEntity}.
+     * @param entities the list of all the {@link it.unibo.ndgg.model.entity.AbstractEntity}
      */
     public void setEntities(final Map<EntityType, List<AbstractEntity>> entities) {
         this.entities = entities;
     }
 
     /**
-     * Returns the {@link BodyProperties} given its {@link Body}.
-     * @param body {@link Body}
-     * @return {@link BodyProperties}
+     * Returns the {@link it.unibo.ndgg.model.physic.body.BodyProperties} given its {@link org.dyn4j.dynamics.Body}.
+     * @param body {@link org.dyn4j.dynamics.Body}
+     * @return {@link it.unibo.ndgg.model.physic.body.BodyProperties}
      */
     public BodyProperties getBodyProperties(final Body body) {
         return this.bodyToPropertiesAssociation.get(body).getRight();
@@ -91,10 +104,11 @@ public class BodyAssociations {
 
 
     /**
-     * Return the {@link AbstractEntity} given the entities list and the right {@link AbstractEntity}.
+     * Return the {@link it.unibo.ndgg.model.entity.AbstractEntity} given the entities list and the right 
+     * {@link it.unibo.ndgg.model.entity.AbstractEntity}.
      * @param entity the list of all the entities (of only one type)
-     * @param bodyProperties {@link BodyProperties}
-     * @return {@link AbstractEntity}
+     * @param bodyProperties {@link it.unibo.ndgg.model.physic.body.BodyProperties}
+     * @return {@link it.unibo.ndgg.model.entity.AbstractEntity}
      */
     private AbstractEntity getEntity(final List<AbstractEntity> entity, final BodyProperties bodyProperties) {
         entity.stream().filter(i -> i.getBody().equals(bodyProperties)).collect(Collectors.toList());

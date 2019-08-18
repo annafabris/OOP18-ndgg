@@ -9,8 +9,7 @@ import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.world.WorldImpl;
 
 /**
- * Adjunctive tests over the creation of {@link it.unibo.jmpcoon.model.physics.PhysicalBody}s not covered into the
- * {@link StaticPhysicalBodyCreationTest} and the {@link DynamicPhysicalBodyCreationTest} tests.
+ * Test the correct creation of all the {@link BodyProperties} with the {@link BodyPropertiesFactory}.
  */
 public class BodyPropertiesCreationTest {
     private static final double WORLD_WIDTH = 960;
