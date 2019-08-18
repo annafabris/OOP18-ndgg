@@ -115,7 +115,7 @@ public class BodyPropertiesFactory {
                 throw new IllegalStateException("Static EntityType Does not exist");
         }
         final StaticBodyProperties staticBody = new StaticBodyProperties(body);
-        this.physicalWorld.putPhysicalBodyToBody(staticBody, body, EntityType.SWORD);
+        this.physicalWorld.putPhysicalBodyToBody(staticBody, body, type);
         return staticBody;
     }
 
