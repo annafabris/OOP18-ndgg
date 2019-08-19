@@ -61,7 +61,7 @@ public class ViewImpl implements View {
     public Pair<Double, Double> getViewDimension() {
         return new MutablePair<>(this.stage.getWidth(), this.stage.getHeight());
     }
-    
+
     /**
      * Set the size of the stage depending on the visual bounds of the primary screen.
      */

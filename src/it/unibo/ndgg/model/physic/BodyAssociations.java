@@ -112,8 +112,10 @@ public class BodyAssociations {
      */
     private AbstractEntity getEntity(final List<AbstractEntity> entity, final BodyProperties bodyProperties) {
         List<AbstractEntity> abstractEntity = entity.stream().filter(i -> i.getBody().equals(bodyProperties)).collect(Collectors.toList());
-        System.out.println(entity.size());
-        System.out.println(abstractEntity.size());
+        System.out.println(entity.get(0).getDimension());
+       // System.out.println(entity.get(1).getDimension());
+        //System.out.println(bodyProperties.getDimension());
+        System.out.println("Ciao");
         if (abstractEntity.size() != 1) {
             throw new IllegalStateException("The right BodyProperty is not present in Sword");
         } else {

@@ -7,6 +7,7 @@ import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.view.entitydraw.BackgroundFrames;
 import it.unibo.ndgg.view.entitydraw.EntityDrawer;
 import it.unibo.ndgg.view.entitydraw.dynamic.PlayerAnimation;
@@ -36,6 +37,7 @@ public class WorldViewImpl implements WorldView {
     private SwordAnimation swordAnimation2;
     private Player playerL;
     private Player playerR;
+    private Platform platform;
     private Sword sword1;
     private Sword sword2;
     private GraphicsContext graphicsContext;
@@ -55,6 +57,7 @@ public class WorldViewImpl implements WorldView {
     @Override
     public void startGame(GameControllerImpl gameControllerImpl) {
         this.gameControllerImpl = gameControllerImpl;
+        this.platform = this.gameControllerImpl.getPlatform();
         this.playerL = this.gameControllerImpl.getPlayer(0);
         this.playerR = this.gameControllerImpl.getPlayer(1);
         this.playerAnimation1 = new PlayerAnimation(true, playerL);
@@ -106,7 +109,7 @@ public class WorldViewImpl implements WorldView {
     private void draw() {
         double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
         this.entityDrawer.drawBackground(this.graphicsContext);
-        this.entityDrawer.drawMainPlatform(graphicsContext);
+        this.entityDrawer.drawMainPlatform(graphicsContext, platform);
         this.entityDrawer.drawDoors(graphicsContext);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, this.playerL);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.playerR);

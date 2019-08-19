@@ -62,10 +62,13 @@ public abstract class AbstractBodyProperties implements BodyProperties {
         final double width = ((Rectangle) rectangle).getWidth();
         final double height = ((Rectangle) rectangle).getHeight();
 
-        return Pair.of(height, width);
+        return Pair.of(width, height);
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

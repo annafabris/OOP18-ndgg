@@ -110,6 +110,7 @@ public class BodyPropertiesFactory {
                 body = createBody(position, width, height, filter);
                 body.setMass(MassType.INFINITE);
                 body.getFixture(0).setFriction(0.25);
+                body.shift(new Vector2(0.0, -50));
                 break;
             default:
                 throw new IllegalStateException("Static EntityType Does not exist");

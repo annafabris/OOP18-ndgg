@@ -1,12 +1,12 @@
 package it.unibo.ndgg.controller;
 
-import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.world.World;
 import it.unibo.ndgg.model.world.WorldImpl;
 import it.unibo.ndgg.view.WorldView;
@@ -107,6 +107,10 @@ public class GameControllerImpl implements GameController {
      */
     public Sword getSword(final int swordId) {
         return this.gameWorld.getSword(swordId);
+    }
+
+    public Platform getPlatform() {
+        return this.gameWorld.getPlatform();
     }
 
 }

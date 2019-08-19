@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.view.entitydraw.dynamic.PlayerAnimation;
 import it.unibo.ndgg.view.entitydraw.dynamic.SwordAnimation;
 import javafx.scene.canvas.GraphicsContext;
@@ -59,9 +60,10 @@ public class EntityDrawer {
     /**
      * Draws the {@link it.unibo.ndgg.model.entity.entitystatic.Platfom}.
      * @param graphicsContext {@link javafx.scene.canvas.GraphicsContext}
+     * @param platform
      */
-    public void drawMainPlatform(final GraphicsContext graphicsContext) {
-        for (int i = 0; i <= TILES_COLUMN_NUMBER; i++) {
+    public void drawMainPlatform(final GraphicsContext graphicsContext, final Platform platform) {
+       /* for (int i = 0; i <= TILES_COLUMN_NUMBER; i++) {
             graphicsContext.drawImage(this.images.get(1), -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
                     / (TILES_COLUMN_NUMBER - 1), PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight + 3 * this.images.get(1).getHeight());
             graphicsContext.drawImage(this.images.get(1), -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
@@ -70,7 +72,12 @@ public class EntityDrawer {
                     / (TILES_COLUMN_NUMBER - 1), PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight + 2 * this.images.get(1).getHeight());
             graphicsContext.drawImage(this.images.get(0), -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
                     / (TILES_COLUMN_NUMBER - 1), (PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight));
-        }
+        }*/
+       graphicsContext.drawImage(new Image("images/staticEntity/FullPlatform.png"), 
+                                 platform.getPosition().getLeft(),
+                                 platform.getPosition().getRight(),
+                                 platform.getDimension().getLeft(),
+                                 platform.getDimension().getRight());
     }
 
     /**
@@ -104,8 +111,10 @@ public class EntityDrawer {
         graphicsContext.drawImage(playerAnimation.updatePosition(), 
                                   player.getPosition().getLeft(),
                                   player.getPosition().getRight(),
-                                  PLAYER_WIDTH_PERCENTAGE * this.worldWidth, 
-                                  PLAYER_HEIGHT_PERCENTAGE * this.worldHeight);
+                                  player.getDimension().getLeft(),
+                                  player.getDimension().getRight());
+                                  //PLAYER_WIDTH_PERCENTAGE * this.worldWidth, 
+                                  //PLAYER_HEIGHT_PERCENTAGE * this.worldHeight);
     }
 
     /**

@@ -73,8 +73,8 @@ public class CollisionRules extends CollisionAdapter {
                 door = this.worldProperties.getDoorFromBody(firstTriple.getLeft());
             }
             return this.processPlayerDoorCollision(player, door);
-        } else if (firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.SWORD 
-                  || firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLAYER) {//verificare come fare nel caso in cui un giocatore con una spada in mano faccia costantemente collisioni.
+        } else if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.SWORD) 
+                  || (firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLAYER)) {//verificare come fare nel caso in cui un giocatore con una spada in mano faccia costantemente collisioni.
             final Player player;
             final Sword sword;
             if (firstTriple.getRight() == EntityType.PLAYER) {
@@ -187,9 +187,7 @@ public class CollisionRules extends CollisionAdapter {
      */
     private boolean processSwordPlatformCollision(final Sword sword, final Platform platform) {
         this.outerWorld.notifyCollision(CollisionResult.SWORDONTHEGROUND);
-        if (sword.getCurrentDirection() == EntityDirection.LEFT) {
-            sword.changeEntityState(EntityState.STAYING_STILL);
-        }
+        sword.changeEntityState(EntityState.STAYING_STILL);
         return true;
     }
 

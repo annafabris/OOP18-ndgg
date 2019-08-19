@@ -142,17 +142,29 @@ public class WorldImpl implements World {
      * {@inheritDoc}
      */
     @Override
+    public Platform getPlatform() {
+        return (Platform) this.entities.get(EntityType.PLATFORM).get(0);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void movePlayer(final EntityMovement movement, final int playerId) {
         Player player1 = getPlayer(playerId);
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
-        System.out.println("df " + player1.getPosition() + "");
+        //System.out.println("df " + player1.getPosition() + "");
         Body body1 = player1.getBody().getPhysicalBody();
-        System.out.println("Active: " + body1.isActive());
-        System.out.println("\nAsleep:  " + body1.isAsleep());
-        System.out.println(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
-        System.out.println(this.worldDimension + "de");
+        if (body1.isInContact(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())) {
+            System.out.println("trovato");
+            System.exit(1);
+        }
+        //System.out.println("Active: " + body1.isActive());
+        //System.out.println("\nAsleep:  " + body1.isAsleep());
+        //System.out.println(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
+        //System.out.println(this.worldDimension + "de");
     }
 
     /**
@@ -195,12 +207,12 @@ public class WorldImpl implements World {
      */
     private void createEntities() {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
-        Player playerL = entityFactory.createPlayer(this.worldDimension.getLeft() * PLAYER_HEIGHT_PERCENTAGE, 
-                this.worldDimension.getRight() * PLAYER_WIDTH_PERCENTAGE, new MutablePair<Double, Double>
-            (200.0, 300.0), EntityDirection.RIGHT);
-        Player playerR = entityFactory.createPlayer(this.worldDimension.getLeft() * PLAYER_HEIGHT_PERCENTAGE, 
-                this.worldDimension.getRight() * PLAYER_WIDTH_PERCENTAGE, new MutablePair<>
-            (550.0, 300.0), EntityDirection.LEFT);
+        Player playerL = entityFactory.createPlayer(this.worldDimension.getLeft() * PLAYER_WIDTH_PERCENTAGE, 
+                this.worldDimension.getRight() * PLAYER_HEIGHT_PERCENTAGE, new MutablePair<Double, Double>
+            (200.0, 50.0), EntityDirection.RIGHT);
+        Player playerR = entityFactory.createPlayer(this.worldDimension.getLeft() * PLAYER_WIDTH_PERCENTAGE, 
+                this.worldDimension.getRight() * PLAYER_HEIGHT_PERCENTAGE, new MutablePair<>
+            (550.0, 50.0), EntityDirection.LEFT);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
@@ -211,7 +223,7 @@ public class WorldImpl implements World {
                 .collect(Collectors.toList()));
        entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(this.worldDimension.getRight()/5, 
                 (Double) this.worldDimension.getLeft(), new MutablePair<Double, Double>(
-                 0.0,620.0))).collect(Collectors.toList()));
+                 0.0, 600.0))).collect(Collectors.toList()));
        this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }
