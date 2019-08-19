@@ -26,10 +26,4 @@ public class StaticBodyProperties extends AbstractBodyProperties {
     public Pair<Double, Double> getVelocity() {
         return Pair.of(0.0, 0.0);
     }
-
-    @Override
-    public Body getPhysicalBody() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

@@ -1,6 +1,7 @@
 package it.unibo.ndgg.model.entity.entitydynamic;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityDirection;
@@ -65,8 +66,8 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
                 || movement.getAssociatedEntityState() == EntityState.MOVING) {
 
             final MovementVectorValues movementValue = new MovementVectorValuesImpl();
-            this.body.translate(movement, movementValue.getMovementVector(movement).x, 
-                                    movementValue.getMovementVector(movement).y);
+            final Vector2 vector = movementValue.getMovementVector(movement);
+            this.body.translate(movement, vector.x, vector.y);
         }
     }
 

@@ -67,6 +67,15 @@ public abstract class AbstractBodyProperties implements BodyProperties {
     }
 
     /**
+     * Returns the physics body.
+     * @return
+     *   the body of the {@link DynamicEntity}
+     */
+    public Body getPhysicalBody() {
+        return this.body;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

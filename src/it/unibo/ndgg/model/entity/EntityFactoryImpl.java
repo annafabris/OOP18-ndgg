@@ -27,7 +27,7 @@ public class EntityFactoryImpl implements EntityFactory {
      * {@inheritDoc}
      */
     @Override
-    public Player createPlayer(final Double height, final Double width, 
+    public Player createPlayer(final Double width, final Double height, 
                                final Pair<Double, Double> position, final EntityDirection direction) {
         return new Player(this.body.createDynamicBodyProperties(position, width, height, EntityType.PLAYER), direction);
     }
@@ -36,7 +36,7 @@ public class EntityFactoryImpl implements EntityFactory {
      * {@inheritDoc}
      */
     @Override
-    public Sword createSword(final Double height, final Double width, final Pair<Double, Double> position,
+    public Sword createSword(final Double width, final Double height, final Pair<Double, Double> position,
                               final Player player, final EntityDirection direction) {
         return new Sword(this.body.createDynamicBodyProperties(position, width, height, EntityType.SWORD), player, direction);
     }
@@ -45,7 +45,7 @@ public class EntityFactoryImpl implements EntityFactory {
      * {@inheritDoc}
      */
     @Override
-    public Platform createPlatform(final Double height, final Double width, final Pair<Double, Double> position) {
+    public Platform createPlatform(final Double width, final Double height, final Pair<Double, Double> position) {
         return new Platform(this.body.createStaticBodyProperties(position, width, height, EntityType.PLATFORM));
     }
 

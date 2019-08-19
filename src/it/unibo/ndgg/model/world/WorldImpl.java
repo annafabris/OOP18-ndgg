@@ -212,9 +212,9 @@ public class WorldImpl implements World {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         Player playerL = entityFactory.createPlayer(1.0, 
                 1.0, new MutablePair<Double, Double>
-            (1.0, 1.0), EntityDirection.RIGHT);
+            (7.0, 7.0), EntityDirection.RIGHT);
         Player playerR = entityFactory.createPlayer(1.0, 1.0, new MutablePair<>
-            (5.0, 1.0), EntityDirection.LEFT);
+            (7.0, 1.0), EntityDirection.LEFT);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
@@ -223,8 +223,8 @@ public class WorldImpl implements World {
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
                         this.worldDimension.getRight() * SWORD_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerR, EntityDirection.LEFT))
                 .collect(Collectors.toList()));
-       entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(1.8, 16.0, new MutablePair<Double, Double>(
-                        8.1, 8.0))).collect(Collectors.toList()));
+       entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(16.0, 1.8, new MutablePair<Double, Double>(
+                        8.0, 8.1))).collect(Collectors.toList()));
        this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }

@@ -71,13 +71,4 @@ public class DynamicBodyProperties extends AbstractBodyProperties {
     public void changeCurrentState(final EntityState state) {
         this.currentState = state;
     }
-
-    /**
-     * Returns the physics body.
-     * @return
-     *   the body of the {@link DynamicEntity}
-     */
-    public Body getPhysicalBody() {
-        return this.body;
-    }
 }
