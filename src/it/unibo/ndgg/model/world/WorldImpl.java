@@ -156,6 +156,14 @@ public class WorldImpl implements World {
             player1.move(movement);
         }
         //System.out.println("df " + player1.getPosition() + "");
+        if(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())){
+            System.exit(1);
+        }
+        
+        if (this.bodyPropertiesWorld.getWorld().getBounds().isOutside(this.entities.get(EntityType.PLAYER).get(0).getBody().getPhysicalBody())) {
+            System.out.println("Giocatore fuori");
+            System.exit(1);
+        }
         Body body1 = player1.getBody().getPhysicalBody();
         if (body1.isInContact(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())) {
             System.out.println("trovato");
@@ -212,9 +220,9 @@ public class WorldImpl implements World {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         Player playerL = entityFactory.createPlayer(1.0, 
                 1.0, new MutablePair<Double, Double>
-            (7.0, 7.0), EntityDirection.RIGHT);
+            (-2.0, -3.0), EntityDirection.RIGHT);
         Player playerR = entityFactory.createPlayer(1.0, 1.0, new MutablePair<>
-            (7.0, 1.0), EntityDirection.LEFT);
+            (-2.0, -3.0), EntityDirection.LEFT);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
@@ -224,7 +232,7 @@ public class WorldImpl implements World {
                         this.worldDimension.getRight() * SWORD_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerR, EntityDirection.LEFT))
                 .collect(Collectors.toList()));
        entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(16.0, 1.8, new MutablePair<Double, Double>(
-                        8.0, 8.1))).collect(Collectors.toList()));
+                        -8.0, -3.6))).collect(Collectors.toList()));
        this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }
