@@ -77,8 +77,8 @@ public class EntityDrawer {
         System.out.println(platform.getPosition().getLeft() + " r " + platform.getPosition().getRight());
         System.out.println(platform.getDimension().getLeft() + " r " + platform.getDimension().getRight());
        graphicsContext.drawImage(new Image("images/staticEntity/FullPlatform.png"), 
-                                 (platform.getPosition().getLeft() + 8 )* 85.3  /*- (platform.getDimension().getLeft()+4.5) * 85.3/ 2.0*/,
-                                 (1.8*85.3)*4,
+                                 Math.abs(platform.getPosition().getLeft()* 85.3) ,
+                                 Math.abs(platform.getPosition().getRight()*85.3 - (platform.getDimension().getRight()+4.5) * 85.3/ 2.0),
                                  platform.getDimension().getLeft() * 85.3 ,
                                  platform.getDimension().getRight() * 85.3);
     }
@@ -112,8 +112,8 @@ public class EntityDrawer {
     */
     public void drawPlayer(final GraphicsContext graphicsContext, final PlayerAnimation playerAnimation, final Player player) {
         graphicsContext.drawImage(playerAnimation.updatePosition(), 
-                                  (player.getPosition().getLeft()+8) * 85.3 /*- (player.getDimension().getLeft())* 85.3/2.0*/,
-                                  (player.getPosition().getRight()+4.5) * 85.3 - (player.getDimension().getRight())* 85.3/2.0,
+                                  (player.getPosition().getLeft()+8) * 85.3 - (player.getDimension().getLeft())* 85.3/2.0,
+                                 (player.getPosition().getRight()+4.5) * 85.3 - (player.getDimension().getRight())* 85.3/2.0,
                                   player.getDimension().getLeft()* 85.3,
                                   player.getDimension().getRight()* 85.3);
                                   //PLAYER_WIDTH_PERCENTAGE * this.worldWidth, 

@@ -73,8 +73,8 @@ public class GameControllerImpl implements GameController {
                             //gameWorld.movePlayer(EntityMovement.DIE_LEFT, 1);
                             //gameWorld.moveSword(EntityMovement.THROW_RIGHT, 0);
                         } else {
-                            gameWorld.movePlayer(EntityMovement.MOVE_RIGHT, 0);
-                            gameWorld.movePlayer(EntityMovement.MOVE_LEFT, 1);
+                            //gameWorld.movePlayer(EntityMovement.MOVE_RIGHT, 0);
+                            //gameWorld.movePlayer(EntityMovement.MOVE_LEFT, 1);
                         }
                         i++;
                         //TODO muovi giocatore e/o spada

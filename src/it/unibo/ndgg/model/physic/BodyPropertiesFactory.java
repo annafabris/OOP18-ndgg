@@ -111,6 +111,7 @@ public class BodyPropertiesFactory {
                 body = createBody(position, width, height, filter);
                 body.setMass(MassType.INFINITE);
                 body.getFixture(0).setFriction(0.25);
+                body.getFixture(0).setDensity(40000000);
                 //body.shift(new Vector2(0.0, -50));
                 break;
             default:
@@ -135,6 +136,7 @@ public class BodyPropertiesFactory {
         body.translate(new Vector2(position.getLeft(), position.getRight()));
         body.setMass(MassType.FIXED_ANGULAR_VELOCITY);
         body.getFixture(0).setFilter(filter);
+        body.getFixture(0).setRestitution(0);
         this.physicalWorld.getWorld().addBody(body);
         return body;
     }

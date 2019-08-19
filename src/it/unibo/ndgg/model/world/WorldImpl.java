@@ -75,6 +75,17 @@ public class WorldImpl implements World {
     public void update() {
         this.rooms.get(this.currentRoom).update();
         this.bodyPropertiesWorld.update();
+        Player player1 = getPlayer(0);
+        System.out.println("df " + player1.getPosition() + "");
+        if(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())){
+            System.exit(1);
+        }
+
+        Body body1 = player1.getBody().getPhysicalBody();
+        if (body1.isInContact(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())) {
+            System.out.println("trovato");
+            //System.exit(1);
+        }
         //TODO se volete posso rimuovere le spade qui
     }
 
@@ -155,26 +166,13 @@ public class WorldImpl implements World {
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
-        //System.out.println("df " + player1.getPosition() + "");
-        if(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())){
-            System.exit(1);
-        }
-        
-        if (this.bodyPropertiesWorld.getWorld().getBounds().isOutside(this.entities.get(EntityType.PLAYER).get(0).getBody().getPhysicalBody())) {
-            System.out.println("Giocatore fuori");
-            System.exit(1);
-        }
-        Body body1 = player1.getBody().getPhysicalBody();
-        if (body1.isInContact(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())) {
-            System.out.println("trovato");
-            System.exit(1);
-        }
+    
         if (playerId == 1) {
             System.out.println(player1.getPosition() + " dddsfds");
         }
         //System.out.println("Active: " + body1.isActive());
         //System.out.println("\nAsleep:  " + body1.isAsleep());
-        System.out.println("Outside: "+this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
+        //System.out.println("Outside: "+this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
         //System.out.println(this.worldDimension + "de");
     }
 
@@ -220,19 +218,19 @@ public class WorldImpl implements World {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         Player playerL = entityFactory.createPlayer(1.0, 
                 1.0, new MutablePair<Double, Double>
-            (-2.0, -3.0), EntityDirection.RIGHT);
-        Player playerR = entityFactory.createPlayer(1.0, 1.0, new MutablePair<>
-            (-2.0, -3.0), EntityDirection.LEFT);
-        entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
+            (5.0, 1.0), EntityDirection.RIGHT);
+        /*Player playerR = entityFactory.createPlayer(1.0, 1.0, new MutablePair<>
+            (1.0, -3.0), EntityDirection.LEFT);*/
+        entities.put(EntityType.PLAYER, Stream.of(playerL/*, playerR*/).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
                         this.worldDimension.getRight() * PLAYER_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerL, 
-                        EntityDirection.RIGHT), 
-                (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
+                        EntityDirection.RIGHT))/*,*/ 
+                /*(Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
                         this.worldDimension.getRight() * SWORD_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerR, EntityDirection.LEFT))
-                .collect(Collectors.toList()));
+                */.collect(Collectors.toList()));
        entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(16.0, 1.8, new MutablePair<Double, Double>(
-                        -8.0, -3.6))).collect(Collectors.toList()));
+                        0.0, -3.6))).collect(Collectors.toList()));
        this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }

@@ -104,7 +104,7 @@ public class CollisionRules extends CollisionAdapter {
             sword2 = this.worldProperties.getSwordFromBody(secondTriple.getLeft());
             return this.processSwordSwordCollision(sword1, sword2);
     }
-        return false;
+        return true;
     }
 
     /**
