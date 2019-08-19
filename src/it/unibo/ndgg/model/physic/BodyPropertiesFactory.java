@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.Body;
+import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.MassType;
@@ -51,7 +52,7 @@ public class BodyPropertiesFactory {
      * @return {@link BodyPropertiesWorld}
      */
     public BodyPropertiesWorld createBodyPropertiesWorld(final WorldImpl world, final double width, final double height, final BodyAssociations bodyAssociations) {
-        this.physicalWorld = new BodyPropertiesWorldImpl(world, new org.dyn4j.dynamics.World(new AxisAlignedBounds(width, height)), bodyAssociations);
+        this.physicalWorld = new BodyPropertiesWorldImpl(world, new org.dyn4j.dynamics.World(new AxisAlignedBounds(16, 9)), bodyAssociations);
         return this.physicalWorld;
     }
  
@@ -71,11 +72,11 @@ public class BodyPropertiesFactory {
             body.getFixture(0).setFriction(0.25);
             body.getFixture(0).setDensity(80);
             body.setGravityScale(1);
+
             System.out.println("d " + body.isActive());
             System.out.println("d " + body.isAsleep());
             //System.out.println("d " + body.isInContact(arg0));
             body.setLinearDamping(0.5);
-            body.setGravityScale(100);
             body.setMass(MassType.FIXED_ANGULAR_VELOCITY);
         } else if (type == EntityType.SWORD) {
             body = createBody(position, width, height, SWORD_FILTER);
@@ -110,7 +111,7 @@ public class BodyPropertiesFactory {
                 body = createBody(position, width, height, filter);
                 body.setMass(MassType.INFINITE);
                 body.getFixture(0).setFriction(0.25);
-                body.shift(new Vector2(0.0, -50));
+                //body.shift(new Vector2(0.0, -50));
                 break;
             default:
                 throw new IllegalStateException("Static EntityType Does not exist");

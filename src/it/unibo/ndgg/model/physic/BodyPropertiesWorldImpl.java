@@ -29,7 +29,7 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
 
     public BodyPropertiesWorldImpl(WorldImpl worldImpl, org.dyn4j.dynamics.World world, BodyAssociations bodyAssociations) {
         this.world = world;
-        this.world.shift(new Vector2(0, 168));
+        //this.world.shift(new Vector2(0, 168));
         this.world.setGravity(new Vector2(0, 9.81));
         this.worldImpl = worldImpl;
         this.bodyAssociation = bodyAssociations;

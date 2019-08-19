@@ -161,9 +161,12 @@ public class WorldImpl implements World {
             System.out.println("trovato");
             System.exit(1);
         }
+        if (playerId == 1) {
+            System.out.println(player1.getPosition() + " dddsfds");
+        }
         //System.out.println("Active: " + body1.isActive());
         //System.out.println("\nAsleep:  " + body1.isAsleep());
-        //System.out.println(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
+        System.out.println("Outside: "+this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
         //System.out.println(this.worldDimension + "de");
     }
 
@@ -207,12 +210,11 @@ public class WorldImpl implements World {
      */
     private void createEntities() {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
-        Player playerL = entityFactory.createPlayer(this.worldDimension.getLeft() * PLAYER_WIDTH_PERCENTAGE, 
-                this.worldDimension.getRight() * PLAYER_HEIGHT_PERCENTAGE, new MutablePair<Double, Double>
-            (200.0, 50.0), EntityDirection.RIGHT);
-        Player playerR = entityFactory.createPlayer(this.worldDimension.getLeft() * PLAYER_WIDTH_PERCENTAGE, 
-                this.worldDimension.getRight() * PLAYER_HEIGHT_PERCENTAGE, new MutablePair<>
-            (550.0, 50.0), EntityDirection.LEFT);
+        Player playerL = entityFactory.createPlayer(1.0, 
+                1.0, new MutablePair<Double, Double>
+            (1.0, 1.0), EntityDirection.RIGHT);
+        Player playerR = entityFactory.createPlayer(1.0, 1.0, new MutablePair<>
+            (5.0, 1.0), EntityDirection.LEFT);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
@@ -221,9 +223,8 @@ public class WorldImpl implements World {
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
                         this.worldDimension.getRight() * SWORD_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerR, EntityDirection.LEFT))
                 .collect(Collectors.toList()));
-       entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(this.worldDimension.getRight()/5, 
-                (Double) this.worldDimension.getLeft(), new MutablePair<Double, Double>(
-                 0.0, 600.0))).collect(Collectors.toList()));
+       entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(1.8, 16.0, new MutablePair<Double, Double>(
+                        8.1, 8.0))).collect(Collectors.toList()));
        this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }

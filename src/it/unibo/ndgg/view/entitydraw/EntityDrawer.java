@@ -73,11 +73,14 @@ public class EntityDrawer {
             graphicsContext.drawImage(this.images.get(0), -PLATFORM_SHIFT_PERCENTAGE * this.worldWidth + this.worldWidth * i 
                     / (TILES_COLUMN_NUMBER - 1), (PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight));
         }*/
+        
+        System.out.println(platform.getPosition().getLeft() + " r " + platform.getPosition().getRight());
+        System.out.println(platform.getDimension().getLeft() + " r " + platform.getDimension().getRight());
        graphicsContext.drawImage(new Image("images/staticEntity/FullPlatform.png"), 
-                                 platform.getPosition().getLeft(),
-                                 platform.getPosition().getRight(),
-                                 platform.getDimension().getLeft(),
-                                 platform.getDimension().getRight());
+                                 platform.getPosition().getLeft() * 85.3  - platform.getDimension().getLeft() * 85.3/ 2.0,
+                                 platform.getPosition().getRight() * 85.3  - platform.getDimension().getRight() * 85.3/ 2.0,
+                                 platform.getDimension().getLeft() * 85.3 ,
+                                 platform.getDimension().getRight() * 85.3);
     }
 
     /**
@@ -109,10 +112,10 @@ public class EntityDrawer {
     */
     public void drawPlayer(final GraphicsContext graphicsContext, final PlayerAnimation playerAnimation, final Player player) {
         graphicsContext.drawImage(playerAnimation.updatePosition(), 
-                                  player.getPosition().getLeft(),
-                                  player.getPosition().getRight(),
-                                  player.getDimension().getLeft(),
-                                  player.getDimension().getRight());
+                                  player.getPosition().getLeft() * 85.3 - player.getDimension().getLeft()* 85.3/2.0,
+                                  player.getPosition().getRight() * 85.3 - player.getDimension().getRight()* 85.3/2.0,
+                                  player.getDimension().getLeft()* 85.3,
+                                  player.getDimension().getRight()* 85.3);
                                   //PLAYER_WIDTH_PERCENTAGE * this.worldWidth, 
                                   //PLAYER_HEIGHT_PERCENTAGE * this.worldHeight);
     }
