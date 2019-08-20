@@ -37,12 +37,16 @@ public class WorldImpl implements World {
     private static final double SWORD_WIDTH = 0.3;
     private static final double PLATFORM_HEIGHT = 1.8;
     private static final double PLATFORM_WIDTH = 16;
+    private static final double DOOR_HEIGHT = 2;
+    private static final double DOOR_WIDTH = 2;
     private static final double PLAYER_X_POSITIOON = 5.0;
     private static final double PLAYER_Y_POSITIOON = -2.3;
     private static final double SWORD_X_POSITIOON = 5.0;
     private static final double SWORD_Y_POSITIOON = -2.3;
     private static final double PLATFORM_X_POSITIOON = 0.0;
     private static final double PLATFORM_Y_POSITIOON = -3.6;
+    private static final double DOOR_X_POSITIOON = 6.0;
+    private static final double DOOR_Y_POSITIOON = -1.5;
     private static final int NUMBER_OF_ROOMS = 3;
     private List<Room> rooms = new ArrayList<Room>();
     private int currentRoom;
@@ -169,8 +173,8 @@ public class WorldImpl implements World {
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
-        System.out.println("posizione " + playerId + " " + player1.getPosition());
-        System.out.println("dimensione " + playerId + " " + player1.getDimension());
+        //System.out.println("posizione " + playerId + " " + player1.getPosition());
+        //System.out.println("dimensione " + playerId + " " + player1.getDimension());
         //System.out.println("Active: " + body1.isActive());
         //System.out.println("\nAsleep:  " + body1.isAsleep());
         //System.out.println("Outside: "+this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
@@ -227,8 +231,11 @@ public class WorldImpl implements World {
                 (Sword) entityFactory.createSword(SWORD_WIDTH, SWORD_HEIGHT, new MutablePair<>(
                                 SWORD_X_POSITIOON, -SWORD_Y_POSITIOON), playerR, EntityDirection.LEFT))
                 .collect(Collectors.toList()));
-       entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
+       entities.put(EntityType.PLATFORM, Stream.of((Platform) entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
                PLATFORM_X_POSITIOON, PLATFORM_Y_POSITIOON))).collect(Collectors.toList()));
+       entities.put(EntityType.DOOR, (Stream.of((Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
+               -DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerR), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
+                       DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL)).collect(Collectors.toList())));
        this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }
