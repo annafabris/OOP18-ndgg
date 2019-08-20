@@ -122,26 +122,20 @@ public class GameControllerImpl implements GameController {
     }
 
     private void handle(final SimpleInput i, final PlayerID player) {
-        Command command;
         if (i.equals(SimpleInput.CHANGE_GUARD)) {
-            command = new ChangeGuard(gameWorld);
-            command.execute(player);
+            gameWorld.changeGuard(player);
         }
         if (i.equals(SimpleInput.LEFT)) {
-            command = new MoveLeft(gameWorld);
-            command.execute(player);
+            gameWorld.movePlayerLeft(player);
         }
         if (i.equals(SimpleInput.RIGHT)) {
-            command = new MoveRight(gameWorld);
-            command.execute(player);
+            gameWorld.movePlayerRight(player);
         }
         if (i.equals(SimpleInput.JUMP)) {
-            command = new Jump(gameWorld);
-            command.execute(player);
+            gameWorld.jumpPlayer(player);
         }
         if (i.equals(SimpleInput.THROW)) {
-            command = new Throw(gameWorld);
-            command.execute(player);
+            gameWorld.throwSword(player);
         }
     }
 
