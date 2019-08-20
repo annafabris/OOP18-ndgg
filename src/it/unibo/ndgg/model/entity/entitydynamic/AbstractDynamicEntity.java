@@ -67,7 +67,7 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
 
             final MovementVectorValues movementValue = new MovementVectorValuesImpl();
             final Vector2 vector = movementValue.getMovementVector(movement);
-            this.body.translate(movement, vector.x, vector.y);
+            this.body.applyImpulse(movement, vector.x, vector.y);
         }
     }
 

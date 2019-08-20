@@ -48,10 +48,22 @@ public class DynamicBodyProperties extends AbstractBodyProperties {
      * @param x the horizontal component of the movement to apply
      * @param y the vertical component of the movement to apply
      */
-    public void translate(final EntityMovement entityMovement, final double x, final double y) {
+    public void applyImpulse(final EntityMovement entityMovement, final double x, final double y) {
         this.currentState = entityMovement.getAssociatedEntityState();
         this.body.applyImpulse(new Vector2(x, y));
     }
+    
+    /**
+     * Translate the {@link org.dyn4j.dynamics.Body}.
+     * @param entityMovement the {@link it.unibo.ndgg.model.entity.EntityState} necessary to change the current state
+     * @param x the horizontal component of the movement to apply
+     * @param y the vertical component of the movement to apply
+     */
+    public void translate(final EntityMovement entityMovement, final double x, final double y) {
+        this.currentState = entityMovement.getAssociatedEntityState();
+        this.body.translate(new Vector2(x, y));
+    }
+
 
     /**
      * Set the {@link org.dyn4j.dynamics.Body} velocity.
