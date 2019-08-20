@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.dyn4j.dynamics.Body;
 
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.collision.CollisionResult;
@@ -18,7 +17,6 @@ import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityFactory;
 import it.unibo.ndgg.model.entity.EntityFactoryImpl;
 import it.unibo.ndgg.model.entity.EntityMovement;
-import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
@@ -33,10 +31,18 @@ import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
  */
 public class WorldImpl implements World {
 
-    private static final double PLAYER_HEIGHT_PERCENTAGE = 0.17;
-    private static final double PLAYER_WIDTH_PERCENTAGE = 0.095;
-    private static final double SWORD_HEIGHT_PERCENTAGE = 0.018;
-    private static final double SWORD_WIDTH_PERCENTAGE = 0.04;
+    private static final double PLAYER_HEIGHT = 0.8;
+    private static final double PLAYER_WIDTH = 0.42;
+    private static final double SWORD_HEIGHT = 0.05;
+    private static final double SWORD_WIDTH = 0.3;
+    private static final double PLATFORM_HEIGHT = 1.8;
+    private static final double PLATFORM_WIDTH = 16;
+    private static final double PLAYER_X_POSITIOON = 5.0;
+    private static final double PLAYER_Y_POSITIOON = -2.3;
+    private static final double SWORD_X_POSITIOON = 5.0;
+    private static final double SWORD_Y_POSITIOON = -2.3;
+    private static final double PLATFORM_X_POSITIOON = 0.0;
+    private static final double PLATFORM_Y_POSITIOON = -3.6;
     private static final int NUMBER_OF_ROOMS = 3;
     private List<Room> rooms = new ArrayList<Room>();
     private int currentRoom;
@@ -55,7 +61,6 @@ public class WorldImpl implements World {
         this.currentRoom = NUMBER_OF_ROOMS / 2;
         this.bodyAssociations = new BodyAssociations();
         this.bodyPropertiesFactory = new BodyPropertiesFactory();
-        //this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, 1000, 1000, this.bodyAssociations);
     }
 
     /**
@@ -63,8 +68,7 @@ public class WorldImpl implements World {
      */
     @Override
     public void start() {
-        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, this.worldDimension.getLeft(), 
-                this.worldDimension.getRight(), bodyAssociations);
+        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, 16, 9, bodyAssociations);
         createEntities();
     }
 
@@ -75,9 +79,9 @@ public class WorldImpl implements World {
     public void update() {
         this.rooms.get(this.currentRoom).update();
         this.bodyPropertiesWorld.update();
-        Player player1 = getPlayer(0);
+        /*Player player1 = getPlayer(0);
         System.out.println("df " + player1.getPosition() + "");
-        if(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())){
+       if(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())){
             System.exit(1);
         }
 
@@ -85,8 +89,7 @@ public class WorldImpl implements World {
         if (body1.isInContact(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())) {
             System.out.println("trovato");
             //System.exit(1);
-        }
-        //TODO se volete posso rimuovere le spade qui
+        }*/
     }
 
     /**
@@ -166,10 +169,8 @@ public class WorldImpl implements World {
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
-    
-        if (playerId == 1) {
-            System.out.println(player1.getPosition() + " dddsfds");
-        }
+        System.out.println("posizione " + playerId + " " + player1.getPosition());
+        System.out.println("dimensione " + playerId + " " + player1.getDimension());
         //System.out.println("Active: " + body1.isActive());
         //System.out.println("\nAsleep:  " + body1.isAsleep());
         //System.out.println("Outside: "+this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
@@ -216,21 +217,18 @@ public class WorldImpl implements World {
      */
     private void createEntities() {
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
-        Player playerL = entityFactory.createPlayer(1.0, 
-                1.0, new MutablePair<Double, Double>
-            (5.0, 1.0), EntityDirection.RIGHT);
-        Player playerR = entityFactory.createPlayer(1.0, 1.0, new MutablePair<>
-            (1.0, 1.0), EntityDirection.LEFT);
+        Player playerL = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<Double, Double>(-PLAYER_X_POSITIOON, 
+                PLAYER_Y_POSITIOON), EntityDirection.RIGHT);
+        Player playerR = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<>(PLAYER_X_POSITIOON, 
+                PLAYER_Y_POSITIOON), EntityDirection.LEFT);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
-        entities.put(EntityType.SWORD, Stream.of(
-                (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
-                        this.worldDimension.getRight() * PLAYER_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerL, 
-                        EntityDirection.RIGHT), 
-                (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
-                        this.worldDimension.getRight() * SWORD_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerR, EntityDirection.LEFT))
+        entities.put(EntityType.SWORD, Stream.of((Sword) entityFactory.createSword(SWORD_WIDTH, SWORD_HEIGHT, new MutablePair<>(
+                SWORD_X_POSITIOON, SWORD_Y_POSITIOON), playerL, EntityDirection.RIGHT), 
+                (Sword) entityFactory.createSword(SWORD_WIDTH, SWORD_HEIGHT, new MutablePair<>(
+                                SWORD_X_POSITIOON, -SWORD_Y_POSITIOON), playerR, EntityDirection.LEFT))
                 .collect(Collectors.toList()));
-       entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(16.0, 1.8, new MutablePair<Double, Double>(
-                        0.0, -3.6))).collect(Collectors.toList()));
+       entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
+               PLATFORM_X_POSITIOON, PLATFORM_Y_POSITIOON))).collect(Collectors.toList()));
        this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }
