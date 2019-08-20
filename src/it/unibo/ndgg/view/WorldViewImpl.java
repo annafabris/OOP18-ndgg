@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import it.unibo.ndgg.controller.GameControllerImpl;
+import it.unibo.ndgg.controller.commands.Command;
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
@@ -21,6 +25,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -122,12 +127,49 @@ public class WorldViewImpl implements WorldView {
         this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), sword2);
     }
 
+    private Optional<Input> convertInput(final KeyEvent key) {
+        if (key.getCode().equals(KeyCode.W)) {
+            return Optional.of(Input.JUMP_PLAYER_ONE);
+        }
+        if (key.getCode().equals(KeyCode.A)) {
+            return Optional.of(Input.LEFT_PLAYER_ONE);
+        }
+        if (key.getCode().equals(KeyCode.D)) {
+            return Optional.of(Input.RIGHT_PLAYER_ONE);
+        }
+        if (key.getCode().equals(KeyCode.X)) {
+            return Optional.of(Input.CHANGE_GUARD_ONE);
+        }
+        if (key.getCode().equals(KeyCode.SPACE)) {
+            return Optional.of(Input.THROW_SWORD_ONE);
+        }
+        if (key.getCode().equals(KeyCode.I)) {
+            return Optional.of(Input.JUMP_PLAYER_TWO);
+        }
+        if (key.getCode().equals(KeyCode.J)) {
+            return Optional.of(Input.LEFT_PLAYER_TWO);
+        }
+        if (key.getCode().equals(KeyCode.L)) {
+            return Optional.of(Input.RIGHT_PLAYER_TWO);
+        }
+        if (key.getCode().equals(KeyCode.N)) {
+            return Optional.of(Input.CHANGE_GUARD_TWO);
+        }
+        if (key.getCode().equals(KeyCode.M)) {
+            return Optional.of(Input.THROW_SWORD_TWO);
+        }
+        return Optional.empty();
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<KeyEvent> getInputs() {
-        List<KeyEvent> inputs = Collections.unmodifiableList(this.inputs);
+    public List<Input> getInputs() {
+        List<Input> inputs = this.inputs.stream().map(i -> convertInput(i))
+                                        .filter(i -> i.isPresent())
+                                        .map(i -> i.get())
+                                        .collect(Collectors.toList());
         this.inputs.clear();
         return inputs;
     }

@@ -2,7 +2,7 @@ package it.unibo.ndgg.view;
 
 import java.util.List;
 import it.unibo.ndgg.controller.GameControllerImpl;
-import javafx.scene.input.KeyEvent;
+import it.unibo.ndgg.controller.commands.Command;
 
 /**
  * A class that takes care of the view of the game.
@@ -29,5 +29,5 @@ public interface WorldView {
     /**
      * @return a collection of input
      */
-    List<KeyEvent> getInputs();
+    List<Input> getInputs();
 }

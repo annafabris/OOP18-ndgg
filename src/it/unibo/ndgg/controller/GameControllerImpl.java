@@ -5,15 +5,23 @@ import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.ndgg.controller.commands.ChangeGuard;
+import it.unibo.ndgg.controller.commands.Command;
+import it.unibo.ndgg.controller.commands.Jump;
+import it.unibo.ndgg.controller.commands.MoveLeft;
+import it.unibo.ndgg.controller.commands.MoveRight;
+import it.unibo.ndgg.controller.commands.Throw;
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
+import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.world.World;
 import it.unibo.ndgg.model.world.WorldImpl;
+import it.unibo.ndgg.view.Input;
 import it.unibo.ndgg.view.WorldView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -106,6 +114,54 @@ public class GameControllerImpl implements GameController {
     @Override
     public Map<EntityType, List<AbstractEntity>> getEntities() {
         return this.gameWorld.getEntities();
+    }
+
+    private void handleInputs() {
+        view.getInputs().forEach(i -> this.handle(i));
+    }
+
+    private void handle(final Input i) {
+        Command command;
+        if (i.equals(Input.CHANGE_GUARD_ONE)) {
+            command = new ChangeGuard(gameWorld);
+            command.execute(PlayerID.FIRST_PLAYER);
+        }
+        if (i.equals(Input.CHANGE_GUARD_TWO)) {
+            command = new ChangeGuard(gameWorld);
+            command.execute(PlayerID.SECOND_PLAYER);
+        }
+        if (i.equals(Input.LEFT_PLAYER_ONE)) {
+            command = new MoveLeft(gameWorld);
+            command.execute(PlayerID.FIRST_PLAYER);
+        }
+        if (i.equals(Input.LEFT_PLAYER_TWO)) {
+            command = new MoveLeft(gameWorld);
+            command.execute(PlayerID.SECOND_PLAYER);
+        }
+        if (i.equals(Input.RIGHT_PLAYER_ONE)) {
+            command = new MoveRight(gameWorld);
+            command.execute(PlayerID.FIRST_PLAYER);
+        }
+        if (i.equals(Input.RIGHT_PLAYER_TWO)) {
+            command = new MoveRight(gameWorld);
+            command.execute(PlayerID.SECOND_PLAYER);
+        }
+        if (i.equals(Input.JUMP_PLAYER_ONE)) {
+            command = new Jump(gameWorld);
+            command.execute(PlayerID.FIRST_PLAYER);
+        }
+        if (i.equals(Input.JUMP_PLAYER_TWO)) {
+            command = new Jump(gameWorld);
+            command.execute(PlayerID.SECOND_PLAYER);
+        }
+        if (i.equals(Input.THROW_SWORD_ONE)) {
+            command = new Throw(gameWorld);
+            command.execute(PlayerID.FIRST_PLAYER);
+        }
+        if (i.equals(Input.THROW_SWORD_TWO)) {
+            command = new Throw(gameWorld);
+            command.execute(PlayerID.SECOND_PLAYER);
+        }
     }
 
 
