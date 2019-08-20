@@ -20,6 +20,7 @@ import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
+import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
@@ -229,5 +230,35 @@ public class WorldImpl implements World {
                        DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerR)).collect(Collectors.toList())));
        this.bodyAssociations.setEntities(entities);
        this.rooms.get(this.currentRoom).setEntities(entities);
+    }
+
+    @Override
+    public void changeGuard(PlayerID player) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void jumpPlayer(PlayerID player) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void movePlayerLeft(PlayerID player) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void movePlayerRight(PlayerID player) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void throwSword(PlayerID player) {
+        // TODO Auto-generated method stub
+        
     }
 }

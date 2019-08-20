@@ -8,6 +8,7 @@ import it.unibo.ndgg.model.collision.CollisionResult;
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
+import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
 
 /**
  * A class that represents the game World and a list of {@link Room} in which the game takes place.
@@ -55,6 +56,12 @@ public interface World {
      * @param swordId the Id of the Player associated to the sword to move
      */
     void moveSword(EntityMovement movement, int swordId);
+    
+    void changeGuard(PlayerID player);
+    void jumpPlayer(PlayerID player);
+    void movePlayerLeft(PlayerID player);
+    void movePlayerRight(PlayerID player);
+    void throwSword(PlayerID player);
 
 
 }

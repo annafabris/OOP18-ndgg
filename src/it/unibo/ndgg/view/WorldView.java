@@ -1,7 +1,6 @@
 package it.unibo.ndgg.view;
 
-import java.util.Set;
-
+import java.util.List;
 import it.unibo.ndgg.controller.GameControllerImpl;
 import javafx.scene.input.KeyEvent;
 
@@ -28,8 +27,7 @@ public interface WorldView {
     void playerWon(int playerID);
 
     /**
-     * 
      * @return a collection of input
      */
-    Set<KeyEvent> getInputs();
+    List<KeyEvent> getInputs();
 }

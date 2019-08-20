@@ -1,11 +1,9 @@
 package it.unibo.ndgg.view;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import it.unibo.ndgg.controller.GameControllerImpl;
@@ -71,6 +69,8 @@ public class WorldViewImpl implements WorldView {
         this.swordAnimation1 = new SwordAnimation((Sword) this.entities.get(EntityType.SWORD).get(0));
         this.swordAnimation2 = new SwordAnimation((Sword) this.entities.get(EntityType.SWORD).get(1));
         this.stage.setScene(createScene());
+        this.stage.getScene().addEventHandler(KeyEvent.KEY_PRESSED, this.inputHandler);
+        this.stage.getScene().addEventHandler(KeyEvent.KEY_RELEASED, this.inputHandler);
         this.stage.show();
     }
 
@@ -122,9 +122,13 @@ public class WorldViewImpl implements WorldView {
         this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), sword2);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Set<KeyEvent> getInputs() {
-        // TODO Auto-generated method stub
-        return null;
+    public List<KeyEvent> getInputs() {
+        List<KeyEvent> inputs = Collections.unmodifiableList(this.inputs);
+        this.inputs.clear();
+        return inputs;
     }
 }
