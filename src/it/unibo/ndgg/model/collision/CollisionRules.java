@@ -202,7 +202,7 @@ public class CollisionRules extends CollisionAdapter {
      *          true if a collision which need to be rule happens false otherwise
      */
     private boolean processPlayerDoorCollision(final Player player, final Door door) {
-        if (door.getPlayerWhoCanOpen().get() == player) {
+        if (door.getPlayerWhoCanOpen() == player) {
             door.hit();
             this.outerWorld.notifyCollision(CollisionResult.DOORTOUCHED);
             return true;

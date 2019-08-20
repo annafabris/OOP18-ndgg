@@ -1,38 +1,52 @@
 package it.unibo.ndgg.model.entity.entitystatic;
 
-import java.util.Optional;
-
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 
+/**
+ * Represents one of two doors that can be hit by one of two players in a game.
+ */
 public class Door extends AbstractEntity {
 
-	public Door(BodyProperties body) {
+    private boolean isHit = false;
+    private Player player;
+
+    public Door(BodyProperties body, Player player) {
         super(body);
-        // TODO Auto-generated constructor stub
+        this.player = player;
     }
 
-    public Optional<Player> getPlayerWhoCanOpen() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Player} who can open the door to change room.
+     * @return the right {@link it.unibo.ndgg.model.entity.entitydynamic.Player}
+     */
+    public Player getPlayerWhoCanOpen() {
+        return this.player;
+    }
 
-	public void hit() {
-		// TODO Auto-generated method stub
-		
-	}
+    /**
+     * Sets the door to has been hit.
+     */
+    public void hit() {
+        this.isHit = true;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EntityType getType() {
-        // TODO Auto-generated method stub
-        return null;
+        return EntityType.DOOR;
     }
 
+    /**
+     * Returns if the {@link Door} has been hit by a {@link it.unibo.ndgg.model.entity.entitydynamic.Player}.
+     * @return true if the {@link Door} has been hit
+     */
     public boolean getDoorStatus() {
-        // TODO Auto-generated method stub
-        return false;
+        return isHit;
     }
 
 }

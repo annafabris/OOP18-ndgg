@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 
@@ -48,5 +49,14 @@ public class EntityFactoryImpl implements EntityFactory {
     public Platform createPlatform(final Double width, final Double height, final Pair<Double, Double> position) {
         return new Platform(this.body.createStaticBodyProperties(position, width, height, EntityType.PLATFORM));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Door createDoor(final Double width, final Double height, final Pair<Double, Double> position, final Player player) {
+        return new Door(this.body.createStaticBodyProperties(position, width, height, EntityType.DOOR), player);
+    }
+
 
 }

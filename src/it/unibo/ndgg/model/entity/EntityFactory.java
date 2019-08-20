@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 
 /**
@@ -51,8 +52,23 @@ public interface EntityFactory {
      *          the width of the body
      * @param position
      *          the position of the body in the {@link World}
-     * @param type
-     *          the entity's type
+     * @return
+     *          the entity {@link Platform}
      */
     Platform createPlatform(Double height, Double width, Pair<Double, Double> position);
+
+    /**
+     * Builds a new Door with its properties.
+     * @param height 
+     *          the height of the body
+     * @param width
+     *          the width of the body
+     * @param position
+     *          the position of the body in the {@link World}
+     * @param player
+     *          the Player that can open the Door
+     * @return
+     *          the entity {@link Door}
+     */
+    Door createDoor(Double height, Double width, Pair<Double, Double> position, Player player);
 }
