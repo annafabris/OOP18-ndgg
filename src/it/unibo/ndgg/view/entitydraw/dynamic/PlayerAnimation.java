@@ -1,5 +1,6 @@
 package it.unibo.ndgg.view.entitydraw.dynamic;
 
+import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.view.entitydraw.EntityImageAnimation;
@@ -19,6 +20,7 @@ public class PlayerAnimation implements DynamicAnimation {
     private final Player player;
     private final PlayerImage playerImage;
     private EntityState currentState;
+    private EntityDirection currentDirection;
     private boolean hasAWeapon;
 
     /**
@@ -34,6 +36,7 @@ public class PlayerAnimation implements DynamicAnimation {
         this.hasAWeapon = this.player.getWeapon().isPresent();
         this.setCurrentAnimation();
         this.currentState = this.player.getState();
+        this.currentDirection = this.player.getCurrentDirection();
     }
 
     /**
@@ -41,17 +44,20 @@ public class PlayerAnimation implements DynamicAnimation {
      */
     @Override
     public Image updatePosition() {
-        this.changeAnimation(this.player.getState());
+        this.changeAnimation(this.player.getState(), this.player.getCurrentDirection());
         this.currentAnimation.play();
         this.currentAnimation.setCycleCount(Animation.INDEFINITE);
         return this.currentAnimation.getImage();
     }
 
-    private void changeAnimation(final EntityState state) {
-        if (this.currentState != state || this.hasAWeapon != this.player.getWeapon().isPresent()) {
+    private void changeAnimation(final EntityState state, final EntityDirection direction) {
+        if (this.currentState != state || this.hasAWeapon != this.player.getWeapon().isPresent() || 
+            this.currentDirection != direction) {
+
             this.currentAnimation.stop();
             this.setCurrentAnimation();
             this.currentState = state;
+            this.currentDirection = direction;
             this.hasAWeapon = this.player.getWeapon().isPresent();
         }
     }

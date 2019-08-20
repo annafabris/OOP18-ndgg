@@ -259,6 +259,7 @@ public class WorldImpl implements World {
 
     @Override
     public void movePlayerRight(final PlayerID player) {
+        
         movePlayer(EntityMovement.MOVE_RIGHT, player.getID());
     }
 

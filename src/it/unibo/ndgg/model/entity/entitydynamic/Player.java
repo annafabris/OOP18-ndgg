@@ -142,7 +142,7 @@ public class Player extends AbstractDynamicEntity {
      * {@inheritDoc}
      */
     @Override
-    public void move(EntityMovement movement) {
+    public void move(final EntityMovement movement) {
         if ((movement.getAssociatedEntityState() != EntityState.MOVING 
                 && movement.getAssociatedDirection() == this.getCurrentDirection())
                 || movement.getAssociatedEntityState() == EntityState.MOVING) {
@@ -151,6 +151,7 @@ public class Player extends AbstractDynamicEntity {
             Vector2 values = movementValue.getMovementVector(movement);
             if (this.weapon.isPresent()) {
                 Body swordBody = ((Sword) this.weapon.get()).getBody().getPhysicalBody();
+                swordBody.translateToOrigin();
                 if (movement.getAssociatedDirection() == EntityDirection.RIGHT) {
                     swordBody.shift(new Vector2(this.getPosition().getLeft() - 0.4, this.getPosition().getRight()));
                 } else {
