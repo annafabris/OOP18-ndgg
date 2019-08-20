@@ -168,6 +168,7 @@ public class WorldImpl implements World {
         System.out.println("posizione sword" + playerId + " " + sword1.getPosition());
         System.out.println("differenza x " + (player1.getPosition().getRight() - sword1.getPosition().getRight()));
         System.out.println("differenza y " + (player1.getPosition().getLeft() - sword1.getPosition().getLeft()));
+        System.out.println(sword1.getState());
         //System.out.println("dimensione " + playerId + " " + player1.getDimension());
         //System.out.println("Active: " + body1.isActive());
         //System.out.println("\nAsleep:  " + body1.isAsleep());

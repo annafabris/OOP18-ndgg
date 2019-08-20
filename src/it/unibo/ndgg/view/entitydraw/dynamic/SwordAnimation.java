@@ -22,10 +22,11 @@ public class SwordAnimation implements DynamicAnimation {
     private static final int DURATION = 120;
 
     private Optional<EntityImageAnimation> currentAnimation;
-    private Map<Pair<EntityState, EntityDirection>, Image> images = new HashMap<>();
+    private final Map<Pair<EntityState, EntityDirection>, Image> images = new HashMap<>();
     private final Sword sword;
     private final SwordImage swordImage;
     private EntityState currentState;
+    private EntityDirection currentDirection;
 
     /**
      * Builds a sword animation.
@@ -44,7 +45,7 @@ public class SwordAnimation implements DynamicAnimation {
      * {@inheritDoc}
      */
     public Image updatePosition() {
-        this.changeAnimation(this.sword.getState());
+        this.changeAnimation(this.sword.getState(), this.sword.getCurrentDirection());
         if (this.currentAnimation.isPresent()) {
             this.currentAnimation.get().play();
             this.currentAnimation.get().setCycleCount(1);
@@ -53,12 +54,13 @@ public class SwordAnimation implements DynamicAnimation {
         return null;
     }
 
-    private void changeAnimation(final EntityState state) {
-        if (this.currentState != state) {
+    private void changeAnimation(final EntityState state, final EntityDirection direction) {
+        if (this.currentState != state || this.currentDirection != direction) {
             if (this.currentAnimation.isPresent()) {
                 this.currentAnimation.get().stop();
             }
             this.setCurrentAnimation();
+            this.currentDirection = direction;
             this.currentState = state;
         }
     }

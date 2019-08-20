@@ -28,11 +28,7 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
      */
     public Sword(final DynamicBodyProperties body, final Player player, final EntityDirection direction) {
         super(direction, body);
-        try {
-            player.equipWeapon(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        player.equipWeapon(this);
     }
 
     /**

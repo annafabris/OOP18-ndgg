@@ -6,6 +6,7 @@ import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
+import it.unibo.ndgg.model.entity.EntityType;
 
 /**
  * A class extending {@AbstractPhysicalBody} that is also extended by all the Dynamic Bodies if needed (Player and Sword).
@@ -19,11 +20,17 @@ public class DynamicBodyProperties extends AbstractBodyProperties {
      * Builds a physical dynamic body.
      * @param body 
      *          a physical body
+     * @param type
+     *          it is the entity's type
      */
-    public DynamicBodyProperties(final Body body) {
+    public DynamicBodyProperties(final Body body, final EntityType type) {
         super(body);
         this.body = body;
-        this.currentState = EntityState.STAYING_STILL;
+        if (type == EntityType.PLAYER) {
+            this.currentState = EntityState.STAYING_STILL;
+        } else {
+            this.currentState = EntityState.EQUIPPED;
+        }
     }
 
     /**

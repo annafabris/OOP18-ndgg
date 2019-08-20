@@ -153,10 +153,10 @@ public class Player extends AbstractDynamicEntity {
                 Body swordBody = ((Sword) this.weapon.get()).getBody().getPhysicalBody();
                 swordBody.translateToOrigin();
                 if (movement.getAssociatedDirection() == EntityDirection.RIGHT) {
-                    swordBody.shift(new Vector2(this.getPosition().getLeft() - 0.4, this.getPosition().getRight()));
-                } else {
                     swordBody.shift(new Vector2(this.getPosition().getLeft() + 0.4, this.getPosition().getRight()));
-                }  
+                } else {
+                    swordBody.shift(new Vector2(this.getPosition().getLeft() - 0.4, this.getPosition().getRight()));
+                }
             }
             this.setCurrentDirection(movement.getAssociatedDirection());
             ((DynamicBodyProperties) super.getBody()).applyImpulse(movement, values.x, values.y);
