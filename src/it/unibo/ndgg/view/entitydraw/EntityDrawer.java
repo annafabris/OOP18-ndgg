@@ -74,13 +74,14 @@ public class EntityDrawer {
                     / (TILES_COLUMN_NUMBER - 1), (PLATFORM_HEIGHT_POSITION_PERCENTAGE * this.worldHeight));
         }*/
         
-        System.out.println(platform.getPosition().getLeft() + " r " + platform.getPosition().getRight());
-        System.out.println(platform.getDimension().getLeft() + " r " + platform.getDimension().getRight());
+       Double DimensionX = (platform.getDimension().getLeft()) * 85.375;
+       Double DimensionY = (platform.getDimension().getRight()) * 85.375;
+       System.out.println("Dimensioni x: " + DimensionX + "Dimensioni y: " + DimensionY );
        graphicsContext.drawImage(new Image("images/staticEntity/FullPlatform.png"), 
-                                 Math.abs(platform.getPosition().getLeft()* 85.3) ,
-                                 Math.abs(platform.getPosition().getRight()*85.3 - (platform.getDimension().getRight()+4.5) * 85.3/ 2.0),
-                                 platform.getDimension().getLeft() * 85.3 ,
-                                 platform.getDimension().getRight() * 85.3);
+                                 (platform.getPosition().getLeft() + 8 )* 85.3 - DimensionX / 2,
+                                 (4.5 - platform.getPosition().getRight())* 85.3 - DimensionY / 2,
+                                 DimensionX,
+                                 DimensionY);
     }
 
     /**
@@ -111,11 +112,14 @@ public class EntityDrawer {
     *             the player to draw
     */
     public void drawPlayer(final GraphicsContext graphicsContext, final PlayerAnimation playerAnimation, final Player player) {
+        Double DimensionX = (player.getDimension().getLeft()) * 85.375;
+        Double DimensionY = (player.getDimension().getRight()) * 85.375;
+        System.out.println("Dimensioni x: " + DimensionX + "Dimensioni y: " + DimensionY );
         graphicsContext.drawImage(playerAnimation.updatePosition(), 
-                                  (player.getPosition().getLeft()+8) * 85.3 - (player.getDimension().getLeft())* 85.3/2.0,
-                                 (player.getPosition().getRight()+4.5) * 85.3 - (player.getDimension().getRight())* 85.3/2.0,
-                                  player.getDimension().getLeft()* 85.3,
-                                  player.getDimension().getRight()* 85.3);
+                                (player.getPosition().getLeft() + 8 )* 85.3 - DimensionX / 2,
+                                 (4.5 - player.getPosition().getRight())* 85.3 - DimensionY / 2,
+                                 DimensionX,
+                                 DimensionY);
                                   //PLAYER_WIDTH_PERCENTAGE * this.worldWidth, 
                                   //PLAYER_HEIGHT_PERCENTAGE * this.worldHeight);
     }

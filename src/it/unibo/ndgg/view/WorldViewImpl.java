@@ -59,13 +59,13 @@ public class WorldViewImpl implements WorldView {
         this.gameControllerImpl = gameControllerImpl;
         this.platform = this.gameControllerImpl.getPlatform();
         this.playerL = this.gameControllerImpl.getPlayer(0);
-        //this.playerR = this.gameControllerImpl.getPlayer(1);
+        this.playerR = this.gameControllerImpl.getPlayer(1);
         this.playerAnimation1 = new PlayerAnimation(true, playerL);
-        //this.playerAnimation2 = new PlayerAnimation(false, playerR);
+        this.playerAnimation2 = new PlayerAnimation(false, playerR);
         this.sword1 = this.gameControllerImpl.getSword(0);
-        //this.sword2 = this.gameControllerImpl.getSword(1);
+        this.sword2 = this.gameControllerImpl.getSword(1);
         this.swordAnimation1 = new SwordAnimation(sword1);
-        //this.swordAnimation2 = new SwordAnimation(sword2);
+        this.swordAnimation2 = new SwordAnimation(sword2);
         this.stage.setScene(createScene());
         this.stage.show();
     }
@@ -99,7 +99,7 @@ public class WorldViewImpl implements WorldView {
         this.draw();
         stage.sizeToScene();
         this.playerL.changeEntityState(EntityState.STAYING_STILL);
-        //this.playerR.changeEntityState(EntityState.STAYING_STILL);
+        this.playerR.changeEntityState(EntityState.STAYING_STILL);
         return new Scene(root, viewWidth, viewHeight);
     }
 
@@ -112,8 +112,8 @@ public class WorldViewImpl implements WorldView {
         this.entityDrawer.drawMainPlatform(graphicsContext, platform);
         this.entityDrawer.drawDoors(graphicsContext);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, this.playerL);
-        //this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.playerR);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.playerR);
         this.entityDrawer.drawSword(graphicsContext, swordAnimation1, sword1.getState(), this.sword1);
-        //this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), this.sword2);
+        this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), this.sword2);
     }
 }

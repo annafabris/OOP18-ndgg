@@ -219,16 +219,16 @@ public class WorldImpl implements World {
         Player playerL = entityFactory.createPlayer(1.0, 
                 1.0, new MutablePair<Double, Double>
             (5.0, 1.0), EntityDirection.RIGHT);
-        /*Player playerR = entityFactory.createPlayer(1.0, 1.0, new MutablePair<>
-            (1.0, -3.0), EntityDirection.LEFT);*/
-        entities.put(EntityType.PLAYER, Stream.of(playerL/*, playerR*/).collect(Collectors.toList()));
+        Player playerR = entityFactory.createPlayer(1.0, 1.0, new MutablePair<>
+            (1.0, 1.0), EntityDirection.LEFT);
+        entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of(
                 (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
                         this.worldDimension.getRight() * PLAYER_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerL, 
-                        EntityDirection.RIGHT))/*,*/ 
-                /*(Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
+                        EntityDirection.RIGHT), 
+                (Sword) entityFactory.createSword(this.worldDimension.getLeft() * SWORD_HEIGHT_PERCENTAGE, 
                         this.worldDimension.getRight() * SWORD_WIDTH_PERCENTAGE, new MutablePair<>(100.0, 50.0), playerR, EntityDirection.LEFT))
-                */.collect(Collectors.toList()));
+                .collect(Collectors.toList()));
        entities.put(EntityType.PLATFORM, Stream.of(entityFactory.createPlatform(16.0, 1.8, new MutablePair<Double, Double>(
                         0.0, -3.6))).collect(Collectors.toList()));
        this.bodyAssociations.setEntities(entities);
