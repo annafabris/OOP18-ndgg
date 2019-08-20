@@ -74,7 +74,7 @@ public class WorldViewImpl implements WorldView {
         this.swordAnimation2 = new SwordAnimation((Sword) this.entities.get(EntityType.SWORD).get(1));
         this.stage.setScene(createScene());
         this.stage.getScene().addEventHandler(KeyEvent.KEY_PRESSED, this.inputHandler);
-        this.stage.getScene().addEventHandler(KeyEvent.KEY_RELEASED, this.inputHandler);
+        //this.stage.getScene().addEventHandler(KeyEvent.KEY_RELEASED, this.inputHandler);
         this.stage.show();
     }
 

@@ -14,6 +14,7 @@ import it.unibo.ndgg.model.world.World;
 import it.unibo.ndgg.model.world.WorldImpl;
 import it.unibo.ndgg.view.SimpleInput;
 import it.unibo.ndgg.view.WorldView;
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -29,6 +30,12 @@ public class GameControllerImpl implements GameController {
     private final MainController controller;
     private final WorldView view; //interfaccia
     private World gameWorld;
+    private final AnimationTimer timer = new AnimationTimer() {
+        @Override
+        public void handle(final long now) {
+            update();
+        }
+    };
 
     public GameControllerImpl(final WorldView view ,final MainController controller, final Pair<Double, Double> worldDimension) throws Exception {
         this.controller = controller;
@@ -43,13 +50,13 @@ public class GameControllerImpl implements GameController {
     public void game() throws Exception {
         this.gameWorld.start();
         view.startGame(this);
-        this.updateModelAndView();
+        this.run();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void updateModelAndView() {
+    /*public void updateModelAndView() {
         Timeline gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);
 
@@ -76,7 +83,7 @@ public class GameControllerImpl implements GameController {
 
         gameLoop.getKeyFrames().add(kf);
         gameLoop.play();
-    }
+    }*/
 
     /**
      * {@inheritDoc}
@@ -113,6 +120,33 @@ public class GameControllerImpl implements GameController {
         if (i.equals(SimpleInput.THROW)) {
             gameWorld.throwSword(player);
         }
+    }
+    
+    private void update() {
+        GameState gameState = gameWorld.getCurrentGameState();
+        if (gameState == GameState.PLAYERL_WON) {
+            view.playerWon(0);
+            timer.stop();
+            exit();
+        } else if (gameState == GameState.PLAYERR_WON) {
+            view.playerWon(1);
+            timer.stop();
+            exit();
+        } else {
+            handleInputs();
+            gameWorld.update();
+            view.update();
+        }
+    }
+    
+    private void run() {
+        timer.start();
+    }
+
+    @Override
+    public void updateModelAndView() {
+        // TODO Auto-generated method stub
+        
     }
 
 

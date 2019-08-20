@@ -7,7 +7,9 @@ import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -32,6 +34,11 @@ public class ViewImpl implements View {
         this.stage.getIcons().add(ICON);
         this.setScreenSize();
         this.stage.setScene(new Scene(new Pane()));
+        this.stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode().equals(KeyCode.ESCAPE)) {
+                quit();
+            }
+        });
     }
 
     /**
