@@ -1,11 +1,8 @@
 package it.unibo.ndgg.model.physic;
 
 import java.awt.Toolkit;
-import java.util.Vector;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.dynamics.World;
-import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.collision.CollisionRules;
 import it.unibo.ndgg.model.entity.EntityType;
@@ -27,16 +24,20 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
     private final CollisionRules collisionRules;
     private long last;
 
-    public BodyPropertiesWorldImpl(WorldImpl worldImpl, org.dyn4j.dynamics.World world, BodyAssociations bodyAssociations) {
+    /**
+     * Creates a World that manages the {link org.dyn4j.dynamics.World}.
+     * @param worldImpl the {link it.unibo.ndgg.model.world.WorldImpl}
+     * @param world the {link org.dyn4j.dynamics.World}
+     * @param bodyAssociations the {@link BodyAssociations}
+     */
+    public BodyPropertiesWorldImpl(final WorldImpl worldImpl, final org.dyn4j.dynamics.World world, 
+            final BodyAssociations bodyAssociations) {
         this.world = world;
-        //this.world.shift(new Vector2(0, 168));
-        //this.world.setGravity(new Vector2(0, -9.81));
         this.worldImpl = worldImpl;
         this.bodyAssociation = bodyAssociations;
         this.last = System.nanoTime();
         this.collisionRules = new CollisionRules(this.worldImpl, this);
         this.world.addListener(this.collisionRules);
-        //TODO controllare regole collisioni
     }
 
     /**

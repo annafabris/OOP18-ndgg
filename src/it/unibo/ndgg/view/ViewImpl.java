@@ -58,6 +58,9 @@ public class ViewImpl implements View {
         Platform.exit();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Pair<Double, Double> getViewDimension() {
         return new MutablePair<>(this.stage.getWidth(), this.stage.getHeight());
     }

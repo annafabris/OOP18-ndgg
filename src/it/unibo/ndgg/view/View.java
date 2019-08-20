@@ -25,5 +25,9 @@ public interface View {
      */
     void quit();
 
+    /**
+     * Returns the View dimension.
+     * @return the dimensions
+     */
     Pair<Double, Double> getViewDimension();
 }

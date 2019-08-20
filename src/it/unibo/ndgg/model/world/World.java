@@ -1,11 +1,13 @@
 package it.unibo.ndgg.model.world;
 
+import java.util.List;
+import java.util.Map;
+
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.collision.CollisionResult;
+import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityMovement;
-import it.unibo.ndgg.model.entity.entitydynamic.Player;
-import it.unibo.ndgg.model.entity.entitydynamic.Sword;
-import it.unibo.ndgg.model.entity.entitystatic.Platform;
+import it.unibo.ndgg.model.entity.EntityType;
 
 /**
  * A class that represents the game World and a list of {@link Room} in which the game takes place.
@@ -35,24 +37,10 @@ public interface World {
     GameState getCurrentGameState();
 
     /**
-     * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Player}.
-     * @param playerId the Id of the Sword Player
-     * @return the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}
+     * Returns the all the {@link it.unibo.ndgg.model.entity}s.
+     * @return the entities
      */
-    Player getPlayer(int playerId);
-
-    /**
-     * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}.
-     * @param swordId the Id of the Sword
-     * @return the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}
-     */
-    Sword getSword(int swordId);
-
-    /**
-     * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Platform}.
-     * @return the {@link it.unibo.ndgg.model.entity.entitydynamic.Platform}
-     */
-    Platform getPlatform();
+    Map<EntityType, List<AbstractEntity>> getEntities();
 
     /**
      * Makes the player center of mass move if necessary.

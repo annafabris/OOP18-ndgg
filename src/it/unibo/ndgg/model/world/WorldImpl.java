@@ -17,6 +17,7 @@ import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityFactory;
 import it.unibo.ndgg.model.entity.EntityFactoryImpl;
 import it.unibo.ndgg.model.entity.EntityMovement;
+import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
@@ -57,7 +58,11 @@ public class WorldImpl implements World {
     private GameState currentGameState;
     private Pair<Double, Double> worldDimension;
 
-    public WorldImpl(Pair<Double, Double> worldDimension) {
+    /**
+     * Creates the World that manages all the entities and rooms. 
+     * @param worldDimension the dimensions of the current View
+     */
+    public WorldImpl(final Pair<Double, Double> worldDimension) {
         this.worldDimension = worldDimension;
         this.currentGameState = GameState.IS_GOING;
         this.entities = new HashMap<>();
@@ -72,6 +77,7 @@ public class WorldImpl implements World {
      */
     @Override
     public void start() {
+        //Da controllare 16 / 9
         this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, 16, 9, bodyAssociations);
         createEntities();
     }
@@ -144,24 +150,8 @@ public class WorldImpl implements World {
      * {@inheritDoc}
      */
     @Override
-    public Player getPlayer(final int playerId) {
-        return (Player) this.entities.get(EntityType.PLAYER).get(playerId);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Sword getSword(final int swordId) {
-        return (Sword) this.entities.get(EntityType.SWORD).get(swordId);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Platform getPlatform() {
-        return (Platform) this.entities.get(EntityType.PLATFORM).get(0);
+    public Map<EntityType, List<AbstractEntity>> getEntities() {
+        return this.entities;
     }
 
     /**
@@ -169,7 +159,7 @@ public class WorldImpl implements World {
      */
     @Override
     public void movePlayer(final EntityMovement movement, final int playerId) {
-        Player player1 = getPlayer(playerId);
+        Player player1 = (Player) this.entities.get(EntityType.PLAYER).get(playerId);
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
@@ -186,7 +176,7 @@ public class WorldImpl implements World {
      */
     @Override
     public void moveSword(final EntityMovement movement, final int swordId) {
-        Player player = getPlayer(swordId);
+        Player player = (Player) this.entities.get(EntityType.PLAYER).get(swordId);
         player.dropWeapon(movement);
     }
 
@@ -225,6 +215,8 @@ public class WorldImpl implements World {
                 PLAYER_Y_POSITIOON), EntityDirection.RIGHT);
         Player playerR = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<>(PLAYER_X_POSITIOON, 
                 PLAYER_Y_POSITIOON), EntityDirection.LEFT);
+        playerL.changeEntityState(EntityState.STAYING_STILL);
+        playerR.changeEntityState(EntityState.STAYING_STILL);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of((Sword) entityFactory.createSword(SWORD_WIDTH, SWORD_HEIGHT, new MutablePair<>(
                 SWORD_X_POSITIOON, SWORD_Y_POSITIOON), playerL, EntityDirection.RIGHT), 
@@ -239,5 +231,4 @@ public class WorldImpl implements World {
        this.bodyAssociations.setEntities(entities);
         this.rooms.get(this.currentRoom).setEntities(entities);
     }
-
 }

@@ -43,8 +43,8 @@ public class DynamicBodyProperties extends AbstractBodyProperties {
     }
 
     /**
-     * Applies the movement to the {@link Body}.
-     * @param entityMovement the {@link EntityMovement} necessary to change the current state
+     * Applies the movement to the {@link org.dyn4j.dynamics.Body}.
+     * @param entityMovement the {@link it.unibo.ndgg.model.entity.EntityState} necessary to change the current state
      * @param x the horizontal component of the movement to apply
      * @param y the vertical component of the movement to apply
      */
@@ -54,8 +54,8 @@ public class DynamicBodyProperties extends AbstractBodyProperties {
     }
 
     /**
-     * Set the {@link Body} velocity.
-     * @param entityMovement the {@link EntityMovement} necessary to change the current state
+     * Set the {@link org.dyn4j.dynamics.Body} velocity.
+     * @param entityMovement the {@link it.unibo.ndgg.model.entity.EntityState} necessary to change the current state
      * @param x the horizontal velocity component
      * @param y the vertical velocity component
      */
@@ -65,8 +65,8 @@ public class DynamicBodyProperties extends AbstractBodyProperties {
     }
 
     /**
-     * Method used to change the {@link Sword} {@link EntityState} without using the applyMovement method.
-     * @param state {@link EntityState}
+     * Method used to change the {@link Sword} {@link it.unibo.ndgg.model.entity.EntityMovement} without using the applyMovement method.
+     * @param state {@link it.unibo.ndgg.model.entity.EntityMovement}
      */
     public void changeCurrentState(final EntityState state) {
         this.currentState = state;

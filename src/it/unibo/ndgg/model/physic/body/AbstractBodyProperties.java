@@ -17,8 +17,7 @@ public abstract class AbstractBodyProperties implements BodyProperties {
     /**
      * It is a Constructor for this class that require a {@link org.dyn4j.dynamics.Body}.
      * @param body 
-     *          an element of {@link org.dyn4j.dynamics.Body} that represents the physical 
-     *          part of entity
+     *          an element of type {@link org.dyn4j.dynamics.Body} that represents the physical part of an entity
      */
     public AbstractBodyProperties(final Body body) {
         super();
@@ -86,22 +85,28 @@ public abstract class AbstractBodyProperties implements BodyProperties {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        AbstractBodyProperties other = (AbstractBodyProperties) obj;
+        }
+        final AbstractBodyProperties other = (AbstractBodyProperties) obj;
         if (body == null) {
-            if (other.body != null)
+            if (other.body != null) {
                 return false;
-        } else if (!body.equals(other.body))
+            }
+        } else if (!body.equals(other.body)) {
             return false;
+        }
         return true;
     }
-
-    
 }

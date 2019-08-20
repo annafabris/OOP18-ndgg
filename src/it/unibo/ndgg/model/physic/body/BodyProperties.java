@@ -44,6 +44,7 @@ public interface BodyProperties {
      *          if the body exits
      */
     boolean exists();
-    
+
+    //TODO da togliere? serviva solo nei test?
     Body getPhysicalBody();
 }

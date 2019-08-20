@@ -5,8 +5,16 @@ import org.dyn4j.dynamics.Body;
 
 import it.unibo.ndgg.model.entity.EntityState;
 
+/**
+ * A class extending {@AbstractPhysicalBody} to manage all the Static entities Body Propeties.
+ */
 public class StaticBodyProperties extends AbstractBodyProperties {
 
+    /**
+     * Builds a physical static body.
+     * @param body 
+     *          a physical body
+     */
     public StaticBodyProperties(final Body body) {
         super(body);
     }
