@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 public class EntityDrawer {
     private static final double MODEL_WORLD_HEIGHT = 9.0;
     private static final double MODEL_WORLD_WIDTH = 16.0;
+    private static final double DOOR_Y_SHIFT = 0.21;
     private static final int PLATFORM = 0;
     private static final int DOOR_L = 1;
     private static final int DOOR_R = 2;
@@ -56,8 +57,10 @@ public class EntityDrawer {
        final Double dimensionX = (platform.getDimension().getLeft()) * (this.worldWidth / MODEL_WORLD_WIDTH);
        final Double dimensionY = (platform.getDimension().getRight()) * (this.worldHeight / MODEL_WORLD_HEIGHT);
        graphicsContext.drawImage(this.images.get(PLATFORM), 
-                                 (platform.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * (this.worldWidth / MODEL_WORLD_WIDTH) - dimensionX / 2.0,
-                                 (MODEL_WORLD_HEIGHT / 2.0 - platform.getPosition().getRight()) * (this.worldHeight / MODEL_WORLD_HEIGHT) - dimensionY / 2.0,
+                                 (platform.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * (this.worldWidth 
+                                         / MODEL_WORLD_WIDTH) - dimensionX / 2.0,
+                                 (MODEL_WORLD_HEIGHT / 2.0 - platform.getPosition().getRight()) * (this.worldHeight 
+                                         / MODEL_WORLD_HEIGHT) - dimensionY / 2.0,
                                  dimensionX,
                                  dimensionY);
     }
@@ -81,7 +84,8 @@ public class EntityDrawer {
         final Double dimensionY = (door.getDimension().getRight() + 1.0) * (this.worldHeight / MODEL_WORLD_HEIGHT);
         graphicsContext.drawImage(doorImage, 
                                  (door.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * (this.worldWidth / MODEL_WORLD_WIDTH) - dimensionX / 2.0,
-                                 (MODEL_WORLD_HEIGHT / 2.0 - door.getPosition().getRight() + 0.21) * (this.worldHeight / MODEL_WORLD_HEIGHT) - dimensionY / 2.0,
+                                 (MODEL_WORLD_HEIGHT / 2.0 - door.getPosition().getRight() + DOOR_Y_SHIFT) * (this.worldHeight 
+                                         / MODEL_WORLD_HEIGHT) - dimensionY / 2.0,
                                   dimensionX,
                                   dimensionY);
     }
@@ -106,8 +110,10 @@ public class EntityDrawer {
         final Double dimensionX = (player.getDimension().getLeft()) * (this.worldWidth / MODEL_WORLD_WIDTH);
         final Double dimensionY = (player.getDimension().getRight()) * (this.worldHeight / MODEL_WORLD_HEIGHT);
         graphicsContext.drawImage(playerAnimation.updatePosition(), 
-                                 (player.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * (this.worldWidth / MODEL_WORLD_WIDTH) - dimensionX / 2.0,
-                                 (MODEL_WORLD_HEIGHT / 2.0 - player.getPosition().getRight()) * (this.worldHeight / MODEL_WORLD_HEIGHT) - dimensionY / 2.0,
+                                 (player.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * (this.worldWidth 
+                                         / MODEL_WORLD_WIDTH) - dimensionX / 2.0,
+                                 (MODEL_WORLD_HEIGHT / 2.0 - player.getPosition().getRight()) * (this.worldHeight 
+                                         / MODEL_WORLD_HEIGHT) - dimensionY / 2.0,
                                  this.worldWidth / MODEL_WORLD_WIDTH,
                                  this.worldHeight / MODEL_WORLD_HEIGHT);
     }
@@ -128,8 +134,10 @@ public class EntityDrawer {
         final Double dimensionY = (sword.getDimension().getRight()) * this.worldHeight / MODEL_WORLD_HEIGHT;
         if (state != EntityState.EQUIPPED) {
             graphicsContext.drawImage(swordAnimation.updatePosition(), 
-                                     (sword.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * this.worldWidth / MODEL_WORLD_WIDTH - dimensionX / 2.0,
-                                     (MODEL_WORLD_HEIGHT / 2.0 - sword.getPosition().getRight()) * this.worldHeight / MODEL_WORLD_HEIGHT - dimensionY / 2.0,
+                                     (sword.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * this.worldWidth 
+                                     / MODEL_WORLD_WIDTH - dimensionX / 2.0,
+                                     (MODEL_WORLD_HEIGHT / 2.0 - sword.getPosition().getRight()) * this.worldHeight 
+                                     / MODEL_WORLD_HEIGHT - dimensionY / 2.0,
                                      dimensionX,
                                      dimensionY);
         }

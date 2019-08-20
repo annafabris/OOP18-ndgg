@@ -56,7 +56,6 @@ public class GameControllerImpl implements GameController {
         KeyFrame kf = new KeyFrame(
             Duration.seconds(1 / FPS),
             new EventHandler<ActionEvent>() {
-                int i = 0;
                 public void handle(final ActionEvent ae) {
                     GameState gameState = gameWorld.getCurrentGameState();
                     if (gameState == GameState.PLAYERL_WON) {
@@ -68,20 +67,7 @@ public class GameControllerImpl implements GameController {
                         gameLoop.stop();
                         exit();
                     } else {
-                        if (i > 500) {
-                            view.playerWon(0);
-                            gameLoop.stop();
-                            //exit();
-                        //} else if (i > 50 && i < 65) {
-                          //  gameWorld.movePlayer(EntityMovement.STAY_STILL_RIGHT, 0);
-                            //gameWorld.movePlayer(EntityMovement.DIE_LEFT, 1);
-                            //gameWorld.moveSword(EntityMovement.THROW_RIGHT, 0);
-                        } else {
-                            gameWorld.movePlayer(EntityMovement.MOVE_RIGHT, 0);
-                            gameWorld.movePlayer(EntityMovement.MOVE_LEFT, 1);
-                        }
-                        i++;
-                        //TODO muovi giocatore e/o spada
+                        handleInputs();
                         gameWorld.update();
                         view.update();
                     }
