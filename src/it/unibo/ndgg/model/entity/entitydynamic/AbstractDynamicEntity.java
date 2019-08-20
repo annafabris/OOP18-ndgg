@@ -21,7 +21,7 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
     private EntityDirection direction;
 
     /**
-     * Builds a new dynamicEntity.
+     * Builds a new {@link DynamicEntity}.
      * @param direction
      *          it the current {@link EntityDirection} of the {@link DynamicEntity}
      * @param body

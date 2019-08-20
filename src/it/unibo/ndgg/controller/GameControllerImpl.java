@@ -1,9 +1,14 @@
 package it.unibo.ndgg.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.GameState;
+import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityMovement;
+import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
@@ -98,19 +103,10 @@ public class GameControllerImpl implements GameController {
     /**
      * {@inheritDoc}
      */
-    public Player getPlayer(final int playerID) {
-        return this.gameWorld.getPlayer(playerID);
+    @Override
+    public Map<EntityType, List<AbstractEntity>> getEntities() {
+        return this.gameWorld.getEntities();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Sword getSword(final int swordId) {
-        return this.gameWorld.getSword(swordId);
-    }
-
-    public Platform getPlatform() {
-        return this.gameWorld.getPlatform();
-    }
 
 }

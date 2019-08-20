@@ -13,7 +13,7 @@ import it.unibo.ndgg.model.entity.entitystatic.Platform;
 public interface EntityFactory {
 
     /**
-     * It builds a new Player with its properties.
+     * Builds a new Player with its properties.
      * @param height
      *          the height of the body
      * @param width
@@ -28,7 +28,7 @@ public interface EntityFactory {
     Player createPlayer(Double height, Double width, Pair<Double, Double> position, EntityDirection direction);
 
     /**
-     * It builds a new Sword with its properties.
+     * Builds a new Sword with its properties.
      * @param height
      *          the height of the body
      * @param width

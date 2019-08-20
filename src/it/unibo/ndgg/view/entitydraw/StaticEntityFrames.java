@@ -18,14 +18,9 @@ public enum StaticEntityFrames {
     DOOR_LEFT(EntityType.DOOR, "door_player_two"),
 
     /**
-     * Represents the border of the platform where all entity are.
+     * Represents the platform where all entity are.
      */
-    PLATFORM_BORDER(EntityType.PLATFORM, "platform_1"),
-
-    /**
-     * Represents the center of the platform where all entity are.
-     */
-    PLATFORM_CENTER(EntityType.PLATFORM, "platform_2");
+    PLATFORM(EntityType.PLATFORM, "platform");
 
     private static final String PATH = "images/staticEntity/";
     private static final String EXTENSION = ".png";

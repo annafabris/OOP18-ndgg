@@ -35,7 +35,7 @@ public class BodyPropertiesFactory {
                                                                                         | CATEGORY_DOOR
                                                                                         | CATEGORY_PLATFORM);
     private static final CategoryFilter DOOR_FILTER = new CategoryFilter(CATEGORY_DOOR, CATEGORY_PLAYER
-                                                                                        | CATEGORY_PLAYER);
+                                                                                        | CATEGORY_PLATFORM);
     private static final CategoryFilter PLATFORM_FILTER = new CategoryFilter(CATEGORY_PLATFORM, CATEGORY_PLAYER
                                                                                         | CATEGORY_SWORD
                                                                                         | CATEGORY_PLATFORM

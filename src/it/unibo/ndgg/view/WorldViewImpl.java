@@ -1,17 +1,20 @@
 package it.unibo.ndgg.view;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import it.unibo.ndgg.controller.GameControllerImpl;
-import it.unibo.ndgg.model.entity.EntityMovement;
-import it.unibo.ndgg.model.entity.EntityState;
+import it.unibo.ndgg.model.entity.AbstractEntity;
+import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.view.entitydraw.BackgroundFrames;
 import it.unibo.ndgg.view.entitydraw.EntityDrawer;
 import it.unibo.ndgg.view.entitydraw.dynamic.PlayerAnimation;
-import it.unibo.ndgg.view.entitydraw.dynamic.SoundsTypes;
 import it.unibo.ndgg.view.entitydraw.dynamic.SwordAnimation;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -31,15 +34,11 @@ public class WorldViewImpl implements WorldView {
     private final int viewWidth;
     private final int viewHeight;
     private final long timeStart;
+    private Map<EntityType, List<AbstractEntity>> entities;
     private PlayerAnimation playerAnimation1;
     private PlayerAnimation playerAnimation2;
     private SwordAnimation swordAnimation1;
     private SwordAnimation swordAnimation2;
-    private Player playerL;
-    private Player playerR;
-    private Platform platform;
-    private Sword sword1;
-    private Sword sword2;
     private GraphicsContext graphicsContext;
 
 
@@ -55,17 +54,13 @@ public class WorldViewImpl implements WorldView {
      * {@inheritDoc}.
      */
     @Override
-    public void startGame(GameControllerImpl gameControllerImpl) {
+    public void startGame(final GameControllerImpl gameControllerImpl) {
         this.gameControllerImpl = gameControllerImpl;
-        this.platform = this.gameControllerImpl.getPlatform();
-        this.playerL = this.gameControllerImpl.getPlayer(0);
-        this.playerR = this.gameControllerImpl.getPlayer(1);
-        this.playerAnimation1 = new PlayerAnimation(true, playerL);
-        this.playerAnimation2 = new PlayerAnimation(false, playerR);
-        this.sword1 = this.gameControllerImpl.getSword(0);
-        this.sword2 = this.gameControllerImpl.getSword(1);
-        this.swordAnimation1 = new SwordAnimation(sword1);
-        this.swordAnimation2 = new SwordAnimation(sword2);
+        this.entities = this.gameControllerImpl.getEntities();
+        this.playerAnimation1 = new PlayerAnimation(true, (Player) this.entities.get(EntityType.PLAYER).get(0));
+        this.playerAnimation2 = new PlayerAnimation(false, (Player) this.entities.get(EntityType.PLAYER).get(1));
+        this.swordAnimation1 = new SwordAnimation((Sword) this.entities.get(EntityType.SWORD).get(0));
+        this.swordAnimation2 = new SwordAnimation((Sword) this.entities.get(EntityType.SWORD).get(1));
         this.stage.setScene(createScene());
         this.stage.show();
     }
@@ -98,8 +93,6 @@ public class WorldViewImpl implements WorldView {
         graphicsContext = canvas.getGraphicsContext2D();
         this.draw();
         stage.sizeToScene();
-        this.playerL.changeEntityState(EntityState.STAYING_STILL);
-        this.playerR.changeEntityState(EntityState.STAYING_STILL);
         return new Scene(root, viewWidth, viewHeight);
     }
 
@@ -109,11 +102,14 @@ public class WorldViewImpl implements WorldView {
     private void draw() {
         double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
         this.entityDrawer.drawBackground(this.graphicsContext);
-        this.entityDrawer.drawMainPlatform(graphicsContext, platform);
-        this.entityDrawer.drawDoors(graphicsContext);
-        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, this.playerL);
-        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, this.playerR);
-        this.entityDrawer.drawSword(graphicsContext, swordAnimation1, sword1.getState(), this.sword1);
-        this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), this.sword2);
+        this.entityDrawer.drawMainPlatform(graphicsContext, (Platform) this.entities.get(EntityType.PLATFORM).get(0));
+        this.entityDrawer.drawDoors(graphicsContext, (Door) this.entities.get(EntityType.DOOR).get(0), true);
+        this.entityDrawer.drawDoors(graphicsContext, (Door) this.entities.get(EntityType.DOOR).get(1), false);
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, (Player) this.entities.get(EntityType.PLAYER).get(0));
+        this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, (Player) this.entities.get(EntityType.PLAYER).get(1));
+        Sword sword1 = (Sword) this.entities.get(EntityType.SWORD).get(0);
+        Sword sword2 = (Sword) this.entities.get(EntityType.SWORD).get(1);
+        this.entityDrawer.drawSword(graphicsContext, swordAnimation1, sword1.getState(), sword1);
+        this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), sword2);
     }
 }

@@ -1,7 +1,10 @@
 package it.unibo.ndgg.controller;
 
-import it.unibo.ndgg.model.entity.entitydynamic.Player;
-import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import java.util.List;
+import java.util.Map;
+
+import it.unibo.ndgg.model.entity.AbstractEntity;
+import it.unibo.ndgg.model.entity.EntityType;
 
 /**
  * The controller of the Game.
@@ -25,16 +28,9 @@ public interface GameController {
     void exit();
 
     /**
-     * Returns the requested {@link it.unibo.ndgg.model.entity.entitydynamic.Player}.
-     * @param playerID the Id of the players (0 or 1)
-     * @return {@link it.unibo.ndgg.model.entity.entitydynamic.Player}
+     * Returns all entities in the {@link World}.
+     * @return
+     *       the entities with its types.
      */
-    Player getPlayer(int playerID);
-
-    /**
-     * Returns the requested {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}.
-     * @param swordId the Id of the players (0 or 1)
-     * @return {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}
-     */
-    Sword getSword(int swordId);
+    Map<EntityType, List<AbstractEntity>> getEntities();
 }

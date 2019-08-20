@@ -5,7 +5,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
- *
+ * Represents an abstract representation of {@link Entity}.
  */
 public abstract class AbstractEntity implements Entity {
 
@@ -67,6 +67,9 @@ public abstract class AbstractEntity implements Entity {
         return this.body;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -75,22 +78,29 @@ public abstract class AbstractEntity implements Entity {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        AbstractEntity other = (AbstractEntity) obj;
+        }
+        final AbstractEntity other = (AbstractEntity) obj;
         if (body == null) {
-            if (other.body != null)
+            if (other.body != null) {
                 return false;
-        } else if (!body.equals(other.body))
+            }
+        } else if (!body.equals(other.body)) {
             return false;
+            }
         return true;
     }
 
-    
 }
