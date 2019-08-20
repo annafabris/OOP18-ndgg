@@ -1,7 +1,10 @@
 package it.unibo.ndgg.view;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
@@ -20,6 +23,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
 
 /**
@@ -29,6 +34,8 @@ public class WorldViewImpl implements WorldView {
 
     private final Group root = new Group();
     private final Stage stage;
+    private final EventHandler<KeyEvent> inputHandler;
+    private final List<KeyEvent> inputs;
     private EntityDrawer entityDrawer;
     private GameControllerImpl gameControllerImpl;
     private final int viewWidth;
@@ -48,6 +55,8 @@ public class WorldViewImpl implements WorldView {
         this.viewHeight = (int) (this.stage.getHeight());
         this.entityDrawer = new EntityDrawer(new MutablePair<>(viewWidth, viewHeight), BackgroundFrames.BACKGROUND_1);
         this.timeStart = System.currentTimeMillis();
+        this.inputs = new ArrayList<>();
+        this.inputHandler = key -> this.inputs.add(key);
     }
 
     /**
@@ -111,5 +120,11 @@ public class WorldViewImpl implements WorldView {
         Sword sword2 = (Sword) this.entities.get(EntityType.SWORD).get(1);
         this.entityDrawer.drawSword(graphicsContext, swordAnimation1, sword1.getState(), sword1);
         this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), sword2);
+    }
+
+    @Override
+    public Set<KeyEvent> getInputs() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
