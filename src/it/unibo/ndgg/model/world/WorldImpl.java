@@ -238,31 +238,37 @@ public class WorldImpl implements World {
 
     @Override
     public void changeGuard(PlayerID player) {
-        // TODO Auto-generated method stub
-        
+        Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
+        p.changeGuard();
     }
 
     @Override
-    public void jumpPlayer(PlayerID player) {
-        // TODO Auto-generated method stub
-        
+    public void jumpPlayer(final PlayerID player) {
+        Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
+        if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
+            movePlayer(EntityMovement.JUMP_UP_LEFT, player.getID());
+        } else {
+            movePlayer(EntityMovement.JUMP_UP_RIGHT, player.getID());
+        }
     }
 
     @Override
-    public void movePlayerLeft(PlayerID player) {
-        // TODO Auto-generated method stub
-        
+    public void movePlayerLeft(final PlayerID player) {
+        movePlayer(EntityMovement.MOVE_LEFT, player.getID());
     }
 
     @Override
-    public void movePlayerRight(PlayerID player) {
-        // TODO Auto-generated method stub
-        
+    public void movePlayerRight(final PlayerID player) {
+        movePlayer(EntityMovement.MOVE_RIGHT, player.getID());
     }
 
     @Override
-    public void throwSword(PlayerID player) {
-        // TODO Auto-generated method stub
-        
+    public void throwSword(final PlayerID player) {
+        Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
+        if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
+            moveSword(EntityMovement.THROW_LEFT, player.getID());
+        } else {
+            moveSword(EntityMovement.THROW_RIGHT, player.getID());
+        }
     }
 }

@@ -5,23 +5,13 @@ import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.ndgg.controller.commands.ChangeGuard;
-import it.unibo.ndgg.controller.commands.Command;
-import it.unibo.ndgg.controller.commands.Jump;
-import it.unibo.ndgg.controller.commands.MoveLeft;
-import it.unibo.ndgg.controller.commands.MoveRight;
-import it.unibo.ndgg.controller.commands.Throw;
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
-import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
-import it.unibo.ndgg.model.entity.entitydynamic.Sword;
-import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.world.World;
 import it.unibo.ndgg.model.world.WorldImpl;
-import it.unibo.ndgg.view.Input;
 import it.unibo.ndgg.view.SimpleInput;
 import it.unibo.ndgg.view.WorldView;
 import javafx.animation.KeyFrame;
