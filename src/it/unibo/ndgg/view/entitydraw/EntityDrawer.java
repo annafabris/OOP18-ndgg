@@ -78,10 +78,10 @@ public class EntityDrawer {
             doorImage = this.images.get(DOOR_R);
         }
         final Double dimensionX = (door.getDimension().getLeft()) * (this.worldWidth / MODEL_WORLD_WIDTH);
-        final Double dimensionY = (door.getDimension().getRight()) * (this.worldHeight / MODEL_WORLD_HEIGHT);
+        final Double dimensionY = (door.getDimension().getRight() + 1.0) * (this.worldHeight / MODEL_WORLD_HEIGHT);
         graphicsContext.drawImage(doorImage, 
                                  (door.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * (this.worldWidth / MODEL_WORLD_WIDTH) - dimensionX / 2.0,
-                                 (MODEL_WORLD_HEIGHT / 2.0 - door.getPosition().getRight()) * (this.worldHeight / MODEL_WORLD_HEIGHT) - dimensionY / 2.0,
+                                 (MODEL_WORLD_HEIGHT / 2.0 - door.getPosition().getRight() + 0.21) * (this.worldHeight / MODEL_WORLD_HEIGHT) - dimensionY / 2.0,
                                   dimensionX,
                                   dimensionY);
     }

@@ -207,7 +207,7 @@ public class CollisionRules extends CollisionAdapter {
             this.outerWorld.notifyCollision(CollisionResult.DOORTOUCHED);
             return true;
         }
-        return false;
+        return true;
     }
 
     /**

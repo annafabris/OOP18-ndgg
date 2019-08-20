@@ -38,16 +38,16 @@ public class WorldImpl implements World {
     private static final double SWORD_WIDTH = 0.3;
     private static final double PLATFORM_HEIGHT = 1.8;
     private static final double PLATFORM_WIDTH = 16;
-    private static final double DOOR_HEIGHT = 2;
-    private static final double DOOR_WIDTH = 2;
+    private static final double DOOR_HEIGHT = 1.6;
+    private static final double DOOR_WIDTH = 1.8;
     private static final double PLAYER_X_POSITIOON = 5.0;
     private static final double PLAYER_Y_POSITIOON = -2.3;
     private static final double SWORD_X_POSITIOON = 5.0;
     private static final double SWORD_Y_POSITIOON = -2.3;
     private static final double PLATFORM_X_POSITIOON = 0.0;
     private static final double PLATFORM_Y_POSITIOON = -3.6;
-    private static final double DOOR_X_POSITIOON = 6.0;
-    private static final double DOOR_Y_POSITIOON = -1.5;
+    private static final double DOOR_X_POSITIOON = 7.0;
+    private static final double DOOR_Y_POSITIOON = -1.65;
     private static final int NUMBER_OF_ROOMS = 3;
     private List<Room> rooms = new ArrayList<Room>();
     private int currentRoom;
@@ -114,24 +114,23 @@ public class WorldImpl implements World {
      * {@inheritDoc}.
      */
     public void notifyCollision(final CollisionResult collisionResult) {
-        System.out.println("1");
         switch (collisionResult) {
             case PLAYERKILLED:
                 this.changeRoom();
-                System.out.println("1");
+                System.out.println("1 collision");
                 break;
             case DOORTOUCHED:
                 this.changeRoom();
-                System.out.println("2");
+                System.out.println("2 collision");
                 break;
             case SWORDPICKEDUP:
-                System.out.println("3");
+                System.out.println("3 collision");
                 break;
             case PLAYERDISARMED:
-                System.out.println("4");
+                System.out.println("4 collision");
                 break;
             case SWORDONTHEGROUND:
-                System.out.println("5");
+                System.out.println("5 collision");
                 break;
             default:
                 break;
@@ -210,10 +209,10 @@ public class WorldImpl implements World {
      * Creates all the entities.
      */
     private void createEntities() {
-        EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
-        Player playerL = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<Double, Double>(-PLAYER_X_POSITIOON, 
+        final EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
+        final Player playerL = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<Double, Double>(-PLAYER_X_POSITIOON, 
                 PLAYER_Y_POSITIOON), EntityDirection.RIGHT);
-        Player playerR = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<>(PLAYER_X_POSITIOON, 
+        final Player playerR = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<>(PLAYER_X_POSITIOON, 
                 PLAYER_Y_POSITIOON), EntityDirection.LEFT);
         playerL.changeEntityState(EntityState.STAYING_STILL);
         playerR.changeEntityState(EntityState.STAYING_STILL);
@@ -226,9 +225,9 @@ public class WorldImpl implements World {
        entities.put(EntityType.PLATFORM, Stream.of((Platform) entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
                PLATFORM_X_POSITIOON, PLATFORM_Y_POSITIOON))).collect(Collectors.toList()));
        entities.put(EntityType.DOOR, (Stream.of((Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
-               -DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerR), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
-                       DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL)).collect(Collectors.toList())));
+               -DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
+                       DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerR)).collect(Collectors.toList())));
        this.bodyAssociations.setEntities(entities);
-        this.rooms.get(this.currentRoom).setEntities(entities);
+       this.rooms.get(this.currentRoom).setEntities(entities);
     }
 }

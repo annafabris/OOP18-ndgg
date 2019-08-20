@@ -98,6 +98,7 @@ public class BodyPropertiesFactory {
             case DOOR:
                 filter = DOOR_FILTER;
                 body = createBody(position, width, height, filter);
+                body.setMass(MassType.INFINITE);
                 break;
             case PLATFORM:
                 filter = PLATFORM_FILTER;
