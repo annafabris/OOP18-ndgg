@@ -26,16 +26,6 @@ public enum EntityMovement {
     JUMP_UP_LEFT(EntityState.JUMPING_UP, EntityDirection.LEFT),
 
     /**
-     * With this, the {@link Player} jump down left.
-     */
-    JUMP_DOWN_LEFT(EntityState.JUMPING_DOWN, EntityDirection.LEFT),
-
-    /**
-     * With this, the {@link Player} jump down right.
-     */
-    JUMP_DOWN_RIGHT(EntityState.JUMPING_DOWN, EntityDirection.RIGHT),
-
-    /**
      * With this, the {@link Player} stay still.
      */
     STAY_STILL_RIGHT(EntityState.STAYING_STILL, EntityDirection.RIGHT),

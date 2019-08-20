@@ -7,7 +7,7 @@ import it.unibo.ndgg.model.entity.EntityMovement;
 /**
  * Represents all type of weapon that can be equipped by the players.
  */
-public interface Weapon {
+public interface Weapon extends DynamicEntity {
 
     /**
      * When the {@link Player} picks up the weapon.

@@ -160,10 +160,14 @@ public class WorldImpl implements World {
     @Override
     public void movePlayer(final EntityMovement movement, final int playerId) {
         Player player1 = (Player) this.entities.get(EntityType.PLAYER).get(playerId);
+        Sword sword1 = (Sword) player1.getWeapon().get();
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
-        //System.out.println("posizione " + playerId + " " + player1.getPosition());
+        System.out.println("posizione player" + playerId + " " + player1.getPosition());
+        System.out.println("posizione sword" + playerId + " " + sword1.getPosition());
+        System.out.println("differenza x " + (player1.getPosition().getRight() - sword1.getPosition().getRight()));
+        System.out.println("differenza y " + (player1.getPosition().getLeft() - sword1.getPosition().getLeft()));
         //System.out.println("dimensione " + playerId + " " + player1.getDimension());
         //System.out.println("Active: " + body1.isActive());
         //System.out.println("\nAsleep:  " + body1.isAsleep());
@@ -221,7 +225,7 @@ public class WorldImpl implements World {
         entities.put(EntityType.SWORD, Stream.of((Sword) entityFactory.createSword(SWORD_WIDTH, SWORD_HEIGHT, new MutablePair<>(
                 SWORD_X_POSITIOON, SWORD_Y_POSITIOON), playerL, EntityDirection.RIGHT), 
                 (Sword) entityFactory.createSword(SWORD_WIDTH, SWORD_HEIGHT, new MutablePair<>(
-                                SWORD_X_POSITIOON, -SWORD_Y_POSITIOON), playerR, EntityDirection.LEFT))
+                                -SWORD_X_POSITIOON, SWORD_Y_POSITIOON), playerR, EntityDirection.LEFT))
                 .collect(Collectors.toList()));
        entities.put(EntityType.PLATFORM, Stream.of((Platform) entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
                PLATFORM_X_POSITIOON, PLATFORM_Y_POSITIOON))).collect(Collectors.toList()));

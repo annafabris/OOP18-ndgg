@@ -2,11 +2,16 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 
 import java.util.Optional;
 
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.geometry.Vector2;
+
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
+import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
+import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
 import it.unibo.ndgg.view.entitydraw.dynamic.SoundsTypes;
 
 /**
@@ -100,10 +105,15 @@ public class Player extends AbstractDynamicEntity {
      * It changes the sword guard of the player is staying still.
      */
     public void changeGuard() {
-        if (this.getState() == EntityState.STAYING_STILL) {
+        if (this.getState() == EntityState.STAYING_STILL && this.typeOfGuard.isPresent()) {
+            Body swordBody = ((Sword) this.weapon.get()).getBody().getPhysicalBody();
+          //TODO riguardarci
+            swordBody.setGravityScale(0);
             if (this.typeOfGuard.get() == SwordGuard.HIGH) {
+                swordBody.translate(new Vector2(0.0,-0.5));
                 this.typeOfGuard = Optional.of(SwordGuard.LOW);
             } else {
+                swordBody.translate(new Vector2(0.0,-0.5));
                 this.typeOfGuard = Optional.of(SwordGuard.HIGH);
             }
         }
@@ -126,6 +136,25 @@ public class Player extends AbstractDynamicEntity {
             this.move(EntityMovement.DIE_LEFT);
         }
         SoundsTypes.PLAYERKILLED.getSound().play();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void move(EntityMovement movement) {
+        if ((movement.getAssociatedEntityState() != EntityState.MOVING 
+                && movement.getAssociatedDirection() == this.getCurrentDirection())
+                || movement.getAssociatedEntityState() == EntityState.MOVING) {
+
+            final MovementVectorValues movementValue = new MovementVectorValuesImpl();
+            Vector2 values = movementValue.getMovementVector(movement);
+            if (this.weapon.isPresent()) {
+                DynamicBodyProperties swordBody = (DynamicBodyProperties)((Sword) this.weapon.get()).getBody();
+                swordBody.translate(values.x, values.y);
+            }
+            ((DynamicBodyProperties) super.getBody()).applyImpulse(movement, values.x, values.y);
+        }
     }
 
 }
