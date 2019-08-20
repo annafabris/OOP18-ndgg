@@ -15,11 +15,6 @@ import it.unibo.ndgg.model.world.WorldImpl;
 import it.unibo.ndgg.view.SimpleInput;
 import it.unibo.ndgg.view.WorldView;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.util.Duration;
 
 /**
  * {@inheritDoc}.
@@ -33,7 +28,7 @@ public class GameControllerImpl implements GameController {
     private final AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(final long now) {
-            update();
+            updateModelAndView();
         }
     };
 
@@ -52,38 +47,6 @@ public class GameControllerImpl implements GameController {
         view.startGame(this);
         this.run();
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    /*public void updateModelAndView() {
-        Timeline gameLoop = new Timeline();
-        gameLoop.setCycleCount(Timeline.INDEFINITE);
-
-        KeyFrame kf = new KeyFrame(
-            Duration.seconds(1 / FPS),
-            new EventHandler<ActionEvent>() {
-                public void handle(final ActionEvent ae) {
-                    GameState gameState = gameWorld.getCurrentGameState();
-                    if (gameState == GameState.PLAYERL_WON) {
-                        view.playerWon(0);
-                        gameLoop.stop();
-                        exit();
-                    } else if (gameState == GameState.PLAYERR_WON) {
-                        view.playerWon(1);
-                        gameLoop.stop();
-                        exit();
-                    } else {
-                        handleInputs();
-                        gameWorld.update();
-                        view.update();
-                    }
-                }
-            });
-
-        gameLoop.getKeyFrames().add(kf);
-        gameLoop.play();
-    }*/
 
     /**
      * {@inheritDoc}
@@ -122,7 +85,7 @@ public class GameControllerImpl implements GameController {
         }
     }
     
-    private void update() {
+    public void updateModelAndView() {
         GameState gameState = gameWorld.getCurrentGameState();
         if (gameState == GameState.PLAYERL_WON) {
             view.playerWon(0);
@@ -141,12 +104,6 @@ public class GameControllerImpl implements GameController {
     
     private void run() {
         timer.start();
-    }
-
-    @Override
-    public void updateModelAndView() {
-        // TODO Auto-generated method stub
-        
     }
 
 

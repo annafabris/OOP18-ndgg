@@ -90,6 +90,7 @@ public class WorldImpl implements World {
     public void update() {
         this.rooms.get(this.currentRoom).update();
         this.bodyPropertiesWorld.update();
+        this.checkPlayerState();
         /*Player player1 = getPlayer(0);
         System.out.println("df " + player1.getPosition() + "");
        if(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())){
@@ -242,14 +243,15 @@ public class WorldImpl implements World {
         Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
         p.changeGuard();
     }
-
-    @Override
+    
     public void jumpPlayer(final PlayerID player) {
         Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
-            movePlayer(EntityMovement.JUMP_UP_LEFT, player.getID());
-        } else {
-            movePlayer(EntityMovement.JUMP_UP_RIGHT, player.getID());
+        if (p.getState() != EntityState.JUMPING_UP) {
+            if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
+                movePlayer(EntityMovement.JUMP_UP_LEFT, player.getID());
+            } else {
+                movePlayer(EntityMovement.JUMP_UP_RIGHT, player.getID());
+            }
         }
     }
 
@@ -271,6 +273,17 @@ public class WorldImpl implements World {
             moveSword(EntityMovement.THROW_LEFT, player.getID());
         } else {
             moveSword(EntityMovement.THROW_RIGHT, player.getID());
+        }
+    }
+    
+    private void checkPlayerState() {
+        Player p1 = (Player) this.entities.get(EntityType.PLAYER).get(PlayerID.FIRST_PLAYER.getID());
+        if (p1.getBody().getPhysicalBody().isAsleep()){
+            p1.changeEntityState(EntityState.STAYING_STILL);
+        }
+        Player p2 = (Player) this.entities.get(EntityType.PLAYER).get(PlayerID.SECOND_PLAYER.getID());
+        if (p2.getBody().getPhysicalBody().isAsleep()){
+            p2.changeEntityState(EntityState.STAYING_STILL);
         }
     }
 }
