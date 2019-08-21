@@ -113,7 +113,8 @@ public class WorldImpl implements World {
     /**
      * {@inheritDoc}.
      */
-    public void notifyCollision(final CollisionResult collisionResult,Player player) {
+    @Override
+    public void notifyCollision(final CollisionResult collisionResult, Player player) {
         switch (collisionResult) {
             case PLAYERKILLED:
                if(player.getCurrentDirection() == EntityDirection.LEFT) {
@@ -278,18 +279,25 @@ public class WorldImpl implements World {
                     if (playerChangeGuard.getSwordGuard().get() != otherPlayer.getSwordGuard().get()) {
                         if (playerChangeGuard.getSwordGuard().get() == SwordGuard.LOW) {
                             if (playerChangeGuard.getCurrentDirection() == EntityDirection.RIGHT) {
-                                createBodyProperties((Sword)otherPlayer.getWeapon().get(),Pair.of(otherPlayer.getPosition().getLeft() + 0.30,
+                                createBodyProperties((Sword) otherPlayer.getWeapon().get(),Pair.of(otherPlayer.getPosition().getLeft() + 0.30,
                                         otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
                                 otherPlayer.dropWeapon(EntityMovement.DROP_RIGHT);
                             } else {
-                                createBodyProperties((Sword)otherPlayer.getWeapon().get(),Pair.of(otherPlayer.getPosition().getLeft() - 0.30,
+                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() - 0.30,
                                         otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
                                 otherPlayer.dropWeapon(EntityMovement.DROP_LEFT);
                             }
                             playerChangeGuard.changeGuard();
                         } else {
-                            destroyBodyProprerties ((Sword)playerChangeGuard.getWeapon().get());
-                            playerChangeGuard.dropWeapon(EntityMovement.DROP_LEFT);
+                            if (otherPlayer.getCurrentDirection() == EntityDirection.RIGHT) {
+                                createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() + 0.30,
+                                        playerChangeGuard.getPosition().getRight() + PLAYER_HEIGHT));
+                                playerChangeGuard.dropWeapon(EntityMovement.DROP_RIGHT);
+                            } else {
+                                createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() - 0.30,
+                                        playerChangeGuard.getPosition().getRight() + PLAYER_HEIGHT));
+                                playerChangeGuard.dropWeapon(EntityMovement.DROP_LEFT);
+                            }
                         }
                     }
                 }
@@ -332,10 +340,10 @@ public class WorldImpl implements World {
             if (this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition()) 
                     && checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
                 if (!loserPlayer.getWeapon().isPresent()) {
-                    loserPlayer.die(this.entities.get(EntityType.PLAYER).get(0).getBody());
+                    loserPlayer.die();
                 } else {
                     if (loserPlayer.getSwordGuard().get() != loserPlayer.getSwordGuard().get()) {
-                        loserPlayer.die(this.entities.get(EntityType.PLAYER).get(0).getBody());
+                        loserPlayer.die();
                     }
                 }
             }
@@ -345,7 +353,7 @@ public class WorldImpl implements World {
     @Override
     public void throwSword(final PlayerID player) {
         Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        if(p.getState() == EntityState.STAYING_STILL) {
+        if (p.getState() == EntityState.STAYING_STILL) {
         if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
             createBodyProperties((Sword)p.getWeapon().get(),Pair.of(p.getPosition().getLeft() + 0.30,p.getPosition().getRight() + PLAYER_HEIGHT));
             moveSword(EntityMovement.THROW_LEFT, player.getID());
@@ -401,5 +409,4 @@ public class WorldImpl implements World {
             });
         });
     }
-    
 }
