@@ -2,6 +2,7 @@ package it.unibo.ndgg.view;
 
 import java.util.List;
 import it.unibo.ndgg.controller.GameControllerImpl;
+import it.unibo.ndgg.controller.Input;
 
 /**
  * A class that takes care of the view of the game.

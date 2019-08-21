@@ -7,12 +7,10 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.entity.AbstractEntity;
-import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
 import it.unibo.ndgg.model.world.World;
 import it.unibo.ndgg.model.world.WorldImpl;
-import it.unibo.ndgg.view.SimpleInput;
 import it.unibo.ndgg.view.WorldView;
 import javafx.animation.AnimationTimer;
 
@@ -82,6 +80,9 @@ public class GameControllerImpl implements GameController {
         }
         if (i.equals(SimpleInput.THROW)) {
             gameWorld.throwSword(player);
+        }
+        if (i.equals(SimpleInput.ATTACK)) {
+            gameWorld.attackPlayer(player);
         }
     }
     

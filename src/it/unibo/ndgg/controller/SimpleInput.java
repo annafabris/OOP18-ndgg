@@ -1,4 +1,4 @@
-package it.unibo.ndgg.view;
+package it.unibo.ndgg.controller;
 
 /**
  * 
@@ -24,6 +24,11 @@ public enum SimpleInput {
     /**
      * 
      */
-    CHANGE_GUARD;
+    CHANGE_GUARD,
+    /**
+     * 
+     */
+    ATTACK;
+
 
 }

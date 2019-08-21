@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import it.unibo.ndgg.controller.GameControllerImpl;
+import it.unibo.ndgg.controller.Input;
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
@@ -144,6 +145,9 @@ public class WorldViewImpl implements WorldView {
         if (key.getCode().equals(KeyCode.X)) {
             return Optional.of(Input.CHANGE_GUARD_ONE);
         }
+        if (key.getCode().equals(KeyCode.Z)) {
+            return Optional.of(Input.ATTACK_PLAYER_ONE);
+        }
         if (key.getCode().equals(KeyCode.SPACE)) {
             return Optional.of(Input.THROW_SWORD_ONE);
         }
@@ -161,6 +165,9 @@ public class WorldViewImpl implements WorldView {
         }
         if (key.getCode().equals(KeyCode.M)) {
             return Optional.of(Input.THROW_SWORD_TWO);
+        }
+        if (key.getCode().equals(KeyCode.P)) {
+            return Optional.of(Input.ATTACK_PLAYER_TWO);
         }
         return Optional.empty();
     }

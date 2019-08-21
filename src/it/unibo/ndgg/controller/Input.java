@@ -1,10 +1,11 @@
-package it.unibo.ndgg.view;
+package it.unibo.ndgg.controller;
 
-import static it.unibo.ndgg.view.SimpleInput.CHANGE_GUARD;
-import static it.unibo.ndgg.view.SimpleInput.JUMP;
-import static it.unibo.ndgg.view.SimpleInput.LEFT;
-import static it.unibo.ndgg.view.SimpleInput.RIGHT;
-import static it.unibo.ndgg.view.SimpleInput.THROW;
+import static it.unibo.ndgg.controller.SimpleInput.CHANGE_GUARD;
+import static it.unibo.ndgg.controller.SimpleInput.JUMP;
+import static it.unibo.ndgg.controller.SimpleInput.LEFT;
+import static it.unibo.ndgg.controller.SimpleInput.RIGHT;
+import static it.unibo.ndgg.controller.SimpleInput.THROW;
+import static it.unibo.ndgg.controller.SimpleInput.ATTACK;
 import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
 /**
  * 
@@ -49,7 +50,15 @@ public enum Input {
     /**
      * 
      */
-    CHANGE_GUARD_TWO(CHANGE_GUARD, PlayerID.SECOND_PLAYER);
+    CHANGE_GUARD_TWO(CHANGE_GUARD, PlayerID.SECOND_PLAYER),
+    /**
+     * 
+     */
+    ATTACK_PLAYER_ONE(ATTACK, PlayerID.FIRST_PLAYER),
+    /**
+     * 
+     */
+    ATTACK_PLAYER_TWO(ATTACK, PlayerID.SECOND_PLAYER);
 
     private final SimpleInput command;
     private final PlayerID player;

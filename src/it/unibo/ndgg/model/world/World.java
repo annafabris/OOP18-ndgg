@@ -62,6 +62,7 @@ public interface World {
     void movePlayerLeft(PlayerID player);
     void movePlayerRight(PlayerID player);
     void throwSword(PlayerID player);
+    void attackPlayer(final PlayerID player);
 
 
 }
