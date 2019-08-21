@@ -1,9 +1,11 @@
 package it.unibo.ndgg.model.entity.entitystatic;
 
+import java.util.Optional;
+
 import it.unibo.ndgg.model.entity.AbstractEntity;
+import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
-import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.physic.body.StaticBodyProperties;
 
 /**
@@ -11,13 +13,15 @@ import it.unibo.ndgg.model.physic.body.StaticBodyProperties;
  */
 public class Door extends AbstractEntity {
 
-    private boolean isHit;
+    private boolean isHit = false;
     private Player player;
 
-    public Door(final StaticBodyProperties body, final Player player) {
-        super(body);
+    public Door(Optional<StaticBodyProperties> body, Player player) {
+        super();
+        if (body.isPresent()) {
+            super.setBody(Optional.ofNullable(body.get()));
+        } 
         this.player = player;
-        this.isHit = false;
     }
 
     /**
@@ -51,4 +55,11 @@ public class Door extends AbstractEntity {
         return isHit;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EntityState getState() {
+        return EntityState.STAYING_STILL;
+    }
 }

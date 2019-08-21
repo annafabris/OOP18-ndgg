@@ -1,7 +1,8 @@
 package it.unibo.ndgg.model.entity.entitydynamic;
 
+import java.util.Optional;
+
 import org.apache.commons.lang3.tuple.Pair;
-import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityDirection;
@@ -9,15 +10,13 @@ import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
-import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
-import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
 
 /**
  * Represents the implementation of {@link DynamicEntity}.
  */
 public abstract class AbstractDynamicEntity extends AbstractEntity implements DynamicEntity {
 
-    private final DynamicBodyProperties body;
+    private final Optional<DynamicBodyProperties> body;
     private EntityDirection direction;
 
     /**
@@ -27,9 +26,14 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
      * @param body
      *          it is the body represented by this entity
      */
-    public AbstractDynamicEntity(final EntityDirection direction, final DynamicBodyProperties body) {
-        super(body);
-        this.body = body;
+    public AbstractDynamicEntity(final EntityDirection direction, final Optional<DynamicBodyProperties> body) {
+        super();
+        if (body.isPresent()) {
+            super.setBody(Optional.ofNullable(body.get()));
+            this.body = body;
+        } else {
+            this.body = Optional.empty();
+        }
         this.direction = direction;
     }
 
@@ -37,7 +41,11 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
      * {@inheritDoc}
      */
     public Pair<Double, Double> getVelocity() {
-        return this.body.getVelocity();
+        if (this.body.isPresent()) {
+            return this.body.get().getVelocity();
+        } else {
+            throw new IllegalStateException("The Body is not present");
+        }
     }
 
     /**
@@ -66,13 +74,32 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
      * {@inheritDoc}
      */
     @Override
-    public void changeEntityState(final EntityState state) {
-       this.body.changeCurrentState(state);
+    public abstract EntityType getType();
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EntityState getState() {
+        if (body.isPresent()) {
+            return this.body.get().getState();
+        } else {
+            //TODO attenzione potrebbero esserci problemi
+            System.out.println("Leggo stato spada");
+            return EntityState.EQUIPPED;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract EntityType getType();
+    public void changeEntityState(final EntityState state) {
+        if (body.isPresent()) {
+            this.body.get().changeCurrentState(state);
+        } else {
+            throw new IllegalStateException("The Body is not present");
+        }
+    }
+
 }

@@ -1,5 +1,7 @@
 package it.unibo.ndgg.model.entity;
 
+import java.util.Optional;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.ndgg.model.physic.body.BodyProperties;
@@ -9,15 +11,18 @@ import it.unibo.ndgg.model.physic.body.BodyProperties;
  */
 public abstract class AbstractEntity implements Entity {
 
-    private final BodyProperties body;
+    private Optional<BodyProperties> body = Optional.empty();
 
     /**
      * It is a constructor for this class that require a {@link it.unibo.ndgg.model.physic.body.BodyProperties}.
      * @param body 
      *          an element of {it.unibo.ndgg.model.physic.body.BodyProperties}
      */
-    public AbstractEntity(final BodyProperties body) {
+    public AbstractEntity() {
         super();
+    }
+
+    public void setBody(Optional<BodyProperties> body) {
         this.body = body;
     }
 
@@ -26,15 +31,11 @@ public abstract class AbstractEntity implements Entity {
      */
     @Override
     public Pair<Double, Double> getPosition() {
-        return this.body.getPosition();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public EntityState getState() {
-        return this.body.getState();
+        if (this.body.isPresent()) {
+            return this.body.get().getPosition();
+        } else {
+            throw new IllegalStateException("The Body is not present");
+        }
     }
 
     /**
@@ -48,7 +49,11 @@ public abstract class AbstractEntity implements Entity {
      */
     @Override
     public boolean isAlive() {
-        return body.exists();
+        if (this.body.isPresent()) {
+            return this.body.get().exists();
+        } else {
+            throw new IllegalStateException("The Body is not present");
+        }
     }
 
     /**
@@ -56,7 +61,11 @@ public abstract class AbstractEntity implements Entity {
      */
     @Override
     public Pair<Double, Double> getDimension() {
-        return this.body.getDimension();
+        if (this.body.isPresent()) {
+            return this.body.get().getDimension();
+        } else {
+            throw new IllegalStateException("The Body is not present");
+        }
     }
 
     /**
@@ -64,7 +73,11 @@ public abstract class AbstractEntity implements Entity {
      */
     @Override
     public BodyProperties getBody() {
-        return this.body;
+        if (this.body.isPresent()) {
+            return this.body.get();
+        } else {
+            throw new IllegalStateException("The Body is not present");
+        }
     }
 
     /**

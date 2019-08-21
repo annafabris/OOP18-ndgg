@@ -32,7 +32,7 @@ public class Player extends AbstractDynamicEntity {
      * @param direction
      *          it is the first {@link EntityDirection} of the player
      */
-    public Player(final DynamicBodyProperties body, final EntityDirection direction) {
+    public Player(final Optional<DynamicBodyProperties> body, final EntityDirection direction) {
         super(direction, body);
         this.weapon = Optional.empty();
         this.typeOfGuard = Optional.empty();
@@ -162,5 +162,4 @@ public class Player extends AbstractDynamicEntity {
             ((DynamicBodyProperties) super.getBody()).applyImpulse(movement, values.x, values.y);
         }
     }
-
 }

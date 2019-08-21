@@ -10,6 +10,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 
 import it.unibo.ndgg.controller.GameControllerImpl;
 import it.unibo.ndgg.model.entity.AbstractEntity;
+import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
@@ -122,8 +123,12 @@ public class WorldViewImpl implements WorldView {
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, (Player) this.entities.get(EntityType.PLAYER).get(1));
         Sword sword1 = (Sword) this.entities.get(EntityType.SWORD).get(0);
         Sword sword2 = (Sword) this.entities.get(EntityType.SWORD).get(1);
-        this.entityDrawer.drawSword(graphicsContext, swordAnimation1, sword1.getState(), sword1);
-        this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), sword2);
+        if (sword1.getState() != EntityState.EQUIPPED) {
+            this.entityDrawer.drawSword(graphicsContext, swordAnimation1, sword1.getState(), sword1);
+        }
+        if (sword2.getState() != EntityState.EQUIPPED) {
+            this.entityDrawer.drawSword(graphicsContext, swordAnimation2, sword2.getState(), sword2);
+        }
     }
 
     private Optional<Input> convertInput(final KeyEvent key) {

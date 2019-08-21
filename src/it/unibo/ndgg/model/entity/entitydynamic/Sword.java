@@ -26,7 +26,7 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
      * @param direction
      *           it is its direction
      */
-    public Sword(final DynamicBodyProperties body, final Player player, final EntityDirection direction) {
+    public Sword(final Optional<DynamicBodyProperties> body, final Player player, final EntityDirection direction) {
         super(direction, body);
         player.equipWeapon(this);
     }
@@ -38,7 +38,7 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
     public void equipWeapon(final Player player) throws Exception {
         if (!this.player.isPresent()) {
            this.player = Optional.of(player);
-           this.changeEntityState(EntityState.EQUIPPED);
+           //this.changeEntityState(EntityState.EQUIPPED);
         } else {
             throw new Exception("This sword is already equipped");
         }
@@ -78,7 +78,7 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
      * {@inheritDoc}
      */
     @Override
-    public void move(EntityMovement movement) {
+    public void move(final EntityMovement movement) {
         /**if ((movement.getAssociatedEntityState() != EntityState.MOVING 
                 && movement.getAssociatedDirection() == this.getCurrentDirection())
                 || movement.getAssociatedEntityState() == EntityState.MOVING) {
