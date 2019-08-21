@@ -149,7 +149,7 @@ public class Player extends AbstractDynamicEntity {
 
             final MovementVectorValues movementValue = new MovementVectorValuesImpl();
             Vector2 values = movementValue.getMovementVector(movement);
-            if (this.weapon.isPresent()) {
+            /*if (this.weapon.isPresent()) {
                 Body swordBody = ((Sword) this.weapon.get()).getBody().getPhysicalBody();
                 swordBody.translateToOrigin();
                 if (movement.getAssociatedDirection() == EntityDirection.RIGHT) {
@@ -157,7 +157,7 @@ public class Player extends AbstractDynamicEntity {
                 } else {
                     swordBody.shift(new Vector2(this.getPosition().getLeft() - 0.4, this.getPosition().getRight()));
                 }
-            }
+            }*/
             this.setCurrentDirection(movement.getAssociatedDirection());
             ((DynamicBodyProperties) super.getBody()).applyImpulse(movement, values.x, values.y);
         }

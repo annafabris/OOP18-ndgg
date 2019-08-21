@@ -9,6 +9,8 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.dyn4j.dynamics.joint.PrismaticJoint;
+import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.collision.CollisionResult;
@@ -27,6 +29,9 @@ import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
+import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
+import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
+import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
 
 /**
  * {@inheritDoc}.
@@ -183,7 +188,9 @@ public class WorldImpl implements World {
     @Override
     public void moveSword(final EntityMovement movement, final int swordId) {
         Player player = (Player) this.entities.get(EntityType.PLAYER).get(swordId);
-        player.dropWeapon(movement);
+        //TODO da fare solo se il giocatore ha la spada
+        player.getBody().getPhysicalBody().removeFixture(1); //N.B rimuovo la fixture quando tiro la spada
+        //player.dropWeapon(movement);
     }
 
     /**
@@ -251,6 +258,7 @@ public class WorldImpl implements World {
                 movePlayer(EntityMovement.JUMP_UP_LEFT, player.getID());
             } else {
                 movePlayer(EntityMovement.JUMP_UP_RIGHT, player.getID());
+    
             }
         }
     }
