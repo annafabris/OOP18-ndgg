@@ -12,6 +12,7 @@ import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitydynamic.SwordGuard;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
@@ -98,13 +99,14 @@ public class CollisionRules extends CollisionAdapter {
                 sword = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
             }
             return this.processSwordPlatformCollision(sword, platform);
-        } else if (firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.SWORD) {//verificare come fare nel caso in cui un giocatore con una spada in mano faccia costantemente collisioni.
-            final Sword sword1;
-            final Sword sword2;
-            sword1 = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
-            sword2 = this.worldProperties.getSwordFromBody(secondTriple.getLeft());
-            return this.processSwordSwordCollision(sword1, sword2);
-    }
+        }
+//        } else if (firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.SWORD) {//verificare come fare nel caso in cui un giocatore con una spada in mano faccia costantemente collisioni.
+//            final Sword sword1;
+//            final Sword sword2;
+//            sword1 = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
+//            sword2 = this.worldProperties.getSwordFromBody(secondTriple.getLeft());
+//            return this.processSwordSwordCollision(sword1, sword2);
+//    }
         return true;
     }
 
@@ -144,38 +146,38 @@ public class CollisionRules extends CollisionAdapter {
      * @return 
      *          True if a collision which need to be rule happens false otherwise.
      */
-    private boolean processSwordSwordCollision(final Sword sword1, final Sword sword2) {
-        if (sword1.getPlayer().isPresent() && sword2.getPlayer().isPresent()) {
-            if ((sword1.getPosition().getRight() < sword2.getPosition().getRight())) {
-                try {
-                    if (sword1.getCurrentDirection() == EntityDirection.LEFT) {
-                        sword1.unequipWeapon(EntityMovement.DROP_LEFT);
-                    } else {
-                        sword1.unequipWeapon(EntityMovement.DROP_RIGHT);
-                    }
-                } catch (Exception e) {
-                    System.out.println("The player hasn't  a sword");
-                    e.printStackTrace();
-                }
-                this.outerWorld.notifyCollision(CollisionResult.PLAYERDISARMED);
-                return true;
-            } else if ((sword2.getPosition().getRight() < sword1.getPosition().getRight())) {
-                try {
-                    if (sword2.getCurrentDirection() == EntityDirection.LEFT) {
-                        sword2.unequipWeapon(EntityMovement.DROP_LEFT);
-                    } else {
-                        sword2.unequipWeapon(EntityMovement.DROP_RIGHT);
-                    }
-                } catch (Exception e) {
-                    System.out.println("The player hasn't  a sword");
-                    e.printStackTrace();
-                }
-                this.outerWorld.notifyCollision(CollisionResult.PLAYERDISARMED);
-                return true;
-            }
-        }
-        return true;
-    }
+//    private boolean processSwordSwordCollision(final Sword sword1, final Sword sword2) {
+//        if (sword1.getPlayer().isPresent() && sword2.getPlayer().isPresent()) {
+//            if ((sword1.getPosition().getRight() < sword2.getPosition().getRight())) {
+//                try {
+//                    if (sword1.getCurrentDirection() == EntityDirection.LEFT) {
+//                        sword1.unequipWeapon(EntityMovement.DROP_LEFT);
+//                    } else {
+//                        sword1.unequipWeapon(EntityMovement.DROP_RIGHT);
+//                    }
+//                } catch (Exception e) {
+//                    System.out.println("The player hasn't  a sword");
+//                    e.printStackTrace();
+//                }
+//                this.outerWorld.notifyCollision(CollisionResult.PLAYERDISARMED);
+//                return true;
+//            } else if ((sword2.getPosition().getRight() < sword1.getPosition().getRight())) {
+//                try {
+//                    if (sword2.getCurrentDirection() == EntityDirection.LEFT) {
+//                        sword2.unequipWeapon(EntityMovement.DROP_LEFT);
+//                    } else {
+//                        sword2.unequipWeapon(EntityMovement.DROP_RIGHT);
+//                    }
+//                } catch (Exception e) {
+//                    System.out.println("The player hasn't  a sword");
+//                    e.printStackTrace();
+//                }
+//                this.outerWorld.notifyCollision(CollisionResult.PLAYERDISARMED);
+//                return true;
+//            }
+//        }
+//        return true;
+//    }
 
     /**
      * This method process the collision between a Sword and a Platform those collision terminate with only one type o outcome.
@@ -226,11 +228,12 @@ public class CollisionRules extends CollisionAdapter {
      * @throws Exception 
      */
     private boolean processPlayerSwordCollision(final Player player, final Sword sword) {
-        if (sword.getState() == EntityState.EQUIPPED && sword.getPlayer().isPresent()) {
-            if (sword.getPlayer().get() != player) {
-                player.die(); 
-                this.outerWorld.notifyCollision(CollisionResult.PLAYERKILLED);
-                return true;
+        if (sword.getState() == EntityState.THROWING) {
+            if (player.getWeapon().isPresent()) {
+                if (player.getSwordGuard().get() != SwordGuard.HIGH) {
+                    player.die(); 
+                    this.outerWorld.notifyCollision(CollisionResult.PLAYERKILLED);
+                }
             }
         } else if (sword.getState() == EntityState.STAYING_STILL && !player.getWeapon().isPresent()) {
             try {
@@ -240,13 +243,8 @@ public class CollisionRules extends CollisionAdapter {
                 e.printStackTrace();
             }
             this.outerWorld.notifyCollision(CollisionResult.SWORDPICKEDUP);
+            } 
             return true;
-            } else if (sword.getState() == EntityState.DROPPING) {
-                player.die();
-                this.outerWorld.notifyCollision(CollisionResult.PLAYERKILLED);
-                return true;
-            }
-            return false;
     }
 
     private void checkIfFirstIstance(final boolean condition, final String err) {
