@@ -62,4 +62,8 @@ public class Door extends AbstractEntity {
     public EntityState getState() {
         return EntityState.STAYING_STILL;
     }
+    
+    public void resetIsHit() {
+        this.isHit = false;
+    }
 }

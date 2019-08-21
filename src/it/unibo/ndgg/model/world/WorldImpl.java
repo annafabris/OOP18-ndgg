@@ -381,4 +381,8 @@ public class WorldImpl implements World {
                     && player2.getPosition().getLeft() < player1.getPosition().getLeft());
                 
     }
+    
+    private void resetRoomToInitialCondition() {
+        this.entities.get(EntityType.DOOR).stream().forEach(d -> (Door) d.);
+    }
 }
