@@ -231,7 +231,7 @@ public class CollisionRules extends CollisionAdapter {
             if (player.getWeapon().isPresent()) {
                 if (player.getSwordGuard().get() != SwordGuard.HIGH) {
                     player.die(); 
-                    this.outerWorld.notifyCollision(CollisionResult.PLAYERKILLED);
+                    this.outerWorld.notifyCollision(CollisionResult.PLAYERKILLED,player);
                 }
             }
         } else if (sword.getState() == EntityState.STAYING_STILL && !player.getWeapon().isPresent()) {
