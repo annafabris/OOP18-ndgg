@@ -67,14 +67,9 @@ public class CollisionRules extends CollisionAdapter {
             final Door door;
             if (firstTriple.getRight() == EntityType.PLAYER) {
                 player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
-                System.out.println("Porta: " + secondTriple.getMiddle().getPosition());
-                System.out.println("PortaConWorld : " + this.worldProperties.getDoorFromBody(secondTriple.getLeft()).getPosition());
-                System.out.println("bodyFisicoPorta: "+ secondTriple.getLeft());
-                System.out.println("bodyFisicoPlayer: "+ firstTriple.getLeft());
                 door = this.worldProperties.getDoorFromBody(secondTriple.getLeft());
             } else {
                 player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
-                System.out.println("Porta1: " + firstTriple.getMiddle().getPosition());
                 door = this.worldProperties.getDoorFromBody(firstTriple.getLeft());
             }
             return this.processPlayerDoorCollision(player, door);
@@ -209,7 +204,6 @@ public class CollisionRules extends CollisionAdapter {
      */
     private boolean processPlayerDoorCollision(final Player player, final Door door) {
         if (door.getPlayerWhoCanOpen() == player) {
-            //System.out.print(player.getBody().getPosition());
             door.hit();
             this.outerWorld.notifyCollision(CollisionResult.DOORTOUCHED);
             return true;

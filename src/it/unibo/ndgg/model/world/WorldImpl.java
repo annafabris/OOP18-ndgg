@@ -24,6 +24,7 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
+import it.unibo.ndgg.model.entity.entitydynamic.SwordGuard;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.BodyAssociations;
@@ -170,11 +171,11 @@ public class WorldImpl implements World {
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
-        /*System.out.println("posizione player" + playerId + " " + player1.getPosition());
-        System.out.println("posizione sword" + playerId + " " + sword1.getPosition());
-        System.out.println("differenza x " + (player1.getPosition().getRight() - sword1.getPosition().getRight()));
-        System.out.println("differenza y " + (player1.getPosition().getLeft() - sword1.getPosition().getLeft()));
-        System.out.println(sword1.getState());*/
+//        System.out.println("posizione player" + playerId + " " + player1.getPosition());
+//        System.out.println("posizione sword" + playerId + " " + sword1.getPosition());
+//        System.out.println("differenza x " + (player1.getPosition().getRight() - sword1.getPosition().getRight()));
+//        System.out.println("differenza y " + (player1.getPosition().getLeft() - sword1.getPosition().getLeft()));
+//        System.out.println(sword1.getState());
         //System.out.println("dimensione " + playerId + " " + player1.getDimension());
         //System.out.println("Active: " + body1.isActive());
         //System.out.println("\nAsleep:  " + body1.isAsleep());
@@ -248,17 +249,26 @@ public class WorldImpl implements World {
     @Override
     public void changeGuard(final PlayerID player) {
         Player playerChangeGuard = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        Player otherPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i->i.equals(playerChangeGuard)).findFirst().get();
+        Player otherPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.equals(playerChangeGuard)).findFirst().get();
         if (playerChangeGuard.getWeapon().isPresent()) {
             if (this.checkProximity(playerChangeGuard.getPosition(), otherPlayer.getPosition())) {
-                if (!otherPlayer.getWeapon().isPresent()) {
-                    playerChangeGuard.changeGuard();
-                } else {
-                    //if (playerChangeGuard.getSwordGuard().
+                if (otherPlayer.getWeapon().isPresent() && this.checkDirections(playerChangeGuard, otherPlayer)) {
+                    if (playerChangeGuard.getSwordGuard().get() != otherPlayer.getSwordGuard().get()) {
+                        if (playerChangeGuard.getSwordGuard().get() == SwordGuard.LOW) {
+                            if (playerChangeGuard.getCurrentDirection() == EntityDirection.RIGHT) {
+                                otherPlayer.dropWeapon(EntityMovement.DROP_RIGHT);
+                            } else {
+                                otherPlayer.dropWeapon(EntityMovement.DROP_LEFT);
+                            }
+                            playerChangeGuard.changeGuard();
+                        } else {
+                            playerChangeGuard.dropWeapon(EntityMovement.DROP_LEFT);
+                        }
+                    }
                 }
             }
+            playerChangeGuard.changeGuard(); 
         }
-        //p.changeGuard();
     }
 
     public void jumpPlayer(final PlayerID player) {
@@ -289,9 +299,11 @@ public class WorldImpl implements World {
      */
     public void attackPlayer(final PlayerID player) {
         Player playerWhoAttack = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i->i.equals(playerWhoAttack)).findFirst().get();
+        Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i-> i.equals(playerWhoAttack)).findFirst().get();
+
         if (playerWhoAttack.getWeapon().isPresent()) {
-            if (this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition())) {
+            if (this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition()) 
+                    && checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
                 if (!loserPlayer.getWeapon().isPresent()) {
                     loserPlayer.die();
                 } else {
@@ -312,7 +324,7 @@ public class WorldImpl implements World {
             moveSword(EntityMovement.THROW_RIGHT, player.getID());
         }
     }
-    
+
     private void checkPlayerState() {
         Player p1 = (Player) this.entities.get(EntityType.PLAYER).get(PlayerID.FIRST_PLAYER.getID());
         if (p1.getBody().getPhysicalBody().isAsleep()){
@@ -323,9 +335,26 @@ public class WorldImpl implements World {
             p2.changeEntityState(EntityState.STAYING_STILL);
         }
     }
-    
+
     private boolean checkProximity(final Pair<Double, Double> positionFirstPlayer, final Pair<Double, Double> positionSecondPlayer) {
         return Math.abs(positionFirstPlayer.getLeft() - positionSecondPlayer.getLeft()) <= SWORD_WIDTH
                 && Math.abs(positionFirstPlayer.getRight() - positionSecondPlayer.getRight()) <= PLAYER_HEIGHT/2;
+    }
+
+    private boolean checkDirections(final Player player1, final Player player2) {
+        return (player1.getCurrentDirection() == EntityDirection.RIGHT 
+                && player2.getCurrentDirection() == EntityDirection.LEFT
+                && player1.getPosition().getLeft() < player2.getPosition().getLeft())
+                || (player2.getCurrentDirection() == EntityDirection.RIGHT 
+                && player1.getCurrentDirection() == EntityDirection.LEFT
+                && player2.getPosition().getLeft() < player1.getPosition().getLeft());
+    }
+    
+    private boolean checkDirectionToAttack(final Player player1, final Player player2) {
+        return (player1.getCurrentDirection() == EntityDirection.RIGHT 
+                && player1.getPosition().getLeft() < player2.getPosition().getLeft())
+                || (player1.getCurrentDirection() == EntityDirection.LEFT 
+                    && player2.getPosition().getLeft() < player1.getPosition().getLeft());
+                
     }
 }

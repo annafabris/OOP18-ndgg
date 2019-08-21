@@ -14,7 +14,7 @@ import javafx.util.Duration;
  */
 public class PlayerAnimation implements DynamicAnimation {
 
-    private static final double DURATION = 0.100;
+    private static final double DURATION = 0.80;
 
     private EntityImageAnimation currentAnimation;
     private final Player player;
