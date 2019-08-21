@@ -3,8 +3,6 @@ package it.unibo.ndgg.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityType;
@@ -20,8 +18,8 @@ import javafx.animation.AnimationTimer;
 public class GameControllerImpl implements GameController {
 
     private final MainController controller;
-    private final WorldView view; //interfaccia
-    private World gameWorld;
+    private final WorldView view;
+    private final World gameWorld;
     private final AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(final long now) {
@@ -29,20 +27,44 @@ public class GameControllerImpl implements GameController {
         }
     };
 
-    public GameControllerImpl(final WorldView view ,final MainController controller, final Pair<Double, Double> worldDimension) throws Exception {
+    /**
+     * Builds a new {@link gameControllerImpl} and start a new game.
+     * @param view the {@link WorldView} element responsible for the application.
+     * @param controller the {@link MainController} responsible for the application.
+     */
+    public GameControllerImpl(final WorldView view, final MainController controller) {
         this.controller = controller;
         this.view = view;
         this.gameWorld = new WorldImpl();
-        game();
+        run();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void game() throws Exception {
-        this.gameWorld.start();
-        view.startGame(this);
-        this.run();
+    public void newGame() {
+        run();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateModelAndView() {
+        final GameState gameState = gameWorld.getCurrentGameState();
+        if (gameState == GameState.PLAYERL_WON) {
+            view.playerWon(0);
+            timer.stop();
+            exit();
+        } else if (gameState == GameState.PLAYERR_WON) {
+            view.playerWon(1);
+            timer.stop();
+            exit();
+        } else {
+            handleInputs();
+            gameWorld.update();
+            view.update();
+        }
     }
 
     /**
@@ -60,10 +82,16 @@ public class GameControllerImpl implements GameController {
         return this.gameWorld.getEntities();
     }
 
+    /**
+     * Handle all the inputs received.
+     */
     private void handleInputs() {
         view.getInputs().forEach(i -> this.handle(i.getCommand(), i.getPlayer()));
     }
 
+    /*
+     * Handle an input and notify model.
+     */
     private void handle(final SimpleInput i, final PlayerID player) {
         if (i.equals(SimpleInput.CHANGE_GUARD)) {
             gameWorld.changeGuard(player);
@@ -85,26 +113,12 @@ public class GameControllerImpl implements GameController {
         }
     }
 
-    public void updateModelAndView() {
-        GameState gameState = gameWorld.getCurrentGameState();
-        if (gameState == GameState.PLAYERL_WON) {
-            view.playerWon(0);
-            timer.stop();
-            exit();
-        } else if (gameState == GameState.PLAYERR_WON) {
-            view.playerWon(1);
-            timer.stop();
-            exit();
-        } else {
-            handleInputs();
-            gameWorld.update();
-            view.update();
-        }
-    }
-
+    /**
+     * Run the game.
+     */
     private void run() {
+        this.gameWorld.start();
+        view.startGame(this);
         timer.start();
     }
-
-
 }

@@ -15,7 +15,7 @@ public interface GameController {
      * Starts the game.
      * @throws Exception
      */
-    void game() throws Exception;
+    void newGame();
 
     /**
      * Calls the update methods in the View and model unless the game ended.

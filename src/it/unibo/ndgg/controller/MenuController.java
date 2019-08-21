@@ -12,9 +12,8 @@ public interface MenuController {
 
     /**
      * Start a new game.
-     * @throws Exception 
      */
-    void newGame() throws Exception;
+    void newGame();
 
     /**
      * Load options screen.

@@ -19,7 +19,7 @@ public class MenuControllerImpl implements MenuController, MenuObserver {
         this.controller = controller;
         view.setObserver(this);
         this.view = view;
-        mainMenu();
+        view.mainMenu();
     }
 
     /**

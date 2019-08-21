@@ -15,7 +15,7 @@ public class MainControllerImpl implements MainController {
      */
     public MainControllerImpl(final View view) {
         this.view = view;
-        menu();
+        new MenuControllerImpl(view.showMenu(), this);
     }
 
     /**
@@ -31,8 +31,8 @@ public class MainControllerImpl implements MainController {
      * @throws Exception 
      */
     @Override
-    public void startNewGame() throws Exception {
-        new GameControllerImpl(view.showGame(), this, this.view.getViewDimension());
+    public void startNewGame() {
+        new GameControllerImpl(view.showGame(), this);
     }
 
     /**
@@ -40,15 +40,7 @@ public class MainControllerImpl implements MainController {
      */
     @Override
     public void quit() {
-        quitGame();
         view.quit();
-    }
-
-    /**
-     * Stops the game controller.
-     */
-    private void quitGame() {
-        // TODO Auto-generated method stub
     }
 
     /**
@@ -66,6 +58,5 @@ public class MainControllerImpl implements MainController {
     public void playMusic() {
         view.playMusic();
     }
-
 
 }

@@ -1,7 +1,5 @@
 package it.unibo.ndgg.controller;
 
-import java.io.IOException;
-
 import it.unibo.ndgg.view.ViewImpl;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -16,7 +14,7 @@ public class Nidhogg extends Application {
      * @param stage the {@link Stage} to use for this application
      */
     @Override
-    public void start(final Stage stage) throws Exception {
+    public void start(final Stage stage) {
         new MainControllerImpl(new ViewImpl(stage));
     }
 
@@ -26,7 +24,7 @@ public class Nidhogg extends Application {
      * @throws IOException 
      * @throws ClassNotFoundException 
      */
-    public static void main(final String[] args) throws ClassNotFoundException, IOException {
+    public static void main(final String[] args) {
         launch(args);
     }
 }

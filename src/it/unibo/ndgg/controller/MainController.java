@@ -14,7 +14,7 @@ public interface MainController {
      * Start a new {@link GameController}.
      * @throws Exception 
      */
-    void startNewGame() throws Exception;
+    void startNewGame();
 
     /**
      * Exits the application.
