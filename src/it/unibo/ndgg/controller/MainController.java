@@ -21,4 +21,14 @@ public interface MainController {
      */
     void quit();
 
+    /**
+     * Play the music.
+     */
+    void playMusic();
+
+    /**
+     * Stop the music.
+     */
+    void stopMusic();
+
 }

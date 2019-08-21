@@ -59,4 +59,11 @@ public class MenuControllerImpl implements MenuController, MenuObserver {
         controller.quit();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mute() {
+    }
+
 }

@@ -26,6 +26,16 @@ public interface View {
     void quit();
 
     /**
+     * Mutes the music.
+     */
+    void muteMusic();
+
+    /**
+     * Play the music.
+     */
+    void playMusic();
+
+    /**
      * Returns the View dimension.
      * @return the dimensions
      */

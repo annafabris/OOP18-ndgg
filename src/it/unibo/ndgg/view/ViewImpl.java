@@ -11,6 +11,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -21,8 +23,10 @@ public class ViewImpl implements View {
 
     private static final String TITLE = "Nidhogg";
     private static final Image ICON = new Image(ClassLoader.getSystemResource("images/Nidhogg.png").toExternalForm());
-
+    private static final String THEME_SONG = "sounds/theme.mp3";
+    private static final double DEFAULT_VOLUME = 20;
     private final Stage stage;
+    private MediaPlayer mediaPlayer;
 
     /**
      * Builds a new {@link ViewImpl} and it initializes it properly.
@@ -39,6 +43,8 @@ public class ViewImpl implements View {
                 quit();
             }
         });
+        loadSong(THEME_SONG);
+        mediaPlayer.play();
     }
 
     /**
@@ -68,6 +74,22 @@ public class ViewImpl implements View {
     /**
      * {@inheritDoc}
      */
+    @Override
+    public void muteMusic() {
+        this.mediaPlayer.stop();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void playMusic() {
+        this.mediaPlayer.play();
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
     public Pair<Double, Double> getViewDimension() {
         return new MutablePair<>(this.stage.getWidth(), this.stage.getHeight());
     }
@@ -82,5 +104,12 @@ public class ViewImpl implements View {
         stage.setResizable(false);
         stage.setFullScreen(true);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    }
+
+
+    private void loadSong(final String path) {
+        mediaPlayer = new MediaPlayer(new Media(ClassLoader.getSystemResource(path).toExternalForm()));
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.setVolume(DEFAULT_VOLUME);
     }
 }

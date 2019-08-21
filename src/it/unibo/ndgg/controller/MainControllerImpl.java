@@ -51,4 +51,21 @@ public class MainControllerImpl implements MainController {
         // TODO Auto-generated method stub
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void stopMusic() {
+        view.muteMusic();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void playMusic() {
+        view.playMusic();
+    }
+
+
 }

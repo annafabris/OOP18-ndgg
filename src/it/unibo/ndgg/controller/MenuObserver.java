@@ -25,4 +25,9 @@ public interface MenuObserver {
      */
     void exit();
 
+    /**
+     * Mute the music.
+     */
+    void mute();
+
 }
