@@ -8,6 +8,7 @@ import it.unibo.ndgg.model.collision.CollisionResult;
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
+import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
 
 /**
@@ -29,7 +30,7 @@ public interface World {
      * A method that gets called each time a valid collision happens.
      * @param collisionResult {@link CollisionResult}
      */
-    void notifyCollision(CollisionResult collisionResult);
+    void notifyCollision(CollisionResult collisionResult,Player player);
 
     /**
      * Returns the current {@link it.unibo.ndgg.model.GameState}.
