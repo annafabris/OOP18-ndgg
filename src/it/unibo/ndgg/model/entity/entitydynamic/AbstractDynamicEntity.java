@@ -32,7 +32,7 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
         this.direction = direction;
     }
 
-    public void setDynamicBody(Optional<DynamicBodyProperties> body) {
+    protected void setDynamicBody(final Optional<DynamicBodyProperties> body) {
         if (body.isPresent()) {
             super.setBody(Optional.ofNullable(body.get()));
             this.body = body;

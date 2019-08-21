@@ -8,7 +8,6 @@ import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
-import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
 import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
@@ -43,7 +42,6 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
     public void equipWeapon(final Player player) throws Exception {
         if (!this.player.isPresent()) {
            this.player = Optional.of(player);
-           this.changeEntityState(EntityState.EQUIPPED);
            this.setBody(Optional.empty());
         } else {
             throw new Exception("This sword is already equipped");

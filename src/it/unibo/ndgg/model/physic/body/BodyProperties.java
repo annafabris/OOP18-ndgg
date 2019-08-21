@@ -45,6 +45,9 @@ public interface BodyProperties {
      */
     boolean exists();
 
-    //TODO da togliere? serviva solo nei test?
+    /**
+     * Returns the {@link org.dyn4j.dynamics.Body} associated to the BodyProperties.
+     * @return the {@link org.dyn4j.dynamics.Body}
+     */
     Body getPhysicalBody();
 }

@@ -62,7 +62,6 @@ public class DynamicBodyProperties extends AbstractBodyProperties {
 
     /**
      * Translate the {@link org.dyn4j.dynamics.Body}.
-     * @param entityMovement the {@link it.unibo.ndgg.model.entity.EntityState} necessary to change the current state
      * @param x the horizontal component of the movement to apply
      * @param y the vertical component of the movement to apply
      */
