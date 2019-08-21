@@ -9,6 +9,7 @@ import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
+import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
 import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
@@ -70,11 +71,13 @@ public class Player extends AbstractDynamicEntity {
      * This represents the act of dropping the {@link Weapon} by the player.
      * @param movement 
      *          it indicates if the weapon is lose or drop
+     * @param body
+     *          it indicates the drop, staying still and throw of the weapon
      */
-    public void dropWeapon(final EntityMovement movement) {
+    public void dropWeapon(final EntityMovement movement, final BodyProperties body) {
         if (this.weapon.isPresent()) {
             try {
-                this.weapon.get().unequipWeapon(movement);
+                this.weapon.get().unequipWeapon(movement, body);
             } catch (Exception e) {
                 System.out.println("The player hasn't a sword");
                 e.printStackTrace();
@@ -121,17 +124,18 @@ public class Player extends AbstractDynamicEntity {
 
     /**
      * Represent the death of the player in a {@link Room}, not in the {@link World}.
-     * 
+     * @param bodyProperties
+     *          it the dynamic body of the sword.
      */
-    public void die() {
+    public void die(final BodyProperties bodyProperties) {
         if (this.getCurrentDirection() == EntityDirection.RIGHT) {
             if (this.weapon.isPresent()) {
-               this.dropWeapon(EntityMovement.DROP_RIGHT); 
+               this.dropWeapon(EntityMovement.DROP_RIGHT, bodyProperties); 
             }
             this.move(EntityMovement.DIE_RIGHT);
         } else {
             if (this.weapon.isPresent()) {
-                this.dropWeapon(EntityMovement.DROP_LEFT); 
+                this.dropWeapon(EntityMovement.DROP_LEFT, bodyProperties); 
             }
             this.move(EntityMovement.DIE_LEFT);
         }

@@ -3,6 +3,7 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 import java.util.Optional;
 
 import it.unibo.ndgg.model.entity.EntityMovement;
+import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
  * Represents all type of weapon that can be equipped by the players.
@@ -24,7 +25,7 @@ public interface Weapon extends DynamicEntity {
      *          it is the action of lose or drop the weapon
      * @throws Exception 
      */
-    void unequipWeapon(EntityMovement movement) throws Exception;
+    void unequipWeapon(EntityMovement movement, BodyProperties body) throws Exception;
 
     /**
      * Returns the player who uses this weapon.

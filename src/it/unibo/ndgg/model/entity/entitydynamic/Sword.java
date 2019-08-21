@@ -2,10 +2,16 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 
 import java.util.Optional;
 
+import org.dyn4j.geometry.Vector2;
+
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
+import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
+import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
+import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
+import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
 
 /**
  * Represents one of two sword that can be equipped by one of two players in a game.
@@ -37,7 +43,8 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
     public void equipWeapon(final Player player) throws Exception {
         if (!this.player.isPresent()) {
            this.player = Optional.of(player);
-           //this.changeEntityState(EntityState.EQUIPPED);
+           this.changeEntityState(EntityState.EQUIPPED);
+           this.setBody(Optional.empty());
         } else {
             throw new Exception("This sword is already equipped");
         }
@@ -56,10 +63,11 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
      * @throws Exception 
      */
     @Override
-    public void unequipWeapon(final EntityMovement movement) throws Exception {
+    public void unequipWeapon(final EntityMovement movement, final BodyProperties body) throws Exception {
         if (this.player.isPresent()) {
             this.player = Optional.empty();
             this.move(movement);
+            this.setBody(Optional.of(body));
         } else {
             throw new Exception("This sword is not equipped");
         }
@@ -78,14 +86,13 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
      */
     @Override
     public void move(final EntityMovement movement) {
-        /**if ((movement.getAssociatedEntityState() != EntityState.MOVING 
-                && movement.getAssociatedDirection() == this.getCurrentDirection())
-                || movement.getAssociatedEntityState() == EntityState.MOVING) {
-
+        if (movement.getAssociatedEntityState() == EntityState.THROWING) {
             final MovementVectorValues movementValue = new MovementVectorValuesImpl();
             final Vector2 vector = movementValue.getMovementVector(movement);
-            this.body.applyImpulse(movement, vector.x, vector.y);
-        }**/
+            ((DynamicBodyProperties) this.getBody()).applyImpulse(movement, vector.x, vector.y);
+        }
+        this.changeEntityState(movement.getAssociatedEntityState());
+        this.setCurrentDirection(movement.getAssociatedDirection());
     }
 
     /**

@@ -86,10 +86,10 @@ public class EntityCreationTest {
         assertEquals(2, this.entities.get(EntityType.SWORD).stream().count());
         //assertEquals(SWORD1_POSITION, this.entities.get(EntityType.SWORD).get(0).getPosition());
         //assertEquals(SWORD2_POSITION, this.entities.get(EntityType.SWORD).get(1).getPosition());
-        /*assertEquals(new MutablePair<Double, Double>(SWORD_HEIGHT, SWORD_WIDTH), 
-                this.entities.get(EntityType.SWORD).get(0).getDimension());*/
-        /*assertEquals(new MutablePair<Double, Double>(SWORD_HEIGHT, SWORD_WIDTH), 
-                this.entities.get(EntityType.SWORD).get(1).getDimension());*/
+        //assertEquals(new MutablePair<Double, Double>(SWORD_HEIGHT, SWORD_WIDTH), 
+                //this.entities.get(EntityType.SWORD).get(0).getDimension());
+        //assertEquals(new MutablePair<Double, Double>(SWORD_HEIGHT, SWORD_WIDTH), 
+                //this.entities.get(EntityType.SWORD).get(1).getDimension());
         assertTrue(this.entities.get(EntityType.SWORD).get(0).isAlive());
         assertTrue(this.entities.get(EntityType.SWORD).get(1).isAlive());
         assertTrue(this.entities.get(EntityType.PLAYER).get(0).isAlive());
@@ -107,19 +107,19 @@ public class EntityCreationTest {
         assertEquals(this.playerR.getCurrentDirection(), ((Sword) this.entities.get(EntityType.SWORD).get(0)).getCurrentDirection());
         assertEquals(this.playerL.getCurrentDirection(), ((Sword) this.entities.get(EntityType.SWORD).get(1)).getCurrentDirection());
         assertEquals(EntityState.EQUIPPED, ((Sword) this.entities.get(EntityType.SWORD).get(0)).getState());
-        this.playerL.dropWeapon(EntityMovement.DROP_RIGHT);
+        this.playerL.dropWeapon(EntityMovement.DROP_RIGHT, ((Sword) this.entities.get(EntityType.SWORD).get(0)).getBody());
         assertFalse(this.playerL.getWeapon().isPresent());
         assertFalse(((Sword) this.entities.get(EntityType.SWORD).get(1)).getPlayer().isPresent());
-        //assertEquals(EntityState.DROPPING, ((Sword) this.entities.get(EntityType.SWORD).get(1)).getState());
+        assertEquals(EntityState.DROPPING, ((Sword) this.entities.get(EntityType.SWORD).get(1)).getState());
         assertTrue(this.playerR.getWeapon().isPresent());
         assertTrue(((Sword) this.entities.get(EntityType.SWORD).get(0)).getPlayer().isPresent());
         this.playerL.equipWeapon((Sword) this.entities.get(EntityType.SWORD).get(1));
         assertTrue(this.playerL.getWeapon().isPresent());
         assertTrue(((Sword) this.entities.get(EntityType.SWORD).get(1)).getPlayer().isPresent());
         assertEquals(EntityState.EQUIPPED, ((Sword) this.entities.get(EntityType.SWORD).get(0)).getState());
-        this.playerL.dropWeapon(EntityMovement.DROP_RIGHT);
+        this.playerL.dropWeapon(EntityMovement.DROP_RIGHT, ((Sword) this.entities.get(EntityType.SWORD).get(0)).getBody());
         assertFalse(this.playerL.getWeapon().isPresent());
-        this.playerL.die();
+        this.playerL.die(((Sword) this.entities.get(EntityType.SWORD).get(0)).getBody());
         assertFalse(this.playerL.getWeapon().isPresent());
         assertFalse(((Sword) this.entities.get(EntityType.SWORD).get(1)).getPlayer().isPresent());
         assertTrue(((Sword) this.entities.get(EntityType.SWORD).get(0)).getPlayer().isPresent());
@@ -148,7 +148,7 @@ public class EntityCreationTest {
         assertEquals(SwordGuard.LOW, this.playerL.getSwordGuard().get());
         this.playerL.changeGuard();
         assertEquals(SwordGuard.HIGH, this.playerL.getSwordGuard().get());
-        this.playerL.dropWeapon(EntityMovement.DROP_LEFT);
+        this.playerL.dropWeapon(EntityMovement.DROP_LEFT, ((Sword) this.entities.get(EntityType.SWORD).get(1)).getBody());
         assertFalse(this.playerL.getSwordGuard().isPresent());
         this.playerL.equipWeapon((Sword) this.entities.get(EntityType.SWORD).get(1));
         assertEquals(SwordGuard.LOW, this.playerL.getSwordGuard().get());
