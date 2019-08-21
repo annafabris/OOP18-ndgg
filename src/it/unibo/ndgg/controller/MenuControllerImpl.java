@@ -64,6 +64,15 @@ public class MenuControllerImpl implements MenuController, MenuObserver {
      */
     @Override
     public void mute() {
+        controller.stopMusic();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void playMusic() {
+        controller.playMusic();
     }
 
 }

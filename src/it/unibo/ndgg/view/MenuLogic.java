@@ -4,6 +4,7 @@ import it.unibo.ndgg.controller.MenuObserver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 
 /**
  * MenuView logic for FXML references.
@@ -23,6 +24,9 @@ public class MenuLogic {
 
     @FXML
     private Button exitButton;
+
+    @FXML
+    private CheckBox musicBox;
 
     /**
      * Builds a new {@link MenuLogic} and sets the menu controller.
@@ -57,6 +61,15 @@ public class MenuLogic {
     @FXML
     private void options(final ActionEvent event) {
         controller.options();
+    }
+
+    @FXML
+    private void toggleMusic(final ActionEvent event) {
+        if (musicBox.isSelected()) {
+            controller.playMusic();
+        } else {
+            controller.mute();
+        }
     }
 
     /**

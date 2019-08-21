@@ -83,6 +83,8 @@ public class ViewImpl implements View {
      * {@inheritDoc}
      */
     public void playMusic() {
+        this.mediaPlayer.stop();
+        loadSong(THEME_SONG);
         this.mediaPlayer.play();
     }
 

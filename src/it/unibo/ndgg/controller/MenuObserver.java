@@ -30,4 +30,9 @@ public interface MenuObserver {
      */
     void mute();
 
+    /**
+     * Start the music.
+     */
+    void playMusic();
+
 }
