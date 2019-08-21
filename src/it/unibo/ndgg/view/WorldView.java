@@ -1,7 +1,8 @@
 package it.unibo.ndgg.view;
 
 import java.util.List;
-import it.unibo.ndgg.controller.GameControllerImpl;
+
+import it.unibo.ndgg.controller.GameController;
 import it.unibo.ndgg.controller.Input;
 
 /**
@@ -11,9 +12,9 @@ public interface WorldView {
 
     /**
      * Starts the view of the game.
-     * @param gameControllerImpl {@link GameControllerImpl}
+     * @param controller the related game controller.
      */
-    void startGame(GameControllerImpl gameControllerImpl);
+    void startGame(GameController controller);
 
     /**
      * Updates the view of the game.

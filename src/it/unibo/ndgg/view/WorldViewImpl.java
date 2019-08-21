@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 
-import it.unibo.ndgg.controller.GameControllerImpl;
+import it.unibo.ndgg.controller.GameController;
 import it.unibo.ndgg.controller.Input;
 import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityState;
@@ -25,6 +25,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.event.EventHandler;
@@ -35,12 +37,16 @@ import javafx.stage.Stage;
  */
 public class WorldViewImpl implements WorldView {
 
+    private static final String WIN_MESSAGE = "Congrats!";
+    private static final String WIN_MESSAGE_START = "Player";
+    private static final String WIN_MESSAGE_END = "won!";
+
+
     private final Group root = new Group();
     private final Stage stage;
     private final EventHandler<KeyEvent> inputHandler;
     private final List<KeyEvent> inputs;
-    private EntityDrawer entityDrawer;
-    private GameControllerImpl gameControllerImpl;
+    private final EntityDrawer entityDrawer;
     private final int viewWidth;
     private final int viewHeight;
     private Map<EntityType, List<AbstractEntity>> entities;
@@ -52,7 +58,7 @@ public class WorldViewImpl implements WorldView {
 
     /**
      * Creates the class to manage the View.
-     * @param stage {@link javafx.stage.Stage}
+     * @param stage {@link javafx.stage.Stage}.
      */
     public WorldViewImpl(final Stage stage) {
         this.stage = stage;
@@ -67,9 +73,8 @@ public class WorldViewImpl implements WorldView {
      * {@inheritDoc}.
      */
     @Override
-    public void startGame(final GameControllerImpl gameControllerImpl) {
-        this.gameControllerImpl = gameControllerImpl;
-        this.entities = this.gameControllerImpl.getEntities();
+    public void startGame(final GameController controller) {
+        this.entities = controller.getEntities();
         this.playerAnimation1 = new PlayerAnimation(true, (Player) this.entities.get(EntityType.PLAYER).get(0));
         this.playerAnimation2 = new PlayerAnimation(false, (Player) this.entities.get(EntityType.PLAYER).get(1));
         this.swordAnimation1 = new SwordAnimation((Sword) this.entities.get(EntityType.SWORD).get(0));
@@ -92,8 +97,25 @@ public class WorldViewImpl implements WorldView {
      * {@inheritDoc}.
      */
     public void playerWon(final int playerID) {
-        //TODO da fare
-        //this.stage.setScene(value);
+        final Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(WIN_MESSAGE);
+        alert.setHeaderText(null);
+        alert.setContentText(WIN_MESSAGE_START + playerID + WIN_MESSAGE_END);
+
+        alert.showAndWait();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Input> getInputs() {
+        final List<Input> inputs = this.inputs.stream().map(i -> convertInput(i))
+                                        .filter(i -> i.isPresent())
+                                        .map(i -> i.get())
+                                        .collect(Collectors.toList());
+        this.inputs.clear();
+        return inputs;
     }
 
 
@@ -131,6 +153,11 @@ public class WorldViewImpl implements WorldView {
         }
     }
 
+    /**
+     * Convert a key event in the related input if exists.
+     * @param key {@KeyEvent} to convert.
+     * @return the optional of the related inputs.
+     */
     private Optional<Input> convertInput(final KeyEvent key) {
         if (key.getCode().equals(KeyCode.W)) {
             return Optional.of(Input.JUMP_PLAYER_ONE);
@@ -171,16 +198,4 @@ public class WorldViewImpl implements WorldView {
         return Optional.empty();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Input> getInputs() {
-        final List<Input> inputs = this.inputs.stream().map(i -> convertInput(i))
-                                        .filter(i -> i.isPresent())
-                                        .map(i -> i.get())
-                                        .collect(Collectors.toList());
-        this.inputs.clear();
-        return inputs;
-    }
 }
