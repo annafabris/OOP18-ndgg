@@ -19,7 +19,6 @@ import javafx.animation.AnimationTimer;
  */
 public class GameControllerImpl implements GameController {
 
-    private static final double FPS = 24.0;
     private final MainController controller;
     private final WorldView view; //interfaccia
     private World gameWorld;
@@ -33,7 +32,7 @@ public class GameControllerImpl implements GameController {
     public GameControllerImpl(final WorldView view ,final MainController controller, final Pair<Double, Double> worldDimension) throws Exception {
         this.controller = controller;
         this.view = view;
-        this.gameWorld = new WorldImpl(worldDimension);
+        this.gameWorld = new WorldImpl();
         game();
     }
 
@@ -85,7 +84,7 @@ public class GameControllerImpl implements GameController {
             gameWorld.attackPlayer(player);
         }
     }
-    
+
     public void updateModelAndView() {
         GameState gameState = gameWorld.getCurrentGameState();
         if (gameState == GameState.PLAYERL_WON) {
@@ -102,7 +101,7 @@ public class GameControllerImpl implements GameController {
             view.update();
         }
     }
-    
+
     private void run() {
         timer.start();
     }
