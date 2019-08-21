@@ -24,6 +24,7 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitydynamic.SwordGuard;
+import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
@@ -38,8 +39,12 @@ public class EntityCreationTest {
     private static final double WORLD_HEIGHT = 450;
     private static final Pair<Double, Double> SWORD1_POSITION = new MutablePair<>(1.0, 3.0);
     private static final Pair<Double, Double> SWORD2_POSITION = new MutablePair<>(1.0, 4.0);
+    private static final double DOOR_X_POSITIOON = 7.0;
+    private static final double DOOR_Y_POSITIOON = -1.65;
     private static final Double SWORD_HEIGHT = 0.5;
     private static final Double SWORD_WIDTH = 0.5;
+    private static final double DOOR_HEIGHT = 1.6;
+    private static final double DOOR_WIDTH = 1.8;
     private BodyPropertiesWorld bodyPropertiesWorld;
     private WorldImpl world;
     private BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
@@ -61,6 +66,10 @@ public class EntityCreationTest {
                          entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, SWORD1_POSITION, playerR, playerR.getCurrentDirection()), 
                          entityFactory.createSword(SWORD_HEIGHT, SWORD_WIDTH, SWORD2_POSITION, playerL, playerL.getCurrentDirection()))
                 .collect(Collectors.toList()));
+        entities.put(EntityType.DOOR, (Stream.of(
+                         entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(-DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL), 
+                         entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerR))
+                .collect(Collectors.toList())));
         //this.entities.put(EntityType.PLATFORM, Stream.of( entityFactory.c))
         this.bodyAssociations.setEntities(this.entities);
     }
@@ -101,7 +110,7 @@ public class EntityCreationTest {
         this.playerL.dropWeapon(EntityMovement.DROP_RIGHT);
         assertFalse(this.playerL.getWeapon().isPresent());
         assertFalse(((Sword) this.entities.get(EntityType.SWORD).get(1)).getPlayer().isPresent());
-        assertEquals(EntityState.DROPPING, ((Sword) this.entities.get(EntityType.SWORD).get(1)).getState());
+        //assertEquals(EntityState.DROPPING, ((Sword) this.entities.get(EntityType.SWORD).get(1)).getState());
         assertTrue(this.playerR.getWeapon().isPresent());
         assertTrue(((Sword) this.entities.get(EntityType.SWORD).get(0)).getPlayer().isPresent());
         this.playerL.equipWeapon((Sword) this.entities.get(EntityType.SWORD).get(1));
@@ -143,5 +152,20 @@ public class EntityCreationTest {
         assertFalse(this.playerL.getSwordGuard().isPresent());
         this.playerL.equipWeapon((Sword) this.entities.get(EntityType.SWORD).get(1));
         assertEquals(SwordGuard.LOW, this.playerL.getSwordGuard().get());
+    }
+    
+    /**
+     * This test looks the door and the player.
+     */
+    @Test
+    public void testAssociationDoorAndPlayer() {
+        assertEquals(this.playerL, ((Door) this.entities.get(EntityType.DOOR).get(0)).getPlayerWhoCanOpen());
+        assertEquals(this.playerR, ((Door) this.entities.get(EntityType.DOOR).get(1)).getPlayerWhoCanOpen());
+        assertFalse(((Door) this.entities.get(EntityType.DOOR).get(1)).getDoorStatus());
+        assertFalse(((Door) this.entities.get(EntityType.DOOR).get(0)).getDoorStatus());
+        ((Door) this.entities.get(EntityType.DOOR).get(1)).hit();
+        assertTrue(((Door) this.entities.get(EntityType.DOOR).get(1)).getDoorStatus());
+        assertTrue((this.playerL).equals(((Door) this.entities.get(EntityType.DOOR).get(0)).getPlayerWhoCanOpen()));
+        assertFalse((this.playerR).equals(((Door) this.entities.get(EntityType.DOOR).get(0)).getPlayerWhoCanOpen()));
     }
 }

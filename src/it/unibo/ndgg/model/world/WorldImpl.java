@@ -53,7 +53,7 @@ public class WorldImpl implements World {
     private static final double PLATFORM_X_POSITIOON = 0.0;
     private static final double PLATFORM_Y_POSITIOON = -3.6;
     private static final double DOOR_X_POSITIOON = 7.0;
-    private static final double DOOR_Y_POSITIOON = -1.65;
+    private static final double DOOR_Y_POSITIOON = -1.65; 
     private static final int NUMBER_OF_ROOMS = 3;
     private List<Room> rooms = new ArrayList<Room>();
     private int currentRoom;
@@ -239,16 +239,26 @@ public class WorldImpl implements World {
        entities.put(EntityType.PLATFORM, Stream.of((Platform) entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
                PLATFORM_X_POSITIOON, PLATFORM_Y_POSITIOON))).collect(Collectors.toList()));
        entities.put(EntityType.DOOR, (Stream.of((Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
-               -DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
-                       DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerR)).collect(Collectors.toList())));
+               -DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerR), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
+                       DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL)).collect(Collectors.toList())));
        this.bodyAssociations.setEntities(entities);
        this.rooms.get(this.currentRoom).setEntities(entities);
     }
 
     @Override
-    public void changeGuard(PlayerID player) {
-        Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        p.changeGuard();
+    public void changeGuard(final PlayerID player) {
+        Player playerChangeGuard = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
+        Player otherPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i->i.equals(playerChangeGuard)).findFirst().get();
+        if (playerChangeGuard.getWeapon().isPresent()) {
+            if (this.checkProximity(playerChangeGuard.getPosition(), otherPlayer.getPosition())) {
+                if (!otherPlayer.getWeapon().isPresent()) {
+                    playerChangeGuard.changeGuard();
+                } else {
+                    //if (playerChangeGuard.getSwordGuard().
+                }
+            }
+        }
+        //p.changeGuard();
     }
     
     public void jumpPlayer(final PlayerID player) {
@@ -270,8 +280,27 @@ public class WorldImpl implements World {
 
     @Override
     public void movePlayerRight(final PlayerID player) {
-        
         movePlayer(EntityMovement.MOVE_RIGHT, player.getID());
+    }
+
+    /**
+     * 
+     * @param player
+     */
+    public void attackPlayer(final PlayerID player) {
+        Player playerWhoAttack = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
+        Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i->i.equals(playerWhoAttack)).findFirst().get();
+        if (playerWhoAttack.getWeapon().isPresent()) {
+            if (this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition())) {
+                if (!loserPlayer.getWeapon().isPresent()) {
+                    loserPlayer.die();
+                } else {
+                    if (loserPlayer.getSwordGuard().get() != loserPlayer.getSwordGuard().get()) {
+                        loserPlayer.die();
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -293,5 +322,10 @@ public class WorldImpl implements World {
         if (p2.getBody().getPhysicalBody().isAsleep()){
             p2.changeEntityState(EntityState.STAYING_STILL);
         }
+    }
+    
+    private boolean checkProximity(final Pair<Double, Double> positionFirstPlayer, final Pair<Double, Double> positionSecondPlayer) {
+        return Math.abs(positionFirstPlayer.getLeft() - positionSecondPlayer.getLeft()) <= SWORD_WIDTH
+                && Math.abs(positionFirstPlayer.getRight() - positionSecondPlayer.getRight()) <= PLAYER_HEIGHT/2;
     }
 }

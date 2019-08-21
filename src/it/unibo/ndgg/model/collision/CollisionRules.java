@@ -61,15 +61,20 @@ public class CollisionRules extends CollisionAdapter {
         /*
         final Vector2 point = contactConstraint.getContacts().get(0).getPoint(); punto di contatto tra le due enitità per ora non serve.
          */
-        if (firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.DOOR 
-            || firstTriple.getRight() == EntityType.DOOR && secondTriple.getRight() == EntityType.PLAYER) {//verificare come fare nel caso in cui un giocatore con una spada in mano faccia costantemente collisioni.
+        if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.DOOR)
+            || (firstTriple.getRight() == EntityType.DOOR && secondTriple.getRight() == EntityType.PLAYER)) {//verificare come fare nel caso in cui un giocatore con una spada in mano faccia costantemente collisioni.
             final Player player;
             final Door door;
             if (firstTriple.getRight() == EntityType.PLAYER) {
                 player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
+                System.out.println("Porta: " + secondTriple.getMiddle().getPosition());
+                System.out.println("PortaConWorld : " + this.worldProperties.getDoorFromBody(secondTriple.getLeft()).getPosition());
+                System.out.println("bodyFisicoPorta: "+ secondTriple.getLeft());
+                System.out.println("bodyFisicoPlayer: "+ firstTriple.getLeft());
                 door = this.worldProperties.getDoorFromBody(secondTriple.getLeft());
             } else {
                 player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
+                System.out.println("Porta1: " + firstTriple.getMiddle().getPosition());
                 door = this.worldProperties.getDoorFromBody(firstTriple.getLeft());
             }
             return this.processPlayerDoorCollision(player, door);
@@ -80,6 +85,7 @@ public class CollisionRules extends CollisionAdapter {
             if (firstTriple.getRight() == EntityType.PLAYER) {
                 player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
                 sword = this.worldProperties.getSwordFromBody(secondTriple.getLeft());
+                System.out.println();
             } else {
                 player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
                 sword = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
@@ -173,7 +179,7 @@ public class CollisionRules extends CollisionAdapter {
                 return true;
             }
         }
-        return false;
+        return true;
     }
 
     /**
@@ -203,6 +209,7 @@ public class CollisionRules extends CollisionAdapter {
      */
     private boolean processPlayerDoorCollision(final Player player, final Door door) {
         if (door.getPlayerWhoCanOpen() == player) {
+            //System.out.print(player.getBody().getPosition());
             door.hit();
             this.outerWorld.notifyCollision(CollisionResult.DOORTOUCHED);
             return true;
@@ -225,10 +232,12 @@ public class CollisionRules extends CollisionAdapter {
      * @throws Exception 
      */
     private boolean processPlayerSwordCollision(final Player player, final Sword sword) {
-        if (sword.getState() == EntityState.EQUIPPED && sword.getPlayer().get() != player) {
-            player.die(); 
-            this.outerWorld.notifyCollision(CollisionResult.PLAYERKILLED);
-            return true;
+        if (sword.getState() == EntityState.EQUIPPED && sword.getPlayer().isPresent()) {
+            if (sword.getPlayer().get() != player) {
+                player.die(); 
+                this.outerWorld.notifyCollision(CollisionResult.PLAYERKILLED);
+                return true;
+            }
         } else if (sword.getState() == EntityState.STAYING_STILL && !player.getWeapon().isPresent()) {
             try {
                 player.equipWeapon(sword);

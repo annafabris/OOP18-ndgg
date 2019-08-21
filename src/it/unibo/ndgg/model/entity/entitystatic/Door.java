@@ -4,18 +4,20 @@ import it.unibo.ndgg.model.entity.AbstractEntity;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
+import it.unibo.ndgg.model.physic.body.StaticBodyProperties;
 
 /**
  * Represents one of two doors that can be hit by one of two players in a game.
  */
 public class Door extends AbstractEntity {
 
-    private boolean isHit = false;
+    private boolean isHit;
     private Player player;
 
-    public Door(BodyProperties body, Player player) {
+    public Door(final StaticBodyProperties body, final Player player) {
         super(body);
         this.player = player;
+        this.isHit = false;
     }
 
     /**
