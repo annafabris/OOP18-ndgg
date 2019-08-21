@@ -124,7 +124,7 @@ public class WorldImpl implements World {
                            player.getPosition().getLeft() + 0.30,player.getPosition().getRight() + PLAYER_HEIGHT));   
                }
                 player.die();
-                this.changeRoom();
+                this.changeRoom(player);
                 System.out.println("1 collision");
                 break;
             case DOORTOUCHED:
@@ -278,16 +278,18 @@ public class WorldImpl implements World {
                     if (playerChangeGuard.getSwordGuard().get() != otherPlayer.getSwordGuard().get()) {
                         if (playerChangeGuard.getSwordGuard().get() == SwordGuard.LOW) {
                             if (playerChangeGuard.getCurrentDirection() == EntityDirection.RIGHT) {
-                                destroyBodyProprerties ((Sword)otherPlayer.getWeapon().get());
-                                otherPlayer.dropWeapon(EntityMovement.DROP_RIGHT, otherPlayer.getBody());
+                                createBodyProperties((Sword)otherPlayer.getWeapon().get(),Pair.of(otherPlayer.getPosition().getLeft() + 0.30,
+                                        otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
+                                otherPlayer.dropWeapon(EntityMovement.DROP_RIGHT);
                             } else {
-                                destroyBodyProprerties ((Sword)otherPlayer.getWeapon().get());
-                                otherPlayer.dropWeapon(EntityMovement.DROP_LEFT, otherPlayer.getBody());
+                                createBodyProperties((Sword)otherPlayer.getWeapon().get(),Pair.of(otherPlayer.getPosition().getLeft() - 0.30,
+                                        otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
+                                otherPlayer.dropWeapon(EntityMovement.DROP_LEFT);
                             }
                             playerChangeGuard.changeGuard();
                         } else {
                             destroyBodyProprerties ((Sword)playerChangeGuard.getWeapon().get());
-                            playerChangeGuard.dropWeapon(EntityMovement.DROP_LEFT, playerChangeGuard.getBody());
+                            playerChangeGuard.dropWeapon(EntityMovement.DROP_LEFT);
                         }
                     }
                 }
