@@ -15,14 +15,15 @@ public abstract class AbstractEntity implements Entity {
 
     /**
      * It is a constructor for this class that require a {@link it.unibo.ndgg.model.physic.body.BodyProperties}.
-     * @param body 
-     *          an element of {it.unibo.ndgg.model.physic.body.BodyProperties}
      */
     public AbstractEntity() {
         super();
     }
 
-    public void setBody(Optional<BodyProperties> body) {
+    /**
+     * {@inheritDoc}
+     */
+    public void setBody(final Optional<BodyProperties> body) {
         this.body = body;
     }
 

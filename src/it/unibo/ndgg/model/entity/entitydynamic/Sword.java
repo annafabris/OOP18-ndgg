@@ -63,11 +63,10 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
      * @throws Exception 
      */
     @Override
-    public void unequipWeapon(final EntityMovement movement, final BodyProperties body) throws Exception {
+    public void unequipWeapon(final EntityMovement movement) throws Exception {
         if (this.player.isPresent()) {
             this.player = Optional.empty();
             this.move(movement);
-            this.setBody(Optional.of(body));
         } else {
             throw new Exception("This sword is not equipped");
         }

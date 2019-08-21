@@ -25,7 +25,7 @@ public interface Weapon extends DynamicEntity {
      *          it is the action of lose or drop the weapon
      * @throws Exception 
      */
-    void unequipWeapon(EntityMovement movement, BodyProperties body) throws Exception;
+    void unequipWeapon(EntityMovement movement ) throws Exception;
 
     /**
      * Returns the player who uses this weapon.

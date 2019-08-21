@@ -77,7 +77,7 @@ public class Player extends AbstractDynamicEntity {
     public void dropWeapon(final EntityMovement movement, final BodyProperties body) {
         if (this.weapon.isPresent()) {
             try {
-                this.weapon.get().unequipWeapon(movement, body);
+                this.weapon.get().unequipWeapon(movement);
             } catch (Exception e) {
                 System.out.println("The player hasn't a sword");
                 e.printStackTrace();
