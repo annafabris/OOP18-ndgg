@@ -71,10 +71,8 @@ public class Player extends AbstractDynamicEntity {
      * This represents the act of dropping the {@link Weapon} by the player.
      * @param movement 
      *          it indicates if the weapon is lose or drop
-     * @param body
-     *          it indicates the drop, staying still and throw of the weapon
      */
-    public void dropWeapon(final EntityMovement movement, final BodyProperties body) {
+    public void dropWeapon(final EntityMovement movement) {
         if (this.weapon.isPresent()) {
             try {
                 this.weapon.get().unequipWeapon(movement);
@@ -124,18 +122,16 @@ public class Player extends AbstractDynamicEntity {
 
     /**
      * Represent the death of the player in a {@link Room}, not in the {@link World}.
-     * @param bodyProperties
-     *          it the dynamic body of the sword.
      */
-    public void die(final BodyProperties bodyProperties) {
+    public void die() {
         if (this.getCurrentDirection() == EntityDirection.RIGHT) {
             if (this.weapon.isPresent()) {
-               this.dropWeapon(EntityMovement.DROP_RIGHT, bodyProperties); 
+               this.dropWeapon(EntityMovement.DROP_RIGHT); 
             }
             this.move(EntityMovement.DIE_RIGHT);
         } else {
             if (this.weapon.isPresent()) {
-                this.dropWeapon(EntityMovement.DROP_LEFT, bodyProperties); 
+                this.dropWeapon(EntityMovement.DROP_LEFT); 
             }
             this.move(EntityMovement.DIE_LEFT);
         }
