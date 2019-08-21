@@ -189,7 +189,6 @@ public class CollisionRules extends CollisionAdapter {
      *          true if a collision which need to be rule happens false otherwise.
      */
     private boolean processSwordPlatformCollision(final Sword sword, final Platform platform) {
-        this.outerWorld.notifyCollision(CollisionResult.SWORDONTHEGROUND);
         sword.changeEntityState(EntityState.STAYING_STILL);
         return true;
     }
@@ -207,7 +206,7 @@ public class CollisionRules extends CollisionAdapter {
     private boolean processPlayerDoorCollision(final Player player, final Door door) {
         if (door.getPlayerWhoCanOpen() == player) {
             door.hit();
-            this.outerWorld.notifyCollision(CollisionResult.DOORTOUCHED);
+            this.outerWorld.notifyCollision(CollisionResult.DOORTOUCHED,player);
             return true;
         }
         return true;
@@ -242,7 +241,7 @@ public class CollisionRules extends CollisionAdapter {
                 System.out.println("The player has already a sword");
                 e.printStackTrace();
             }
-            this.outerWorld.notifyCollision(CollisionResult.SWORDPICKEDUP);
+            this.outerWorld.notifyCollision(CollisionResult.SWORDPICKEDUP,player);
             } 
             return true;
     }

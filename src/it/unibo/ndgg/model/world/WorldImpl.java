@@ -28,6 +28,7 @@ import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
+import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
  * {@inheritDoc}.
@@ -112,26 +113,32 @@ public class WorldImpl implements World {
     /**
      * {@inheritDoc}.
      */
-    public void notifyCollision(final CollisionResult collisionResult) {
+    public void notifyCollision(final CollisionResult collisionResult,Player player) {
         switch (collisionResult) {
             case PLAYERKILLED:
+               if(player.getCurrentDirection() == EntityDirection.LEFT) {
+               createBodyProperties((Sword)player.getWeapon().get(), Pair.of(
+                        player.getPosition().getLeft() - 0.30,player.getPosition().getRight() + PLAYER_HEIGHT));
+               }else if(player.getCurrentDirection() == EntityDirection.RIGHT) {
+                   createBodyProperties((Sword)player.getWeapon().get(), Pair.of(
+                           player.getPosition().getLeft() + 0.30,player.getPosition().getRight() + PLAYER_HEIGHT));   
+               }
+                player.die();
                 this.changeRoom();
                 System.out.println("1 collision");
                 break;
             case DOORTOUCHED:
-                this.changeRoom();
+                this.changeRoom(player);
                 System.out.println("2 collision");
                 break;
             case SWORDPICKEDUP:
-                
+                destroyBodyProprerties((Sword)player.getWeapon().get());
                 System.out.println("3 collision");
                 break;
             case PLAYERDISARMED:
                 System.out.println("4 collision");
                 break;
-            case SWORDONTHEGROUND:
-                System.out.println("5 collision");
-                break;
+
             default:
                 break;
         }
@@ -190,20 +197,19 @@ public class WorldImpl implements World {
      * A methods that gets called when {@link CollisionResult.DOORTOUCHED} or {@link CollisionResult.PLAYERKILLED} 
      * happens and the currentRoom needs to change.
      */
-    private void changeRoom() {
-        Door doorL = (Door) this.entities.get(EntityType.DOOR).get(0);
-        Door doorR = (Door) this.entities.get(EntityType.DOOR).get(1);
+    private void changeRoom(Player playerWhoOpenedTheDoor) {
+   
         Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
         Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
 
-        if (doorL.getDoorStatus() || (!playerL.isAlive() && playerR.isAlive())) {
+        if (playerWhoOpenedTheDoor == playerL || (playerL.isAlive() && !playerR.isAlive())) {
             if (this.currentRoom == 0) {
                 this.currentGameState = GameState.PLAYERR_WON;
             } else {
                 this.currentRoom--;
                 //TODO segnalarlo a View
             }
-        } else if (doorR.getDoorStatus() || (playerL.isAlive() && !playerR.isAlive())) {
+        } else if (playerWhoOpenedTheDoor == playerR || (!playerL.isAlive() && !playerR.isAlive())) {
             if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS - 1) {
                 this.currentGameState = GameState.PLAYERL_WON;
             } else {
