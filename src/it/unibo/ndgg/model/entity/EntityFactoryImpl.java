@@ -45,8 +45,7 @@ public class EntityFactoryImpl implements EntityFactory {
      * {@inheritDoc}
      */
     @Override
-    public Sword createSword(final Double width, final Double height, final Pair<Double, Double> position,
-                              final Player player, final EntityDirection direction) {
+    public Sword createSword(final Player player, final EntityDirection direction) {
         return new Sword(Optional.empty(), player, direction);
     }
 

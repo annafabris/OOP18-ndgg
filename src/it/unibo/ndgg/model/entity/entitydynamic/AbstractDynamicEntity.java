@@ -9,6 +9,7 @@ import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
+import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 
 /**
@@ -16,7 +17,7 @@ import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
  */
 public abstract class AbstractDynamicEntity extends AbstractEntity implements DynamicEntity {
 
-    private final Optional<DynamicBodyProperties> body;
+    private Optional<DynamicBodyProperties> body;
     private EntityDirection direction;
 
     /**
@@ -28,13 +29,18 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
      */
     public AbstractDynamicEntity(final EntityDirection direction, final Optional<DynamicBodyProperties> body) {
         super();
+        setDynamicBody(body);
+        this.direction = direction;
+    }
+
+    public void setDynamicBody(Optional<DynamicBodyProperties> body) {
         if (body.isPresent()) {
             super.setBody(Optional.ofNullable(body.get()));
             this.body = body;
         } else {
             this.body = Optional.empty();
         }
-        this.direction = direction;
+        this.body = body;
     }
 
     /**
@@ -75,7 +81,7 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
      */
     @Override
     public abstract EntityType getType();
-    
+
     /**
      * {@inheritDoc}
      */

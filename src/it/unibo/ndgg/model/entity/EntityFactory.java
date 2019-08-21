@@ -29,20 +29,12 @@ public interface EntityFactory {
 
     /**
      * Builds a new Sword with its properties.
-     * @param height
-     *          the height of the body
-     * @param width
-     *          the width of the body
-     * @param position
-     *          the position of the body in the {@link World}
-     * @param player
-     *          the player that have this sword equipped
      * @param direction
      *          the first direction of this entity
      * @return 
      *          the entity {@link Sword}
      */
-    Sword createSword(Double height, Double width, Pair<Double, Double> position, Player player, EntityDirection direction);
+    Sword createSword(Player player, EntityDirection direction);
 
     /**
      * Builds a new Platform with its properties.

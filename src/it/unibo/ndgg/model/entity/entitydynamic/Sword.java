@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
-import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 
@@ -89,4 +88,31 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
         }**/
     }
 
+    /**
+     * Returns true if the {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties} is not Optional.empty().
+     * @return true if the {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties} exist
+     */
+    public boolean bodyProperiesExist() {
+        try {
+            super.getBody();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Add a {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties}.
+     * @param body {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties}
+     */
+    public void addBodyProperties(final DynamicBodyProperties body) {
+        super.setDynamicBody(Optional.of(body));
+    }
+
+    /**
+     * Remove the {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties}.
+     */
+    public void removeBodyProperties() {
+        super.setDynamicBody(Optional.empty());
+    }
 }
