@@ -51,9 +51,8 @@ public class PlayerAnimation implements DynamicAnimation {
     }
 
     private void changeAnimation(final EntityState state, final EntityDirection direction) {
-        if (this.currentState != state || this.hasAWeapon != this.player.getWeapon().isPresent() || 
-            this.currentDirection != direction) {
-
+        if (this.currentState != state || this.hasAWeapon != this.player.getWeapon().isPresent() 
+                || this.currentDirection != direction) {
             this.currentAnimation.stop();
             this.setCurrentAnimation();
             this.currentState = state;
@@ -63,7 +62,7 @@ public class PlayerAnimation implements DynamicAnimation {
     }
 
     private void setCurrentAnimation() {
-        Image image = this.playerImage.getImage(this.player.getState(), 
+        final Image image = this.playerImage.getImage(this.player.getState(), 
                                                 this.player.getCurrentDirection(), 
                                                 this.player.getWeapon().isPresent(), 
                                                 this.player.getSwordGuard());

@@ -20,8 +20,11 @@ public class BodyPropertiesCreationTest {
 
     private final BodyPropertiesFactory factory;
 
+    /**
+     * Create the class for the test of {@link it.unibo.ndgg.model.physic.BodyPropertiesFactory}.
+     */
     public BodyPropertiesCreationTest() {
-        BodyAssociations bodyAssociations = new BodyAssociations();
+        final BodyAssociations bodyAssociations = new BodyAssociations();
         this.factory = new BodyPropertiesFactory();
         this.factory.createBodyPropertiesWorld(new WorldImpl(new MutablePair<>(WORLD_WIDTH, WORLD_HEIGHT)), WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
     }

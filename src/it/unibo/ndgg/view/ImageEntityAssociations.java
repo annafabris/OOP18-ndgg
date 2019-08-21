@@ -8,15 +8,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unibo.ndgg.model.entity.EntityType;
-import it.unibo.ndgg.view.entitydraw.StaticEntityFrames;
 /**
  * An association between {@link it.unibo.ndgg.model.entity.EntityType} and the path to get the images.
  */
 public class ImageEntityAssociations {
 
-    private Map<EntityType, List<String>> images = new HashMap<>();
-    private List<String> backgrounds = new ArrayList<>();
+    private final Map<EntityType, List<String>> images = new HashMap<>();
+    private final List<String> backgrounds = new ArrayList<>();
 
+    /**
+     * Creates the association between each {@link it.unibo.ndgg.model.entity.EntityType} and the images' path.
+     */
     public ImageEntityAssociations() {
         this.images.put(EntityType.DOOR, Stream.of("images/staticEntity/door_player_one.png", "images/staticEntity/door_player_two.png")
                 .collect(Collectors.toList()));
@@ -51,7 +53,7 @@ public class ImageEntityAssociations {
      * @param imageId the number of the wanted image
      * @return path of the image in the right position
      */
-    public String getImage(final EntityType type, final int imageId){
+    public String getImage(final EntityType type, final int imageId) {
         return this.images.get(type).get(imageId);
     }
 
@@ -63,6 +65,4 @@ public class ImageEntityAssociations {
     public String getBackground(final int backgroundId) {
         return this.backgrounds.get(backgroundId);
     }
-
-
 }

@@ -14,7 +14,7 @@ public class Platform extends AbstractEntity {
 
     /**
      * Creates the platform.
-     * @param body 
+     * @param body {@link StaticBodyProperties}
      */
     public Platform(final Optional<StaticBodyProperties> body) {
         super();

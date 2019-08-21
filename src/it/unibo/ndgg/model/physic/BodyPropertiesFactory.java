@@ -4,7 +4,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
@@ -71,13 +70,8 @@ public class BodyPropertiesFactory {
             body.getFixture(0).setFriction(PLAYER_FRICTION);
             body.getFixture(0).setDensity(PLAYER_DENSITY);
             body.setMass(MassType.FIXED_ANGULAR_VELOCITY);
-            Convex c2 = Geometry.createRectangle(0.7, 0.1);
-            c2.translate(new Vector2(width + 0.2, height));
-            body.addFixture(c2);
-            body.getFixture(1).setFilter(SWORD_FILTER);
         } else if (type == EntityType.SWORD) {
             body = createBody(position, width, height, SWORD_FILTER);
-            body.setGravityScale(0);
         } else {
             throw new IllegalStateException("Dynamic EntityType Does not exist");
         }

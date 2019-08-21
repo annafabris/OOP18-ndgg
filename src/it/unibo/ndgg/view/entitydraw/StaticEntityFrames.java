@@ -8,12 +8,12 @@ import it.unibo.ndgg.model.entity.EntityType;
 public enum StaticEntityFrames {
 
     /**
-     * Represents the player one door allocated in the right of the scene.
+     * Represents the door of the player one allocated in the right of the scene.
      */
     DOOR_RIGHT(EntityType.DOOR, "door_player_one"),
 
     /**
-     * Represents the player two door allocated in the left of the scene.
+     * Represents the door of the player two allocated in the left of the scene.
      */
     DOOR_LEFT(EntityType.DOOR, "door_player_two"),
 
@@ -33,7 +33,7 @@ public enum StaticEntityFrames {
     }
 
     /**
-     * Returns the frame url of the static entity.
+     * Returns the frame URL of the static entity.
      * @return
      *          the frame path of the static entity
      */

@@ -31,6 +31,8 @@ public interface EntityFactory {
      * Builds a new Sword with its properties.
      * @param direction
      *          the first direction of this entity
+     * @param player
+     *          the {@link Player} associated to the {@link Sword}
      * @return 
      *          the entity {@link Sword}
      */

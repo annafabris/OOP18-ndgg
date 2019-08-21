@@ -36,7 +36,7 @@ public enum SwordFrames {
     /**
      * Returns the image URL of the {@link sword}.
      * @return 
-     *        the associated url of the image
+     *        the associated URL of the image
      */
     public String getSwordSpriteSheet() {
         return this.swordSpriteSheet;

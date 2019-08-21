@@ -17,11 +17,12 @@ import it.unibo.ndgg.model.world.WorldImpl;
  * {@inheritDoc}.
  */
 public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
+    /**
+     * Conversion value.
+     */
     public static final double NANO_TO_BASE = 1.0e9;
     private final org.dyn4j.dynamics.World world;
     private final BodyAssociations bodyAssociation;
-    private final WorldImpl worldImpl;
-    private final CollisionRules collisionRules;
     private long last;
 
     /**
@@ -33,11 +34,9 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
     public BodyPropertiesWorldImpl(final WorldImpl worldImpl, final org.dyn4j.dynamics.World world, 
             final BodyAssociations bodyAssociations) {
         this.world = world;
-        this.worldImpl = worldImpl;
         this.bodyAssociation = bodyAssociations;
         this.last = System.nanoTime();
-        this.collisionRules = new CollisionRules(this.worldImpl, this);
-        this.world.addListener(this.collisionRules);
+        this.world.addListener(new CollisionRules(worldImpl, this));
     }
 
     /**
@@ -46,9 +45,9 @@ public class BodyPropertiesWorldImpl implements BodyPropertiesWorld {
     @Override
     public void update() {
         Toolkit.getDefaultToolkit().sync();
-        long diff = System.nanoTime() - this.last;
+        final long diff = System.nanoTime() - this.last;
         this.last = System.nanoTime();
-        double elapsedTime = diff / NANO_TO_BASE;       // convert from nanoseconds to seconds
+        final double elapsedTime = diff / NANO_TO_BASE;       // convert from nanoseconds to seconds
         this.world.update(elapsedTime);
     }
 

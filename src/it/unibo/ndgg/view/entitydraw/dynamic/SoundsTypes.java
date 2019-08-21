@@ -1,8 +1,5 @@
 package it.unibo.ndgg.view.entitydraw.dynamic;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import javafx.scene.media.AudioClip;
 
 /**
@@ -47,6 +44,10 @@ public enum SoundsTypes {
         this.soundName = soundName;
     }
 
+    /**
+     * Returns the right {@link javafx.scene.media.AudioClip}.
+     * @return the {@link javafx.scene.media.AudioClip}
+     */
     public AudioClip getSound() {
         return new AudioClip(ClassLoader.getSystemResource(SOUNDS_PATH + soundName + SOUNDS_FORMAT).toExternalForm());
     }

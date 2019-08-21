@@ -2,7 +2,6 @@ package it.unibo.ndgg.controller;
 
 import java.io.IOException;
 
-import it.unibo.ndgg.model.levels.RoomEntities;
 import it.unibo.ndgg.view.ViewImpl;
 import javafx.application.Application;
 import javafx.stage.Stage;

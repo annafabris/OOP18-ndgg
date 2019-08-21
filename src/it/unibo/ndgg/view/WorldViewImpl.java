@@ -43,7 +43,6 @@ public class WorldViewImpl implements WorldView {
     private GameControllerImpl gameControllerImpl;
     private final int viewWidth;
     private final int viewHeight;
-    private final long timeStart;
     private Map<EntityType, List<AbstractEntity>> entities;
     private PlayerAnimation playerAnimation1;
     private PlayerAnimation playerAnimation2;
@@ -51,13 +50,15 @@ public class WorldViewImpl implements WorldView {
     private SwordAnimation swordAnimation2;
     private GraphicsContext graphicsContext;
 
-
-    public WorldViewImpl(Stage stage) {
+    /**
+     * Creates the class to manage the View.
+     * @param stage {@link javafx.stage.Stage}
+     */
+    public WorldViewImpl(final Stage stage) {
         this.stage = stage;
         this.viewWidth = (int) (this.stage.getWidth());
         this.viewHeight = (int) (this.stage.getHeight());
         this.entityDrawer = new EntityDrawer(new MutablePair<>(viewWidth, viewHeight), BackgroundFrames.BACKGROUND_1);
-        this.timeStart = System.currentTimeMillis();
         this.inputs = new ArrayList<>();
         this.inputHandler = key -> this.inputs.add(key);
     }
@@ -76,7 +77,6 @@ public class WorldViewImpl implements WorldView {
         this.stage.setScene(createScene());
         this.stage.setFullScreen(true);
         this.stage.getScene().addEventHandler(KeyEvent.KEY_PRESSED, this.inputHandler);
-        //this.stage.getScene().addEventHandler(KeyEvent.KEY_RELEASED, this.inputHandler);
         this.stage.show();
     }
 
@@ -103,7 +103,7 @@ public class WorldViewImpl implements WorldView {
      */
     private Scene createScene() {
         this.stage.setTitle("Nidhogg");
-        Canvas canvas = new Canvas(viewWidth, viewHeight);
+        final Canvas canvas = new Canvas(viewWidth, viewHeight);
         root.getChildren().add(canvas);
         graphicsContext = canvas.getGraphicsContext2D();
         this.draw();
@@ -115,15 +115,14 @@ public class WorldViewImpl implements WorldView {
      * Draws all the static and dynamic entities.
      */
     private void draw() {
-        double t = (System.currentTimeMillis() - timeStart) / 1000.0; 
         this.entityDrawer.drawBackground(this.graphicsContext);
         this.entityDrawer.drawMainPlatform(graphicsContext, (Platform) this.entities.get(EntityType.PLATFORM).get(0));
         this.entityDrawer.drawDoors(graphicsContext, (Door) this.entities.get(EntityType.DOOR).get(0), true);
         this.entityDrawer.drawDoors(graphicsContext, (Door) this.entities.get(EntityType.DOOR).get(1), false);
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation1, (Player) this.entities.get(EntityType.PLAYER).get(0));
         this.entityDrawer.drawPlayer(graphicsContext, playerAnimation2, (Player) this.entities.get(EntityType.PLAYER).get(1));
-        Sword sword1 = (Sword) this.entities.get(EntityType.SWORD).get(0);
-        Sword sword2 = (Sword) this.entities.get(EntityType.SWORD).get(1);
+        final Sword sword1 = (Sword) this.entities.get(EntityType.SWORD).get(0);
+        final Sword sword2 = (Sword) this.entities.get(EntityType.SWORD).get(1);
         if (sword1.getState() != EntityState.EQUIPPED) {
             this.entityDrawer.drawSword(graphicsContext, swordAnimation1, sword1.getState(), sword1);
         }
@@ -177,7 +176,7 @@ public class WorldViewImpl implements WorldView {
      */
     @Override
     public List<Input> getInputs() {
-        List<Input> inputs = this.inputs.stream().map(i -> convertInput(i))
+        final List<Input> inputs = this.inputs.stream().map(i -> convertInput(i))
                                         .filter(i -> i.isPresent())
                                         .map(i -> i.get())
                                         .collect(Collectors.toList());

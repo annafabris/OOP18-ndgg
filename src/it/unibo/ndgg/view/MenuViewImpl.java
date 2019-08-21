@@ -61,7 +61,7 @@ public class MenuViewImpl implements MenuView {
         final FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemResource(resourcePath));
         loader.setController(new MenuLogic(controller.get()));
         try {
-            Parent root = loader.load();
+            final Parent root = loader.load();
             this.stage.getScene().setRoot(root);
         } catch (IOException ex) {
             ex.printStackTrace();

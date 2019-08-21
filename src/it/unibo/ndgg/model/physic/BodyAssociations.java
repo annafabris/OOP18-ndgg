@@ -34,7 +34,8 @@ public class BodyAssociations {
      * @return the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}
      */
     public Sword getSword(final Body body) {
-        return (Sword) this.entities.get(EntityType.SWORD).stream().filter(i->i.getBody().equals(this.getBodyProperties(body))).findFirst().get();
+        return (Sword) this.entities.get(EntityType.SWORD).stream().filter(i -> i.getBody().equals(this.getBodyProperties(body)))
+                .findFirst().get();
         //return (Sword) getEntity(this.entities.get(EntityType.SWORD), getBodyProperties(body));
     }
 
@@ -44,7 +45,8 @@ public class BodyAssociations {
      * @return the {@link it.unibo.ndgg.model.entity.entitydynamic.Player}
      */
     public Player getPlayer(final Body body) {
-        return (Player) this.entities.get(EntityType.PLAYER).stream().filter(i->i.getBody().equals(this.getBodyProperties(body))).findFirst().get();
+        return (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.getBody().equals(this.getBodyProperties(body)))
+                .findFirst().get();
         //return (Player) getEntity(this.entities.get(EntityType.PLAYER), getBodyProperties(body));
     }
 
@@ -54,7 +56,8 @@ public class BodyAssociations {
      * @return the {@link it.unibo.ndgg.model.entity.entitystatic.Door}
      */
     public Door getDoor(final Body body) {
-        return (Door) this.entities.get(EntityType.DOOR).stream().filter(i->i.getBody().equals(this.getBodyProperties(body))).findFirst().get();
+        return (Door) this.entities.get(EntityType.DOOR).stream().filter(i -> i.getBody().equals(this.getBodyProperties(body)))
+                .findFirst().get();
         //return (Door) getEntity(this.entities.get(EntityType.DOOR), getBodyProperties(body));
     }
 
