@@ -383,6 +383,17 @@ public class WorldImpl implements World {
     }
     
     private void resetRoomToInitialCondition() {
-        this.entities.get(EntityType.DOOR).stream().forEach(d -> (Door) d.);
+        this.entities.get(EntityType.DOOR).stream().map(d -> (Door) d).forEach(door -> door.resetIsHit());
+        this.entities.get(EntityType.PLAYER).stream().map(p -> (Player) p).forEach(player ->{
+            player.getBody().getPhysicalBody().translateToOrigin();
+            player.getBody().getPhysicalBody().translate(PLAYER_X_POSITIOON, PLAYER_Y_POSITIOON);
+            player.changeEntityState(EntityState.STAYING_STILL);
+            this.entities.get(EntityType.SWORD).stream().map(s -> (Sword) s).forEach(sword ->{
+               if(sword.getState() != EntityState.EQUIPPED) {
+                   player.equipWeapon(sword);
+               }
+            });
+        });
     }
+    
 }
