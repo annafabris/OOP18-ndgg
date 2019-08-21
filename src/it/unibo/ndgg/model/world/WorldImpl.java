@@ -21,6 +21,7 @@ import it.unibo.ndgg.model.entity.EntityFactoryImpl;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
+import it.unibo.ndgg.model.entity.World;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
@@ -232,11 +233,8 @@ public class WorldImpl implements World {
         playerL.changeEntityState(EntityState.STAYING_STILL);
         playerR.changeEntityState(EntityState.STAYING_STILL);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
-        entities.put(EntityType.SWORD, Stream.of((Sword) entityFactory.createSword(SWORD_WIDTH, SWORD_HEIGHT, new MutablePair<>(
-                SWORD_X_POSITIOON, SWORD_Y_POSITIOON), playerL, EntityDirection.RIGHT), 
-                (Sword) entityFactory.createSword(SWORD_WIDTH, SWORD_HEIGHT, new MutablePair<>(
-                                -SWORD_X_POSITIOON, SWORD_Y_POSITIOON), playerR, EntityDirection.LEFT))
-                .collect(Collectors.toList()));
+        entities.put(EntityType.SWORD, Stream.of((Sword) entityFactory.createSword(playerL, EntityDirection.RIGHT), 
+                (Sword) entityFactory.createSword(playerR, EntityDirection.LEFT)).collect(Collectors.toList()));
        entities.put(EntityType.PLATFORM, Stream.of((Platform) entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
                PLATFORM_X_POSITIOON, PLATFORM_Y_POSITIOON))).collect(Collectors.toList()));
        entities.put(EntityType.DOOR, (Stream.of((Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
@@ -244,6 +242,32 @@ public class WorldImpl implements World {
                        DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL)).collect(Collectors.toList())));
        this.bodyAssociations.setEntities(entities);
        this.rooms.get(this.currentRoom).setEntities(entities);
+    }
+
+    /**
+     * Creates the {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties} of a {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}.
+     * @param sword the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword} that will have the 
+     *          {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties} created
+     * @param height the height of the body
+     * @param width the width of the body
+     * @param position the position of the body in the {@link World}
+     */
+    private void createBodyProperties(final Sword sword, final Double width, final Double height, 
+            final Pair<Double, Double> position) {
+        sword.addBodyProperties(this.bodyPropertiesFactory.createDynamicBodyProperties(position, width, height, EntityType.SWORD));
+    }
+
+    /**
+     * Destroy the {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties} from the 
+     * {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}.
+     * @param sword the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword} that will have its 
+     * {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties} destroyed
+     */
+    private void destroyBodyProprerties(final Sword sword) {
+        if (sword.bodyProperiesExist()) {
+            this.bodyPropertiesWorld.getWorld().removeBody(sword.getBody().getPhysicalBody());
+            sword.removeBodyProperties();
+        }
     }
 
     @Override

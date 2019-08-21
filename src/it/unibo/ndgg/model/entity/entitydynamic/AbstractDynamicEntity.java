@@ -9,7 +9,6 @@ import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
-import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 
 /**
@@ -39,6 +38,7 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
             this.body = body;
         } else {
             this.body = Optional.empty();
+            super.setBody(Optional.empty());
         }
         this.body = body;
     }
