@@ -50,18 +50,6 @@ public abstract class AbstractEntity implements Entity {
      * {@inheritDoc}
      */
     @Override
-    public boolean isAlive() {
-        if (this.body.isPresent()) {
-            return this.body.get().exists();
-        } else {
-            throw new IllegalStateException("The Body is not present");
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Pair<Double, Double> getDimension() {
         if (this.body.isPresent()) {
             return this.body.get().getDimension();

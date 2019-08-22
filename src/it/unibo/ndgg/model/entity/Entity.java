@@ -33,12 +33,6 @@ public interface Entity {
     EntityType getType();
 
     /**
-     * Returns if {@link it.unibo.oop18.nidhogg.model.entity.Entity} is alive or not.
-     * @return if {@link it.unibo.oop18.nidhogg.model.entity.Entity} is alive or not 
-     */
-    boolean isAlive();
-
-    /**
      * Returns a {@link Pair} that represent height and width of {@link Entity} . 
      * @return the height and width as a {@link Pair} of {@link Entity}
      */

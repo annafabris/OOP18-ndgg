@@ -35,6 +35,9 @@ import it.unibo.ndgg.view.entitydraw.dynamic.SoundsTypes;
  */
 public class WorldImpl implements World {
 
+    private static final double WORLD_HEIGHT = 9;
+    private static final double WORLD_WIDTH = 16;
+    private static final double SWORD_PLAYER_SHIFT = 0.3;
     private static final double PLAYER_HEIGHT = 0.8;
     private static final double PLAYER_WIDTH = 0.42;
     private static final double SWORD_HEIGHT = 0.05;
@@ -73,8 +76,7 @@ public class WorldImpl implements World {
      */
     @Override
     public void start() {
-        //Da controllare 16 / 9
-        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, 16, 9, bodyAssociations);
+        this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
         createEntities();
     }
 
@@ -96,10 +98,10 @@ public class WorldImpl implements World {
             case PLAYERKILLED:
                if (player.getCurrentDirection() == EntityDirection.LEFT) {
                    createBodyProperties((Sword) player.getWeapon().get(), Pair.of(
-                           player.getPosition().getLeft() - 0.30, player.getPosition().getRight() + PLAYER_HEIGHT));
+                           player.getPosition().getLeft() - SWORD_PLAYER_SHIFT, player.getPosition().getRight() + PLAYER_HEIGHT));
                } else if (player.getCurrentDirection() == EntityDirection.RIGHT) {
                    createBodyProperties((Sword) player.getWeapon().get(), Pair.of(
-                           player.getPosition().getLeft() + 0.30,player.getPosition().getRight() + PLAYER_HEIGHT));   
+                           player.getPosition().getLeft() + SWORD_PLAYER_SHIFT, player.getPosition().getRight() + PLAYER_HEIGHT));
                }
                 player.die();
                 this.changeRoom(player);
@@ -293,10 +295,10 @@ public class WorldImpl implements World {
         Player playerWhoAttack = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
         Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.equals(playerWhoAttack)).findFirst().get();
         SoundsTypes.ATTACK.getSound().play();
-        System.out.println(" X player attaccante " + Double.toString(playerWhoAttack.getPosition().getLeft()) + 
-                " Y player attaccante " + Double.toString(playerWhoAttack.getPosition().getRight()) + 
-                " X player attaccato " + Double.toString(loserPlayer.getPosition().getLeft()) + 
-                " Y player attaccato " + Double.toString(loserPlayer.getPosition().getRight()));
+        System.out.println(" X player attaccante " + Double.toString(playerWhoAttack.getPosition().getLeft())
+                + " Y player attaccante " + Double.toString(playerWhoAttack.getPosition().getRight())
+                + " X player attaccato " + Double.toString(loserPlayer.getPosition().getLeft())
+                + " Y player attaccato " + Double.toString(loserPlayer.getPosition().getRight()));
         if (playerWhoAttack.getWeapon().isPresent()) {
             if (this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition()) 
                     && checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
@@ -316,10 +318,12 @@ public class WorldImpl implements World {
         Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
         if (p.getState() == EntityState.STAYING_STILL && p.getWeapon().isPresent()) {
         if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
-            createBodyProperties((Sword)p.getWeapon().get(),Pair.of(p.getPosition().getLeft() + 0.30,p.getPosition().getRight() + PLAYER_HEIGHT));
+            createBodyProperties((Sword) p.getWeapon().get(), Pair.of(p.getPosition().getLeft() + SWORD_PLAYER_SHIFT, 
+                    p.getPosition().getRight() + PLAYER_HEIGHT));
             p.dropWeapon(EntityMovement.THROW_LEFT);
         } else {
-            createBodyProperties((Sword)p.getWeapon().get(),Pair.of(p.getPosition().getLeft() - 0.30,p.getPosition().getRight() + PLAYER_HEIGHT));
+            createBodyProperties((Sword) p.getWeapon().get(), Pair.of(p.getPosition().getLeft() - SWORD_PLAYER_SHIFT,
+                    p.getPosition().getRight() + PLAYER_HEIGHT));
             p.dropWeapon(EntityMovement.THROW_LEFT);
         }
         SoundsTypes.THROW.getSound().play();
@@ -328,18 +332,18 @@ public class WorldImpl implements World {
 
     private void checkPlayerState() {
         Player p1 = (Player) this.entities.get(EntityType.PLAYER).get(PlayerID.FIRST_PLAYER.getID());
-        if (p1.getBody().getPhysicalBody().isAsleep()){
+        if (p1.getBody().getPhysicalBody().isAsleep()) {
             p1.changeEntityState(EntityState.STAYING_STILL);
         }
         Player p2 = (Player) this.entities.get(EntityType.PLAYER).get(PlayerID.SECOND_PLAYER.getID());
-        if (p2.getBody().getPhysicalBody().isAsleep()){
+        if (p2.getBody().getPhysicalBody().isAsleep()) {
             p2.changeEntityState(EntityState.STAYING_STILL);
         }
     }
 
     private boolean checkProximity(final Pair<Double, Double> positionFirstPlayer, final Pair<Double, Double> positionSecondPlayer) {
         return Math.abs(positionFirstPlayer.getLeft() - positionSecondPlayer.getLeft()) <= SWORD_WIDTH
-                && Math.abs(positionFirstPlayer.getRight() - positionSecondPlayer.getRight()) <= PLAYER_HEIGHT/2;
+                && Math.abs(positionFirstPlayer.getRight() - positionSecondPlayer.getRight()) <= PLAYER_HEIGHT / 2;
     }
 
     private boolean checkDirections(final Player player1, final Player player2) {
@@ -362,19 +366,19 @@ public class WorldImpl implements World {
         this.entities.get(EntityType.DOOR).stream().map(d -> (Door) d).forEach(door -> door.resetIsHit());
         this.entities.get(EntityType.PLAYER).stream().map(p -> (Player) p).forEach(player -> {
             player.changeEntityState(EntityState.STAYING_STILL);
+            player.setAlive(true);
             this.entities.get(EntityType.SWORD).stream().map(s -> (Sword) s).forEach(sword -> {
-               if(sword.getState() != EntityState.EQUIPPED) {
+               if (sword.getState() != EntityState.EQUIPPED) {
                    destroyBodyProprerties(sword);
                    player.equipWeapon(sword);
                }
             });
         });
         this.entities.get(EntityType.PLAYER).get(0).getBody().
-        getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(0).getPosition().getLeft())-PLAYER_X_POSITIOON,
-                -(this.entities.get(EntityType.PLAYER).get(0).getPosition().getRight())+ PLAYER_Y_POSITIOON);
+        getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(0).getPosition().getLeft()) - PLAYER_X_POSITIOON,
+                -(this.entities.get(EntityType.PLAYER).get(0).getPosition().getRight()) + PLAYER_Y_POSITIOON);
         this.entities.get(EntityType.PLAYER).get(1).getBody().
-        getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(1).getPosition().getLeft())+PLAYER_X_POSITIOON,
-                -(this.entities.get(EntityType.PLAYER).get(1).getPosition().getRight())+ PLAYER_Y_POSITIOON);
+        getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(1).getPosition().getLeft()) + PLAYER_X_POSITIOON,
+                -(this.entities.get(EntityType.PLAYER).get(1).getPosition().getRight()) + PLAYER_Y_POSITIOON);
     }
-
 }

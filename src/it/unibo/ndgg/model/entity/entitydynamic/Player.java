@@ -9,7 +9,6 @@ import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
-import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
 import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
@@ -21,6 +20,7 @@ import it.unibo.ndgg.view.entitydraw.dynamic.SoundsTypes;
  */
 public class Player extends AbstractDynamicEntity {
 
+    private boolean isAlive = false;
     private Optional<Weapon> weapon;
     private Optional<SwordGuard> typeOfGuard;
 
@@ -35,8 +35,25 @@ public class Player extends AbstractDynamicEntity {
      */
     public Player(final Optional<DynamicBodyProperties> body, final EntityDirection direction) {
         super(direction, body);
+        this.isAlive = true;
         this.weapon = Optional.empty();
         this.typeOfGuard = Optional.empty();
+    }
+
+    /**
+     * Getter for the isAlive field.
+     * @return if the Player is alive
+     */
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    /**
+     * Setter for the isAlive field.
+     * @param isAlive if the Player is alive
+     */
+    public void setAlive(final boolean isAlive) {
+        this.isAlive = isAlive;
     }
 
     /**
@@ -131,6 +148,7 @@ public class Player extends AbstractDynamicEntity {
             this.move(EntityMovement.DIE_LEFT);
         }
         SoundsTypes.PLAYERKILLED.getSound().play();
+        this.isAlive = false;
     }
 
     /**
