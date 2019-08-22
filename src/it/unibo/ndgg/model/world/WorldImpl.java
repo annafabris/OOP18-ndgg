@@ -365,9 +365,9 @@ public class WorldImpl implements World {
      */
     private void destroyBodyProprerties(final Sword sword) {
         if (sword.bodyProperiesExist()) {
+            this.bodyAssociations.removeBodyProperties(sword.getBody().getPhysicalBody());
             this.bodyPropertiesWorld.getWorld().removeBody(sword.getBody().getPhysicalBody());
             sword.removeBodyProperties();
-            this.bodyAssociations.removeBodyProperties(sword.getBody().getPhysicalBody());
         }
     }
 
