@@ -1,8 +1,5 @@
 package it.unibo.ndgg.view;
 
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -86,14 +83,6 @@ public class ViewImpl implements View {
         this.mediaPlayer.stop();
         loadSong(THEME_SONG);
         this.mediaPlayer.play();
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    public Pair<Double, Double> getViewDimension() {
-        return new MutablePair<>(this.stage.getWidth(), this.stage.getHeight());
     }
 
     /**

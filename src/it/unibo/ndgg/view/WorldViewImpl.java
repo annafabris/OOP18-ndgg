@@ -101,8 +101,7 @@ public class WorldViewImpl implements WorldView {
         alert.setTitle(WIN_MESSAGE);
         alert.setHeaderText(null);
         alert.setContentText(WIN_MESSAGE_START + playerID + WIN_MESSAGE_END);
-
-        alert.showAndWait();
+        alert.show();
     }
 
     /**

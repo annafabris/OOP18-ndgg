@@ -53,13 +53,13 @@ public class GameControllerImpl implements GameController {
     public void updateModelAndView() {
         final GameState gameState = gameWorld.getCurrentGameState();
         if (gameState == GameState.PLAYERL_WON) {
-            view.playerWon(0);
             timer.stop();
-            exit();
+            view.playerWon(PlayerID.FIRST_PLAYER.getID());
+            controller.menu();
         } else if (gameState == GameState.PLAYERR_WON) {
-            view.playerWon(1);
             timer.stop();
-            exit();
+            view.playerWon(PlayerID.SECOND_PLAYER.getID());
+            controller.menu();
         } else {
             handleInputs();
             gameWorld.update();
