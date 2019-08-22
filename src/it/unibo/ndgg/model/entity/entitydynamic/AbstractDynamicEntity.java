@@ -91,7 +91,6 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
             return this.body.get().getState();
         } else {
             //TODO attenzione potrebbero esserci problemi
-            System.out.println("Leggo stato spada");
             return EntityState.EQUIPPED;
         }
     }

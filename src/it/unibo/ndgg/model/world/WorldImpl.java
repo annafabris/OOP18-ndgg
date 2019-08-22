@@ -358,7 +358,7 @@ public class WorldImpl implements World {
     @Override
     public void throwSword(final PlayerID player) {
         Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        if (p.getState() == EntityState.STAYING_STILL) {
+        if (p.getState() == EntityState.STAYING_STILL && p.getWeapon().isPresent()) {
         if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
             createBodyProperties((Sword)p.getWeapon().get(),Pair.of(p.getPosition().getLeft() + 0.30,p.getPosition().getRight() + PLAYER_HEIGHT));
             moveSword(EntityMovement.THROW_LEFT, player.getID());
@@ -366,8 +366,8 @@ public class WorldImpl implements World {
             createBodyProperties((Sword)p.getWeapon().get(),Pair.of(p.getPosition().getLeft() - 0.30,p.getPosition().getRight() + PLAYER_HEIGHT));
             moveSword(EntityMovement.THROW_RIGHT, player.getID());
         }
-        }
         SoundsTypes.THROW.getSound().play();
+        }
     }
 
     private void checkPlayerState() {
