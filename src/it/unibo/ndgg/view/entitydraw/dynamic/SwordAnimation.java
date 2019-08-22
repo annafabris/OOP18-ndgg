@@ -19,7 +19,7 @@ import javafx.util.Duration;
  */
 public class SwordAnimation implements DynamicAnimation {
 
-    private static final int DURATION = 120;
+    private static final int DURATION = 50;
 
     private Optional<EntityImageAnimation> currentAnimation;
     private final Map<Pair<EntityState, EntityDirection>, Image> images = new HashMap<>();

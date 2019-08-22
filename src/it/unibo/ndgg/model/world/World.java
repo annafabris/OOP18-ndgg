@@ -2,6 +2,7 @@ package it.unibo.ndgg.model.world;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.collision.CollisionResult;
@@ -10,6 +11,7 @@ import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
+import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 
 /**
  * A class that represents the game World and a list of {@link Room} in which the game takes place.
@@ -30,7 +32,7 @@ public interface World {
      * A method that gets called each time a valid collision happens.
      * @param collisionResult {@link CollisionResult}
      */
-    void notifyCollision(CollisionResult collisionResult,Player player);
+    void notifyCollision(CollisionResult collisionResult, Player player, Optional<Sword> sword);
 
     /**
      * Returns the current {@link it.unibo.ndgg.model.GameState}.

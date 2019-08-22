@@ -41,8 +41,8 @@ public class WorldImpl implements World {
     private static final double SWORD_PLAYER_SHIFT = 0.3;
     private static final double PLAYER_HEIGHT = 0.8;
     private static final double PLAYER_WIDTH = 0.42;
-    private static final double SWORD_HEIGHT = 0.05;
-    private static final double SWORD_WIDTH = 0.3;
+    private static final double SWORD_HEIGHT = 0.1;
+    private static final double SWORD_WIDTH = 0.5;
     private static final double PLATFORM_HEIGHT = 1.8;
     private static final double PLATFORM_WIDTH = 16;
     private static final double DOOR_HEIGHT = 1.6;
@@ -94,7 +94,7 @@ public class WorldImpl implements World {
      * {@inheritDoc}.
      */
     @Override
-    public void notifyCollision(final CollisionResult collisionResult, final Player player) {
+    public void notifyCollision(final CollisionResult collisionResult, final Player player, final Optional<Sword> sword) {
         switch (collisionResult) {
             case PLAYERKILLED:
                /*if (player.getCurrentDirection() == EntityDirection.LEFT) {
@@ -115,7 +115,8 @@ public class WorldImpl implements World {
                 break;
             case SWORDPICKEDUP:
                 SoundsTypes.SWORDPICKEDUP.getSound();
-                destroyBodyProprerties((Sword) player.getWeapon().get());
+                destroyBodyProprerties((sword.get()));
+                player.equipWeapon(sword.get());
                 System.out.println("3 collision");
                 break;
             default:

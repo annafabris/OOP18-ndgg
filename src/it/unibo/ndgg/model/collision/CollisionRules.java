@@ -1,5 +1,7 @@
 package it.unibo.ndgg.model.collision;
 
+import java.util.Optional;
+
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.dyn4j.dynamics.Body;
@@ -168,7 +170,7 @@ public class CollisionRules extends CollisionAdapter {
     private boolean processPlayerDoorCollision(final Player player, final Door door) {
         if (door.getPlayerWhoCanOpen() == player) {
             door.hit();
-            this.world.notifyCollision(CollisionResult.DOORTOUCHED, player);
+            this.world.notifyCollision(CollisionResult.DOORTOUCHED, player, Optional.empty());
             return true;
         }
         return true;
@@ -190,22 +192,20 @@ public class CollisionRules extends CollisionAdapter {
      */
     private boolean processPlayerSwordCollision(final Player player, final Sword sword) {
         if (sword.getState() == EntityState.THROWING) {
+            sword.changeEntityState(EntityState.STAYING_STILL);
             if (player.getWeapon().isPresent()) {
                 if (player.getSwordGuard().get() != SwordGuard.HIGH) {
                     player.die(); 
-                    this.world.notifyCollision(CollisionResult.PLAYERKILLED, player);
+                    this.world.notifyCollision(CollisionResult.PLAYERKILLED, player, Optional.of(sword));
                 }
+            } else {
+                player.die();
+                this.world.notifyCollision(CollisionResult.PLAYERKILLED, player, Optional.of(sword));
             }
         } else if (sword.getState() == EntityState.STAYING_STILL && !player.getWeapon().isPresent()) {
-            try {
-                player.equipWeapon(sword);
-            } catch (Exception e) {
-                System.out.println("The player has already a sword");
-                e.printStackTrace();
-            }
-            this.world.notifyCollision(CollisionResult.SWORDPICKEDUP, player);
-            } 
-            return true;
+            this.world.notifyCollision(CollisionResult.SWORDPICKEDUP, player, Optional.of(sword));
+        } 
+        return true;
     }
 
     private void checkIfFirstIstance(final boolean condition, final String err) {
