@@ -90,6 +90,15 @@ public class BodyAssociations {
     public void setBodyProperties(final Body body, final BodyProperties bodyProperties, final EntityType entityType) {
         this.bodyToPropertiesAssociation.put(body, new MutablePair<>(entityType, bodyProperties));
     }
+    
+    /**
+     * Remove the association between {@link org.dyn4j.dynamics.Body}, {@link it.unibo.ndgg.model.physic.body.BodyProperties} and 
+     * {@link it.unibo.ndgg.model.entity.EntityType}.
+     * @param body {@link org.dyn4j.dynamics.Body}
+     */
+    public void removeBodyProperties(final Body body) {
+        this.bodyToPropertiesAssociation.remove(body);
+    }
 
     /**
      * Sets the Map consisting of an association between the {@link it.unibo.ndgg.model.entity.EntityType} and a list of 
@@ -99,6 +108,7 @@ public class BodyAssociations {
     public void setEntities(final Map<EntityType, List<AbstractEntity>> entities) {
         this.entities = entities;
     }
+    
 
     /**
      * Returns the {@link it.unibo.ndgg.model.physic.body.BodyProperties} given its {@link org.dyn4j.dynamics.Body}.

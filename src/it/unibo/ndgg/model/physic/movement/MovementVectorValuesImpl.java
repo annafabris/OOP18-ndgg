@@ -12,7 +12,6 @@ import it.unibo.ndgg.model.entity.EntityMovement;
  */
 public class MovementVectorValuesImpl implements MovementVectorValues {
 
-    //TODO N.B. cambiare e testare questi valori e quali movimenti ci vanno
     private static final Double THROW_X_MOVEMENT = 20.0;
     private static final Double MOVE_X_MOVEMENT = 10.0;
     private static final Double JUMP_Y_MOVEMENT = 100.0;
