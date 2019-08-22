@@ -293,6 +293,10 @@ public class WorldImpl implements World {
         Player playerWhoAttack = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
         Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.equals(playerWhoAttack)).findFirst().get();
         SoundsTypes.ATTACK.getSound().play();
+        System.out.println(" X player attaccante " + Double.toString(playerWhoAttack.getPosition().getLeft()) + 
+                " Y player attaccante " + Double.toString(playerWhoAttack.getPosition().getRight()) + 
+                " X player attaccato " + Double.toString(loserPlayer.getPosition().getLeft()) + 
+                " Y player attaccato " + Double.toString(loserPlayer.getPosition().getRight()));
         if (playerWhoAttack.getWeapon().isPresent()) {
             if (this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition()) 
                     && checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
@@ -363,6 +367,7 @@ public class WorldImpl implements World {
             this.entities.get(EntityType.SWORD).stream().map(s -> (Sword) s).forEach(sword -> {
                if(sword.getState() != EntityState.EQUIPPED) {
                    player.equipWeapon(sword);
+                   destroyBodyProprerties(sword);
                }
             });
         });
@@ -373,4 +378,5 @@ public class WorldImpl implements World {
         getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(1).getPosition().getLeft())+PLAYER_X_POSITIOON,
                 -(this.entities.get(EntityType.PLAYER).get(1).getPosition().getRight())+ PLAYER_Y_POSITIOON);
     }
+
 }
