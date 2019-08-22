@@ -29,6 +29,7 @@ import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactoryImpl;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
+import it.unibo.ndgg.view.entitydraw.dynamic.SoundsTypes;
 
 /**
  * {@inheritDoc}.
@@ -129,17 +130,15 @@ public class WorldImpl implements World {
                 System.out.println("1 collision");
                 break;
             case DOORTOUCHED:
+                SoundsTypes.DOORTOUCHED.getSound().play();
                 this.changeRoom(player);
                 System.out.println("2 collision");
                 break;
             case SWORDPICKEDUP:
+                SoundsTypes.SWORDPICKEDUP.getSound();
                 destroyBodyProprerties((Sword)player.getWeapon().get());
                 System.out.println("3 collision");
                 break;
-            case PLAYERDISARMED:
-                System.out.println("4 collision");
-                break;
-
             default:
                 break;
         }
@@ -281,10 +280,12 @@ public class WorldImpl implements World {
                             if (playerChangeGuard.getCurrentDirection() == EntityDirection.RIGHT) {
                                 createBodyProperties((Sword) otherPlayer.getWeapon().get(),Pair.of(otherPlayer.getPosition().getLeft() + 0.30,
                                         otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
+                                SoundsTypes.PLAYERDISARMED.getSound().play();
                                 otherPlayer.dropWeapon(EntityMovement.DROP_RIGHT);
                             } else {
                                 createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() - 0.30,
                                         otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
+                                SoundsTypes.PLAYERDISARMED.getSound().play();
                                 otherPlayer.dropWeapon(EntityMovement.DROP_LEFT);
                             }
                             playerChangeGuard.changeGuard();
@@ -292,10 +293,12 @@ public class WorldImpl implements World {
                             if (otherPlayer.getCurrentDirection() == EntityDirection.RIGHT) {
                                 createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() + 0.30,
                                         playerChangeGuard.getPosition().getRight() + PLAYER_HEIGHT));
+                                SoundsTypes.PLAYERDISARMED.getSound().play();
                                 playerChangeGuard.dropWeapon(EntityMovement.DROP_RIGHT);
                             } else {
                                 createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() - 0.30,
                                         playerChangeGuard.getPosition().getRight() + PLAYER_HEIGHT));
+                                SoundsTypes.PLAYERDISARMED.getSound().play();
                                 playerChangeGuard.dropWeapon(EntityMovement.DROP_LEFT);
                             }
                         }
@@ -310,8 +313,10 @@ public class WorldImpl implements World {
         Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
         if (p.getState() != EntityState.JUMPING_UP) {
             if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
+                SoundsTypes.JUMP.getSound().play();
                 movePlayer(EntityMovement.JUMP_UP_LEFT, player.getID());
             } else {
+                SoundsTypes.JUMP.getSound().play();
                 movePlayer(EntityMovement.JUMP_UP_RIGHT, player.getID());
     
             }
@@ -335,7 +340,7 @@ public class WorldImpl implements World {
     public void attackPlayer(final PlayerID player) {
         Player playerWhoAttack = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
         Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.equals(playerWhoAttack)).findFirst().get();
-
+        SoundsTypes.ATTACK.getSound().play();
         if (playerWhoAttack.getWeapon().isPresent()) {
             if (this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition()) 
                     && checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
@@ -362,6 +367,7 @@ public class WorldImpl implements World {
             moveSword(EntityMovement.THROW_RIGHT, player.getID());
         }
         }
+        SoundsTypes.THROW.getSound().play();
     }
 
     private void checkPlayerState() {
