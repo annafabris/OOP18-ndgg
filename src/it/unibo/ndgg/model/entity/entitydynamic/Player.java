@@ -2,7 +2,6 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 
 import java.util.Optional;
 
-import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Vector2;
 
 import it.unibo.ndgg.model.entity.EntityDirection;

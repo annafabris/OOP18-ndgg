@@ -6,17 +6,13 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.CollisionAdapter;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 
-import it.unibo.ndgg.model.entity.EntityDirection;
-import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitydynamic.SwordGuard;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
-import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
-import it.unibo.ndgg.model.physic.BodyPropertiesWorldImpl;
 import it.unibo.ndgg.model.physic.body.BodyProperties;
 import it.unibo.ndgg.model.world.WorldImpl;
 
@@ -28,14 +24,19 @@ public class CollisionRules extends CollisionAdapter {
 
     private boolean isCollisionRulesAlreadyCreated = false;
     private static final String COLLISION_ALREADY_CREATED_ERR = "COLLISION RULES ALREADY CREATED ERR";
-    private WorldImpl outerWorld;
-    private BodyPropertiesWorld worldProperties; //TODO interfaccia?
+    private final WorldImpl world;
+    private final BodyPropertiesWorld worldProperties;
 
-    public CollisionRules(final WorldImpl outerWorld, final BodyPropertiesWorld worldProperties) {
+    /**
+     * Generate the CollisionRules.
+     * @param world the {@link it.unibo.ndgg.model.world.WorldImpl}
+     * @param worldProperties the {@link it.unibo.ndgg.model.physic.BodyPropertiesWorld}
+     */
+    public CollisionRules(final WorldImpl world, final BodyPropertiesWorld worldProperties) {
         super();
         this.checkIfFirstIstance(isCollisionRulesAlreadyCreated, COLLISION_ALREADY_CREATED_ERR);
         this.isCollisionRulesAlreadyCreated = true;
-        this.outerWorld = outerWorld;
+        this.world = world;
         this.worldProperties = worldProperties;
     }
 
@@ -63,7 +64,7 @@ public class CollisionRules extends CollisionAdapter {
         final Vector2 point = contactConstraint.getContacts().get(0).getPoint(); punto di contatto tra le due enitità per ora non serve.
          */
         if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.DOOR)
-            || (firstTriple.getRight() == EntityType.DOOR && secondTriple.getRight() == EntityType.PLAYER)) {//verificare come fare nel caso in cui un giocatore con una spada in mano faccia costantemente collisioni.
+            || (firstTriple.getRight() == EntityType.DOOR && secondTriple.getRight() == EntityType.PLAYER)) {
             final Player player;
             final Door door;
             if (firstTriple.getRight() == EntityType.PLAYER) {
@@ -75,7 +76,7 @@ public class CollisionRules extends CollisionAdapter {
             }
             return this.processPlayerDoorCollision(player, door);
         } else if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.SWORD) 
-                  || (firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLAYER)) {//verificare come fare nel caso in cui un giocatore con una spada in mano faccia costantemente collisioni.
+                  || (firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLAYER)) {
             final Player player;
             final Sword sword;
             if (firstTriple.getRight() == EntityType.PLAYER) {
@@ -89,46 +90,16 @@ public class CollisionRules extends CollisionAdapter {
             return this.processPlayerSwordCollision(player, sword);
         } else if (firstTriple.getRight() == EntityType.PLATFORM && secondTriple.getRight() == EntityType.SWORD 
                 || firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLATFORM) {
-            final Platform platform;
             final Sword sword;
             if (firstTriple.getRight() == EntityType.PLATFORM) {
-                platform = this.worldProperties.getPlatformFromBody(firstTriple.getLeft());
                 sword = this.worldProperties.getSwordFromBody(secondTriple.getLeft());
             } else {
-                platform = this.worldProperties.getPlatformFromBody(secondTriple.getLeft());
                 sword = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
             }
-            return this.processSwordPlatformCollision(sword, platform);
+            return this.processSwordPlatformCollision(sword);
         }
         return true;
     }
-
-    /**
-     * Method used to set both the new {@link BodyPropertiesWorldImpl} and {@link WorldImpl} in the moment in which it is changed.
-     * @param newPhysicalWorld {@link BodyPropertiesWorldImpl} to be set 
-     * @param newOuterWorld {@link WorldImpl} to be set
-     */ 
-    public void changedObservedRoom(final BodyPropertiesWorldImpl newPhysicalWorld, final WorldImpl newOuterWorld){
-        setOuterWorld(newOuterWorld);
-        setWorldProperties(newPhysicalWorld);
-    }
-
-    /**
-     * Method used to set the new {@link BodyPropertiesWorldImpl}.
-     * @param newWorldProperties -> newWorldProperties to be set
-     */
-    private void setWorldProperties(final BodyPropertiesWorldImpl newWorldProperties) {
-        this.worldProperties = newWorldProperties;
-    }
-
-    /**
-     * Method used to set the new {@link WorldImpl}.
-     * @param newOuterWorld -> newOuterWorld to be set 
-     */
-    private void setOuterWorld(final WorldImpl newOuterWorld) {
-        this.outerWorld = newOuterWorld;
-    }
-
 
     /**
      * This method process the collision between a Sword and a Sword those collision terminate with only one type o outcome.
@@ -152,7 +123,7 @@ public class CollisionRules extends CollisionAdapter {
 //                    System.out.println("The player hasn't  a sword");
 //                    e.printStackTrace();
 //                }
-//                this.outerWorld.notifyCollision(CollisionResult.PLAYERDISARMED);
+//                this.world.notifyCollision(CollisionResult.PLAYERDISARMED);
 //                return true;
 //            } else if ((sword2.getPosition().getRight() < sword1.getPosition().getRight())) {
 //                try {
@@ -165,7 +136,7 @@ public class CollisionRules extends CollisionAdapter {
 //                    System.out.println("The player hasn't  a sword");
 //                    e.printStackTrace();
 //                }
-//                this.outerWorld.notifyCollision(CollisionResult.PLAYERDISARMED);
+//                this.world.notifyCollision(CollisionResult.PLAYERDISARMED);
 //                return true;
 //            }
 //        }
@@ -176,12 +147,10 @@ public class CollisionRules extends CollisionAdapter {
      * This method process the collision between a Sword and a Platform those collision terminate with only one type o outcome.
      * @param sword 
      *          the sword who collides with the platform
-     * @param platform
-     *          the platform which collides with the sword
      * @return 
      *          true if a collision which need to be rule happens false otherwise.
      */
-    private boolean processSwordPlatformCollision(final Sword sword, final Platform platform) {
+    private boolean processSwordPlatformCollision(final Sword sword) {
         sword.changeEntityState(EntityState.STAYING_STILL);
         return true;
     }
@@ -199,7 +168,7 @@ public class CollisionRules extends CollisionAdapter {
     private boolean processPlayerDoorCollision(final Player player, final Door door) {
         if (door.getPlayerWhoCanOpen() == player) {
             door.hit();
-            this.outerWorld.notifyCollision(CollisionResult.DOORTOUCHED,player);
+            this.world.notifyCollision(CollisionResult.DOORTOUCHED, player);
             return true;
         }
         return true;
@@ -224,7 +193,7 @@ public class CollisionRules extends CollisionAdapter {
             if (player.getWeapon().isPresent()) {
                 if (player.getSwordGuard().get() != SwordGuard.HIGH) {
                     player.die(); 
-                    this.outerWorld.notifyCollision(CollisionResult.PLAYERKILLED,player);
+                    this.world.notifyCollision(CollisionResult.PLAYERKILLED, player);
                 }
             }
         } else if (sword.getState() == EntityState.STAYING_STILL && !player.getWeapon().isPresent()) {
@@ -234,7 +203,7 @@ public class CollisionRules extends CollisionAdapter {
                 System.out.println("The player has already a sword");
                 e.printStackTrace();
             }
-            this.outerWorld.notifyCollision(CollisionResult.SWORDPICKEDUP,player);
+            this.world.notifyCollision(CollisionResult.SWORDPICKEDUP, player);
             } 
             return true;
     }

@@ -3,6 +3,7 @@ package it.unibo.ndgg.model.world;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -96,20 +97,20 @@ public class WorldImpl implements World {
     public void notifyCollision(final CollisionResult collisionResult, final Player player) {
         switch (collisionResult) {
             case PLAYERKILLED:
-               if (player.getCurrentDirection() == EntityDirection.LEFT) {
+               /*if (player.getCurrentDirection() == EntityDirection.LEFT) {
                    createBodyProperties((Sword) player.getWeapon().get(), Pair.of(
                            player.getPosition().getLeft() - SWORD_PLAYER_SHIFT, player.getPosition().getRight() + PLAYER_HEIGHT));
                } else if (player.getCurrentDirection() == EntityDirection.RIGHT) {
                    createBodyProperties((Sword) player.getWeapon().get(), Pair.of(
                            player.getPosition().getLeft() + SWORD_PLAYER_SHIFT, player.getPosition().getRight() + PLAYER_HEIGHT));
-               }
+               }*/
                 player.die();
-                this.changeRoom(player);
+                changeRoom(Optional.empty());
                 System.out.println("1 collision");
                 break;
             case DOORTOUCHED:
                 SoundsTypes.DOORTOUCHED.getSound().play();
-                this.changeRoom(player);
+                changeRoom(Optional.of(player));
                 System.out.println("2 collision");
                 break;
             case SWORDPICKEDUP:
@@ -153,11 +154,30 @@ public class WorldImpl implements World {
      * A methods that gets called when {@link CollisionResult.DOORTOUCHED} or {@link CollisionResult.PLAYERKILLED} 
      * happens and the currentRoom needs to change.
      */
-    private void changeRoom(final Player playerWhoOpenedTheDoor) {
+    private void changeRoom(final Optional<Player> playerWhoOpenedTheDoor) {
         Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
         Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
 
-        if (playerWhoOpenedTheDoor.equals(playerL) || (playerL.isAlive() && !playerR.isAlive())) {
+        System.out.println(playerL.isAlive() + " f " + playerR.toString());
+        if (playerWhoOpenedTheDoor.isPresent()) {
+            if (playerWhoOpenedTheDoor.get().equals(playerL)) {
+                this.currentRoom--;
+            } else if (playerWhoOpenedTheDoor.get().equals(playerR)) {
+                this.currentRoom++;
+            }
+        } else if (playerL.isAlive() && !playerR.isAlive()) {
+            this.currentRoom--;
+        } else if (!playerL.isAlive() && playerR.isAlive()) {
+            this.currentRoom++;
+        }
+        if (this.currentRoom < 0) {
+            this.currentGameState = GameState.PLAYERR_WON;
+        } else if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS) {
+            this.currentGameState = GameState.PLAYERL_WON;
+        } else {
+            resetRoomToInitialCondition();
+        }
+        /*if (playerWhoOpenedTheDoor.equals(playerL) || (playerL.isAlive() && !playerR.isAlive())) {
             if (this.currentRoom == 0) {
                 this.currentGameState = GameState.PLAYERR_WON;
             } else {
@@ -166,12 +186,11 @@ public class WorldImpl implements World {
             }
         } else if (playerWhoOpenedTheDoor.equals(playerR) || (!playerL.isAlive() && playerR.isAlive())) {
             if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS - 1) {
-                this.currentGameState = GameState.PLAYERL_WON;
             } else {
                 this.currentRoom++;
                 resetRoomToInitialCondition();
             }
-        }
+        }*/
     }
 
     /**
@@ -304,9 +323,11 @@ public class WorldImpl implements World {
                     && checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
                 if (!loserPlayer.getWeapon().isPresent()) {
                     loserPlayer.die();
+                    changeRoom(Optional.of(loserPlayer));
                 } else {
                     if (loserPlayer.getSwordGuard().get() != loserPlayer.getSwordGuard().get()) {
                         loserPlayer.die();
+                        changeRoom(Optional.of(loserPlayer));
                     }
                 }
             }
@@ -319,12 +340,12 @@ public class WorldImpl implements World {
         if (p.getState() == EntityState.STAYING_STILL && p.getWeapon().isPresent()) {
         if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
             createBodyProperties((Sword) p.getWeapon().get(), Pair.of(p.getPosition().getLeft() + SWORD_PLAYER_SHIFT, 
-                    p.getPosition().getRight() + PLAYER_HEIGHT));
+                    p.getPosition().getRight() + SWORD_PLAYER_SHIFT));
             p.dropWeapon(EntityMovement.THROW_LEFT);
         } else {
             createBodyProperties((Sword) p.getWeapon().get(), Pair.of(p.getPosition().getLeft() - SWORD_PLAYER_SHIFT,
-                    p.getPosition().getRight() + PLAYER_HEIGHT));
-            p.dropWeapon(EntityMovement.THROW_LEFT);
+                    p.getPosition().getRight() + SWORD_PLAYER_SHIFT));
+            p.dropWeapon(EntityMovement.THROW_RIGHT);
         }
         SoundsTypes.THROW.getSound().play();
         }
