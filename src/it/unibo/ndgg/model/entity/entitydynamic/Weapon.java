@@ -3,7 +3,6 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 import java.util.Optional;
 
 import it.unibo.ndgg.model.entity.EntityMovement;
-import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
  * Represents all type of weapon that can be equipped by the players.

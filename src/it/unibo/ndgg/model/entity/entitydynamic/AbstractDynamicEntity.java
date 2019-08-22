@@ -28,10 +28,20 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
      */
     public AbstractDynamicEntity(final EntityDirection direction, final Optional<DynamicBodyProperties> body) {
         super();
-        setDynamicBody(body);
+        if (body.isPresent()) {
+            super.setBody(Optional.ofNullable(body.get()));
+            this.body = body;
+        } else {
+            this.body = Optional.empty();
+            super.setBody(Optional.empty());
+        }
         this.direction = direction;
     }
 
+    /**
+     * Sets the {@link it.unibo.ndgg.model.physic.body.DynamicBodyProperties} again.
+     * @param body an Optional of the {it.unibo.ndgg.model.physic.body.DynamicBodyProperties}
+     */
     protected void setDynamicBody(final Optional<DynamicBodyProperties> body) {
         if (body.isPresent()) {
             super.setBody(Optional.ofNullable(body.get()));
@@ -40,7 +50,6 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
             this.body = Optional.empty();
             super.setBody(Optional.empty());
         }
-        this.body = body;
     }
 
     /**
@@ -74,7 +83,7 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
      * {@inheritDoc}
      */
     @Override
-    public abstract void move(final EntityMovement movement);
+    public abstract void move(EntityMovement movement);
 
     /**
      * {@inheritDoc}

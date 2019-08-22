@@ -1,6 +1,5 @@
 package it.unibo.ndgg.model.world;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +50,6 @@ public class WorldImpl implements World {
     private static final double DOOR_X_POSITIOON = 7.0;
     private static final double DOOR_Y_POSITIOON = -1.65; 
     private static final int NUMBER_OF_ROOMS = 3;
-    private List<Room> rooms = new ArrayList<Room>();
     private int currentRoom;
     private BodyPropertiesWorld bodyPropertiesWorld;
     private BodyPropertiesFactory bodyPropertiesFactory;
@@ -61,12 +59,10 @@ public class WorldImpl implements World {
 
     /**
      * Creates the World that manages all the entities and rooms. 
-     * @param worldDimension the dimensions of the current View
      */
     public WorldImpl() {
         this.currentGameState = GameState.IS_GOING;
         this.entities = new HashMap<>();
-        rooms.addAll(Stream.generate(() -> new RoomImpl()).limit(NUMBER_OF_ROOMS).collect(Collectors.toList())); //TODO controllare
         this.currentRoom = NUMBER_OF_ROOMS / 2;
         this.bodyAssociations = new BodyAssociations();
         this.bodyPropertiesFactory = new BodyPropertiesFactoryImpl();
@@ -87,42 +83,22 @@ public class WorldImpl implements World {
      */
     @Override
     public void update() {
-        this.rooms.get(this.currentRoom).update();
         this.bodyPropertiesWorld.update();
         this.checkPlayerState();
-        /*Player player1 = getPlayer(0);
-        System.out.println("df " + player1.getPosition() + "");
-       if(this.bodyPropertiesWorld.getWorld().getBounds().isOutside(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())){
-            System.exit(1);
-        }
-
-        Body body1 = player1.getBody().getPhysicalBody();
-        if (body1.isInContact(this.entities.get(EntityType.PLATFORM).get(0).getBody().getPhysicalBody())) {
-            System.out.println("trovato");
-            //System.exit(1);
-        }*/
-    }
-
-    /**
-     * Returns a number referring to the {@link Room} in which the game is taking place.
-     * @return the number referring to the current {@link Room}
-     */
-    public int getCurrentRoom() {       //TODO serve?
-        return this.currentRoom;
     }
 
     /**
      * {@inheritDoc}.
      */
     @Override
-    public void notifyCollision(final CollisionResult collisionResult, Player player) {
+    public void notifyCollision(final CollisionResult collisionResult, final Player player) {
         switch (collisionResult) {
             case PLAYERKILLED:
                if (player.getCurrentDirection() == EntityDirection.LEFT) {
-                   createBodyProperties((Sword)player.getWeapon().get(), Pair.of(
-                        player.getPosition().getLeft() - 0.30, player.getPosition().getRight() + PLAYER_HEIGHT));
+                   createBodyProperties((Sword) player.getWeapon().get(), Pair.of(
+                           player.getPosition().getLeft() - 0.30, player.getPosition().getRight() + PLAYER_HEIGHT));
                } else if (player.getCurrentDirection() == EntityDirection.RIGHT) {
-                   createBodyProperties((Sword)player.getWeapon().get(), Pair.of(
+                   createBodyProperties((Sword) player.getWeapon().get(), Pair.of(
                            player.getPosition().getLeft() + 0.30,player.getPosition().getRight() + PLAYER_HEIGHT));   
                }
                 player.die();
@@ -136,7 +112,7 @@ public class WorldImpl implements World {
                 break;
             case SWORDPICKEDUP:
                 SoundsTypes.SWORDPICKEDUP.getSound();
-                destroyBodyProprerties((Sword)player.getWeapon().get());
+                destroyBodyProprerties((Sword) player.getWeapon().get());
                 System.out.println("3 collision");
                 break;
             default:
@@ -169,42 +145,31 @@ public class WorldImpl implements World {
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
-//        System.out.println("posizione player" + playerId + " " + player1.getPosition());
-//        System.out.println("posizione sword" + playerId + " " + sword1.getPosition());
-//        System.out.println("differenza x " + (player1.getPosition().getRight() - sword1.getPosition().getRight()));
-//        System.out.println("differenza y " + (player1.getPosition().getLeft() - sword1.getPosition().getLeft()));
-//        System.out.println(sword1.getState());
-        //System.out.println("dimensione " + playerId + " " + player1.getDimension());
-        //System.out.println("Active: " + body1.isActive());
-        //System.out.println("\nAsleep:  " + body1.isAsleep());
-        //System.out.println("Outside: "+this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
-        //System.out.println(this.worldDimension + "de");
     }
 
     /**
      * A methods that gets called when {@link CollisionResult.DOORTOUCHED} or {@link CollisionResult.PLAYERKILLED} 
      * happens and the currentRoom needs to change.
      */
-    private void changeRoom(Player playerWhoOpenedTheDoor) {
-   
+    private void changeRoom(final Player playerWhoOpenedTheDoor) {
         Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
         Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
 
-        if (playerWhoOpenedTheDoor == playerL || (playerL.isAlive() && !playerR.isAlive())) {
+        if (playerWhoOpenedTheDoor.equals(playerL) || (playerL.isAlive() && !playerR.isAlive())) {
             if (this.currentRoom == 0) {
                 this.currentGameState = GameState.PLAYERR_WON;
             } else {
                 this.currentRoom--;
-                //TODO segnalarlo a View
+                resetRoomToInitialCondition();
             }
-        } else if (playerWhoOpenedTheDoor == playerR || (!playerL.isAlive() && !playerR.isAlive())) {
+        } else if (playerWhoOpenedTheDoor.equals(playerR) || (!playerL.isAlive() && playerR.isAlive())) {
             if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS - 1) {
                 this.currentGameState = GameState.PLAYERL_WON;
             } else {
                 this.currentRoom++;
+                resetRoomToInitialCondition();
             }
         }
-        resetRoomToInitialCondition();
     }
 
     /**
@@ -227,7 +192,6 @@ public class WorldImpl implements World {
                -DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerR), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
                        DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL)).collect(Collectors.toList())));
        this.bodyAssociations.setEntities(entities);
-       this.rooms.get(this.currentRoom).setEntities(entities);
     }
 
     /**
@@ -238,7 +202,7 @@ public class WorldImpl implements World {
      * @param width the width of the body
      * @param position the position of the body in the {@link World}
      */
-    private void createBodyProperties(final Sword sword,final Pair<Double, Double> position) {
+    private void createBodyProperties(final Sword sword, final Pair<Double, Double> position) {
         sword.addBodyProperties(this.bodyPropertiesFactory.createDynamicBodyProperties(position, SWORD_WIDTH, SWORD_HEIGHT, EntityType.SWORD));
     }
 
@@ -266,7 +230,7 @@ public class WorldImpl implements World {
                     if (playerChangeGuard.getSwordGuard().get() != otherPlayer.getSwordGuard().get()) {
                         if (playerChangeGuard.getSwordGuard().get() == SwordGuard.LOW) {
                             if (playerChangeGuard.getCurrentDirection() == EntityDirection.RIGHT) {
-                                createBodyProperties((Sword) otherPlayer.getWeapon().get(),Pair.of(otherPlayer.getPosition().getLeft() + 0.30,
+                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() + 0.30,
                                         otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
                                 SoundsTypes.PLAYERDISARMED.getSound().play();
                                 otherPlayer.dropWeapon(EntityMovement.DROP_RIGHT);
