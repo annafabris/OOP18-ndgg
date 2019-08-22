@@ -130,9 +130,9 @@ public class EntityDrawer {
      */
     public void drawSword(final GraphicsContext graphicsContext, final SwordAnimation swordAnimation,
                           final EntityState state, final Sword sword) {
-        final Double dimensionX = (sword.getDimension().getLeft()) * this.worldWidth / MODEL_WORLD_WIDTH;
-        final Double dimensionY = (sword.getDimension().getRight()) * this.worldHeight / MODEL_WORLD_HEIGHT;
         if (state != EntityState.EQUIPPED) {
+            final Double dimensionX = (sword.getDimension().getLeft()) * this.worldWidth / MODEL_WORLD_WIDTH;
+            final Double dimensionY = (sword.getDimension().getRight()) * this.worldHeight / MODEL_WORLD_HEIGHT;
             graphicsContext.drawImage(swordAnimation.updatePosition(), 
                                      (sword.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * this.worldWidth 
                                      / MODEL_WORLD_WIDTH - dimensionX / 2.0,
