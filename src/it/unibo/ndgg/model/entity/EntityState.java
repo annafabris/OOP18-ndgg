@@ -16,11 +16,6 @@ public enum EntityState {
     JUMPING_UP,
 
     /**
-     * It represents the state "jumping down" of the {@link Entity}.
-     */
-    JUMPING_DOWN,
-
-    /**
      * It represents the state "staying still" of the {@link Entity}.
      */
     STAYING_STILL,

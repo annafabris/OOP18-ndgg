@@ -6,6 +6,7 @@ import org.junit.Test;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
+import it.unibo.ndgg.model.physic.BodyPropertiesFactoryImpl;
 import it.unibo.ndgg.model.world.WorldImpl;
 
 /**
@@ -25,7 +26,7 @@ public class BodyPropertiesCreationTest {
      */
     public BodyPropertiesCreationTest() {
         final BodyAssociations bodyAssociations = new BodyAssociations();
-        this.factory = new BodyPropertiesFactory();
+        this.factory = new BodyPropertiesFactoryImpl();
         this.factory.createBodyPropertiesWorld(new WorldImpl(), WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
     }
 

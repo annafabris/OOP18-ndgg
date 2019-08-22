@@ -11,13 +11,14 @@ import it.unibo.ndgg.model.physic.body.BodyProperties;
  */
 public abstract class AbstractEntity implements Entity {
 
-    private Optional<BodyProperties> body = Optional.empty();
+    private Optional<BodyProperties> body;
 
     /**
      * It is a constructor for this class that require a {@link it.unibo.ndgg.model.physic.body.BodyProperties}.
      */
     public AbstractEntity() {
         super();
+        this.body = Optional.empty();
     }
 
     /**

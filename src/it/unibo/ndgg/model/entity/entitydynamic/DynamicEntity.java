@@ -2,6 +2,7 @@ package it.unibo.ndgg.model.entity.entitydynamic;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.ndgg.model.entity.Entity;
 import it.unibo.ndgg.model.entity.EntityDirection;
 import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityState;
@@ -9,7 +10,7 @@ import it.unibo.ndgg.model.entity.EntityState;
 /**
  * Represents a dynamic entity with its direction and its movements.
  */
-public interface DynamicEntity {
+public interface DynamicEntity extends Entity {
 
     /**
      * Return a {@link Pair} that represent the component x and y of velocity of {@link Entity}. 

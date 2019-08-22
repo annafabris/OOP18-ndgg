@@ -26,6 +26,7 @@ import it.unibo.ndgg.model.entity.entitydynamic.SwordGuard;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
+import it.unibo.ndgg.model.physic.BodyPropertiesFactoryImpl;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
 import it.unibo.ndgg.model.world.WorldImpl;
 
@@ -41,7 +42,7 @@ public class EntityCreationTest {
     private static final double DOOR_HEIGHT = 1.6;
     private static final double DOOR_WIDTH = 1.8;
     private WorldImpl world;
-    private BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactory();
+    private BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactoryImpl();
     private Map<EntityType, List<AbstractEntity>> entities;
     private BodyAssociations bodyAssociations;
     private Player playerR;
