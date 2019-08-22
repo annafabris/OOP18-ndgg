@@ -27,8 +27,8 @@ import it.unibo.ndgg.model.entity.entitystatic.Door;
 import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
+import it.unibo.ndgg.model.physic.BodyPropertiesFactoryImpl;
 import it.unibo.ndgg.model.physic.BodyPropertiesWorld;
-import it.unibo.ndgg.model.physic.body.BodyProperties;
 
 /**
  * {@inheritDoc}.
@@ -68,7 +68,7 @@ public class WorldImpl implements World {
         rooms.addAll(Stream.generate(() -> new RoomImpl()).limit(NUMBER_OF_ROOMS).collect(Collectors.toList())); //TODO controllare
         this.currentRoom = NUMBER_OF_ROOMS / 2;
         this.bodyAssociations = new BodyAssociations();
-        this.bodyPropertiesFactory = new BodyPropertiesFactory();
+        this.bodyPropertiesFactory = new BodyPropertiesFactoryImpl();
     }
 
     /**
@@ -117,10 +117,10 @@ public class WorldImpl implements World {
     public void notifyCollision(final CollisionResult collisionResult, Player player) {
         switch (collisionResult) {
             case PLAYERKILLED:
-               if(player.getCurrentDirection() == EntityDirection.LEFT) {
-               createBodyProperties((Sword)player.getWeapon().get(), Pair.of(
-                        player.getPosition().getLeft() - 0.30,player.getPosition().getRight() + PLAYER_HEIGHT));
-               }else if(player.getCurrentDirection() == EntityDirection.RIGHT) {
+               if (player.getCurrentDirection() == EntityDirection.LEFT) {
+                   createBodyProperties((Sword)player.getWeapon().get(), Pair.of(
+                        player.getPosition().getLeft() - 0.30, player.getPosition().getRight() + PLAYER_HEIGHT));
+               } else if (player.getCurrentDirection() == EntityDirection.RIGHT) {
                    createBodyProperties((Sword)player.getWeapon().get(), Pair.of(
                            player.getPosition().getLeft() + 0.30,player.getPosition().getRight() + PLAYER_HEIGHT));   
                }
