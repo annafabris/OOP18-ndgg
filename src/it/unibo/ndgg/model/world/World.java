@@ -7,7 +7,6 @@ import java.util.Optional;
 import it.unibo.ndgg.model.GameState;
 import it.unibo.ndgg.model.collision.CollisionResult;
 import it.unibo.ndgg.model.entity.AbstractEntity;
-import it.unibo.ndgg.model.entity.EntityMovement;
 import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.PlayerID;
@@ -30,7 +29,9 @@ public interface World {
 
     /**
      * A method that gets called each time a valid collision happens.
-     * @param collisionResult {@link CollisionResult}
+     * @param collisionResult {@link CollisionResult}.
+     * @param player the player who collide.
+     * @param sword the sword which may collide with the player.
      */
     void notifyCollision(CollisionResult collisionResult, Player player, Optional<Sword> sword);
 
@@ -47,18 +48,35 @@ public interface World {
     Map<EntityType, List<AbstractEntity>> getEntities();
 
     /**
-     * Makes the player center of mass move if necessary.
-     * @param movement the {@link it.unibo.ndgg.model.entity.EntityMovement}
-     * @param playerId the Id of the Player
+     * Change the player guard.
+     * @param player the {@link PlayerID} of the player.
      */
-    void movePlayer(EntityMovement movement, int playerId);
-    
     void changeGuard(PlayerID player);
+    /**
+     * Make the player jump.
+     * @param player the {@link PlayerID} of the player.
+     */
     void jumpPlayer(PlayerID player);
+    /**
+     * Move the player left.
+     * @param player the {@link PlayerID} of the player.
+     */
     void movePlayerLeft(PlayerID player);
+    /**
+     * Move the player right.
+     * @param player the {@link PlayerID} of the player.
+     */
     void movePlayerRight(PlayerID player);
+    /**
+     * Make the player throw his sword.
+     * @param player the {@link PlayerID} of the player.
+     */
     void throwSword(PlayerID player);
-    void attackPlayer(final PlayerID player);
+    /**
+     * Make the player attack.
+     * @param player the {@link PlayerID} of the player.
+     */
+    void attackPlayer(PlayerID player);
 
 
 }

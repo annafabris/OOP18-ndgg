@@ -56,9 +56,9 @@ public class WorldImpl implements World {
     private static final int NUMBER_OF_ROOMS = 3;
     private int currentRoom;
     private BodyPropertiesWorld bodyPropertiesWorld;
-    private BodyPropertiesFactory bodyPropertiesFactory;
-    private BodyAssociations bodyAssociations;
-    private Map<EntityType, List<AbstractEntity>> entities;
+    private final BodyPropertiesFactory bodyPropertiesFactory;
+    private final BodyAssociations bodyAssociations;
+    private final Map<EntityType, List<AbstractEntity>> entities;
     private GameState currentGameState;
 
     /**
@@ -144,8 +144,137 @@ public class WorldImpl implements World {
      * {@inheritDoc}
      */
     @Override
-    public void movePlayer(final EntityMovement movement, final int playerId) {
-        Player player1 = (Player) this.entities.get(EntityType.PLAYER).get(playerId);
+    public void changeGuard(final PlayerID player) {
+        final Player playerChangeGuard = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
+        final Player otherPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.equals(playerChangeGuard)).findFirst().get();
+
+        if (playerChangeGuard.getWeapon().isPresent()) {
+            if (this.checkProximity(playerChangeGuard.getPosition(), otherPlayer.getPosition())) {
+                if (otherPlayer.getWeapon().isPresent() && this.checkDirections(playerChangeGuard, otherPlayer)) {
+                    if (playerChangeGuard.getSwordGuard().get() != otherPlayer.getSwordGuard().get()) {
+                        if (playerChangeGuard.getSwordGuard().get() == SwordGuard.LOW) {
+                            if (playerChangeGuard.getCurrentDirection() == EntityDirection.RIGHT) {
+                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() + 0.30,
+                                        otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
+                                SoundsTypes.PLAYERDISARMED.getSound().play();
+                                otherPlayer.dropWeapon(EntityMovement.DROP_RIGHT);
+                            } else {
+                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() - 0.30,
+                                        otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
+                                SoundsTypes.PLAYERDISARMED.getSound().play();
+                                otherPlayer.dropWeapon(EntityMovement.DROP_LEFT);
+                            }
+                            playerChangeGuard.changeGuard();
+                        } else {
+                            if (otherPlayer.getCurrentDirection() == EntityDirection.RIGHT) {
+                                createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() + 0.30,
+                                        playerChangeGuard.getPosition().getRight() + PLAYER_HEIGHT));
+                                SoundsTypes.PLAYERDISARMED.getSound().play();
+                                playerChangeGuard.dropWeapon(EntityMovement.DROP_RIGHT);
+                            } else {
+                                createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() - 0.30,
+                                        playerChangeGuard.getPosition().getRight() + PLAYER_HEIGHT));
+                                SoundsTypes.PLAYERDISARMED.getSound().play();
+                                playerChangeGuard.dropWeapon(EntityMovement.DROP_LEFT);
+                            }
+                        }
+                    }
+                }
+            }
+            playerChangeGuard.changeGuard(); 
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void jumpPlayer(final PlayerID player) {
+        final Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
+        if (p.getState() != EntityState.JUMPING_UP) {
+            if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
+                SoundsTypes.JUMP.getSound().play();
+                movePlayer(EntityMovement.JUMP_UP_LEFT, player.getID());
+            } else {
+                SoundsTypes.JUMP.getSound().play();
+                movePlayer(EntityMovement.JUMP_UP_RIGHT, player.getID());
+
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void movePlayerLeft(final PlayerID player) {
+        movePlayer(EntityMovement.MOVE_LEFT, player.getID());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void movePlayerRight(final PlayerID player) {
+        movePlayer(EntityMovement.MOVE_RIGHT, player.getID());
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void attackPlayer(final PlayerID player) {
+        final Player playerWhoAttack = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
+        final Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.equals(playerWhoAttack)).findFirst().get();
+        SoundsTypes.ATTACK.getSound().play();
+        System.out.println(" X player attaccante " + Double.toString(playerWhoAttack.getPosition().getLeft())
+                + " Y player attaccante " + Double.toString(playerWhoAttack.getPosition().getRight())
+                + " X player attaccato " + Double.toString(loserPlayer.getPosition().getLeft())
+                + " Y player attaccato " + Double.toString(loserPlayer.getPosition().getRight()));
+        if (playerWhoAttack.getWeapon().isPresent()) {
+            if (this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition()) 
+                    && checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
+                if (!loserPlayer.getWeapon().isPresent()) {
+                    loserPlayer.die();
+                    changeRoom(Optional.of(loserPlayer));
+                } else {
+                    if (loserPlayer.getSwordGuard().get() != loserPlayer.getSwordGuard().get()) {
+                        loserPlayer.die();
+                        changeRoom(Optional.of(loserPlayer));
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void throwSword(final PlayerID player) {
+        final Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
+        if (p.getState() == EntityState.STAYING_STILL && p.getWeapon().isPresent()) {
+        if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
+            createBodyProperties((Sword) p.getWeapon().get(), Pair.of(p.getPosition().getLeft() + SWORD_PLAYER_SHIFT, 
+                    p.getPosition().getRight() + SWORD_PLAYER_SHIFT));
+            p.dropWeapon(EntityMovement.THROW_LEFT);
+        } else {
+            createBodyProperties((Sword) p.getWeapon().get(), Pair.of(p.getPosition().getLeft() - SWORD_PLAYER_SHIFT,
+                    p.getPosition().getRight() + SWORD_PLAYER_SHIFT));
+            p.dropWeapon(EntityMovement.THROW_RIGHT);
+        }
+        SoundsTypes.THROW.getSound().play();
+        }
+    }
+
+    /**
+     * Makes the player center of mass move if necessary.
+     * @param movement the {@link it.unibo.ndgg.model.entity.EntityMovement}
+     * @param playerId the Id of the Player
+     */
+    private void movePlayer(final EntityMovement movement, final int playerId) {
+        final Player player1 = (Player) this.entities.get(EntityType.PLAYER).get(playerId);
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
@@ -156,8 +285,8 @@ public class WorldImpl implements World {
      * happens and the currentRoom needs to change.
      */
     private void changeRoom(final Optional<Player> playerWhoOpenedTheDoor) {
-        Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
-        Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
+        final Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
+        final Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
 
         System.out.println(playerL.isAlive() + " f " + playerR.toString());
         if (playerWhoOpenedTheDoor.isPresent()) {
@@ -241,123 +370,14 @@ public class WorldImpl implements World {
         }
     }
 
-    @Override
-    public void changeGuard(final PlayerID player) {
-        Player playerChangeGuard = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        Player otherPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.equals(playerChangeGuard)).findFirst().get();
 
-        if (playerChangeGuard.getWeapon().isPresent()) {
-            if (this.checkProximity(playerChangeGuard.getPosition(), otherPlayer.getPosition())) {
-                if (otherPlayer.getWeapon().isPresent() && this.checkDirections(playerChangeGuard, otherPlayer)) {
-                    if (playerChangeGuard.getSwordGuard().get() != otherPlayer.getSwordGuard().get()) {
-                        if (playerChangeGuard.getSwordGuard().get() == SwordGuard.LOW) {
-                            if (playerChangeGuard.getCurrentDirection() == EntityDirection.RIGHT) {
-                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() + 0.30,
-                                        otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
-                                SoundsTypes.PLAYERDISARMED.getSound().play();
-                                otherPlayer.dropWeapon(EntityMovement.DROP_RIGHT);
-                            } else {
-                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() - 0.30,
-                                        otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
-                                SoundsTypes.PLAYERDISARMED.getSound().play();
-                                otherPlayer.dropWeapon(EntityMovement.DROP_LEFT);
-                            }
-                            playerChangeGuard.changeGuard();
-                        } else {
-                            if (otherPlayer.getCurrentDirection() == EntityDirection.RIGHT) {
-                                createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() + 0.30,
-                                        playerChangeGuard.getPosition().getRight() + PLAYER_HEIGHT));
-                                SoundsTypes.PLAYERDISARMED.getSound().play();
-                                playerChangeGuard.dropWeapon(EntityMovement.DROP_RIGHT);
-                            } else {
-                                createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() - 0.30,
-                                        playerChangeGuard.getPosition().getRight() + PLAYER_HEIGHT));
-                                SoundsTypes.PLAYERDISARMED.getSound().play();
-                                playerChangeGuard.dropWeapon(EntityMovement.DROP_LEFT);
-                            }
-                        }
-                    }
-                }
-            }
-            playerChangeGuard.changeGuard(); 
-        }
-    }
-
-    public void jumpPlayer(final PlayerID player) {
-        Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        if (p.getState() != EntityState.JUMPING_UP) {
-            if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
-                SoundsTypes.JUMP.getSound().play();
-                movePlayer(EntityMovement.JUMP_UP_LEFT, player.getID());
-            } else {
-                SoundsTypes.JUMP.getSound().play();
-                movePlayer(EntityMovement.JUMP_UP_RIGHT, player.getID());
-    
-            }
-        }
-    }
-
-    @Override
-    public void movePlayerLeft(final PlayerID player) {
-        movePlayer(EntityMovement.MOVE_LEFT, player.getID());
-    }
-
-    @Override
-    public void movePlayerRight(final PlayerID player) {
-        movePlayer(EntityMovement.MOVE_RIGHT, player.getID());
-    }
-
-    /**
-     * 
-     * @param player
-     */
-    public void attackPlayer(final PlayerID player) {
-        Player playerWhoAttack = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.equals(playerWhoAttack)).findFirst().get();
-        SoundsTypes.ATTACK.getSound().play();
-        System.out.println(" X player attaccante " + Double.toString(playerWhoAttack.getPosition().getLeft())
-                + " Y player attaccante " + Double.toString(playerWhoAttack.getPosition().getRight())
-                + " X player attaccato " + Double.toString(loserPlayer.getPosition().getLeft())
-                + " Y player attaccato " + Double.toString(loserPlayer.getPosition().getRight()));
-        if (playerWhoAttack.getWeapon().isPresent()) {
-            if (this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition()) 
-                    && checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
-                if (!loserPlayer.getWeapon().isPresent()) {
-                    loserPlayer.die();
-                    changeRoom(Optional.of(loserPlayer));
-                } else {
-                    if (loserPlayer.getSwordGuard().get() != loserPlayer.getSwordGuard().get()) {
-                        loserPlayer.die();
-                        changeRoom(Optional.of(loserPlayer));
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void throwSword(final PlayerID player) {
-        Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        if (p.getState() == EntityState.STAYING_STILL && p.getWeapon().isPresent()) {
-        if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
-            createBodyProperties((Sword) p.getWeapon().get(), Pair.of(p.getPosition().getLeft() + SWORD_PLAYER_SHIFT, 
-                    p.getPosition().getRight() + SWORD_PLAYER_SHIFT));
-            p.dropWeapon(EntityMovement.THROW_LEFT);
-        } else {
-            createBodyProperties((Sword) p.getWeapon().get(), Pair.of(p.getPosition().getLeft() - SWORD_PLAYER_SHIFT,
-                    p.getPosition().getRight() + SWORD_PLAYER_SHIFT));
-            p.dropWeapon(EntityMovement.THROW_RIGHT);
-        }
-        SoundsTypes.THROW.getSound().play();
-        }
-    }
 
     private void checkPlayerState() {
-        Player p1 = (Player) this.entities.get(EntityType.PLAYER).get(PlayerID.FIRST_PLAYER.getID());
+        final Player p1 = (Player) this.entities.get(EntityType.PLAYER).get(PlayerID.FIRST_PLAYER.getID());
         if (p1.getBody().getPhysicalBody().isAsleep()) {
             p1.changeEntityState(EntityState.STAYING_STILL);
         }
-        Player p2 = (Player) this.entities.get(EntityType.PLAYER).get(PlayerID.SECOND_PLAYER.getID());
+        final Player p2 = (Player) this.entities.get(EntityType.PLAYER).get(PlayerID.SECOND_PLAYER.getID());
         if (p2.getBody().getPhysicalBody().isAsleep()) {
             p2.changeEntityState(EntityState.STAYING_STILL);
         }
