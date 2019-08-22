@@ -389,7 +389,7 @@ public class WorldImpl implements World {
             player.changeEntityState(EntityState.STAYING_STILL);
             player.setAlive(true);
             this.entities.get(EntityType.SWORD).stream().map(s -> (Sword) s).forEach(sword -> {
-               if (sword.getState() != EntityState.EQUIPPED) {
+               if (!player.getWeapon().isPresent()) {
                    destroyBodyProprerties(sword);
                    player.equipWeapon(sword);
                }
