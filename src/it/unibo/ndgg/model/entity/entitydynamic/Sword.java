@@ -88,7 +88,7 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
             final Vector2 vector = movementValue.getMovementVector(movement);
             ((DynamicBodyProperties) this.getBody()).applyImpulse(movement, vector.x, vector.y);
         }
-        if(this.bodyProperiesExist()) {
+        if (this.bodyProperiesExist()) {
             this.changeEntityState(movement.getAssociatedEntityState());
         }
         this.setCurrentDirection(movement.getAssociatedDirection());

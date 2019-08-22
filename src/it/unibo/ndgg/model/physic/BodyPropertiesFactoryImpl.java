@@ -21,6 +21,8 @@ public class BodyPropertiesFactoryImpl implements BodyPropertiesFactory {
     private static final double PLAYER_DENSITY = 50;
     private static final double PLAYER_FRICTION = 0.25;
     private static final double PLATFORM_FRICTION = 0.8;
+    private static final double SWORD_GRAVITYSCALE = 50;
+    private static final double SWORD_FRICTION = 50;
     private static final long CATEGORY_PLAYER = 1;      // 000001 binary rapresentation 
     private static final long CATEGORY_DOOR = 2;        // 000010 binary rapresentation 
     private static final long CATEGORY_SWORD = 4;       // 000100 binary rapresentation 
@@ -61,6 +63,8 @@ public class BodyPropertiesFactoryImpl implements BodyPropertiesFactory {
             body.setMass(MassType.FIXED_ANGULAR_VELOCITY);
         } else if (type == EntityType.SWORD) {
             body = createBody(position, width, height, SWORD_FILTER);
+            body.setGravityScale(SWORD_GRAVITYSCALE);
+            body.getFixture(0).setFriction(SWORD_FRICTION);
         } else {
             throw new IllegalStateException("Dynamic EntityType Does not exist");
         }

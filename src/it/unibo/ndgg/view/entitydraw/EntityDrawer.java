@@ -137,7 +137,7 @@ public class EntityDrawer {
                                      (sword.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * this.worldWidth 
                                      / MODEL_WORLD_WIDTH - dimensionX / 2.0,
                                      (MODEL_WORLD_HEIGHT / 2.0 - sword.getPosition().getRight()) * this.worldHeight 
-                                     / MODEL_WORLD_HEIGHT - dimensionY / 2.0,
+                                     / MODEL_WORLD_HEIGHT,
                                      dimensionX,
                                      dimensionY);
         }
