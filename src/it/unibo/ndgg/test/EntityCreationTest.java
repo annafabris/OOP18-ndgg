@@ -85,8 +85,6 @@ public class EntityCreationTest {
         assertEquals(EntityState.EQUIPPED, ((Sword) this.entities.get(EntityType.SWORD).get(1)).getState());
         assertFalse(((Sword) this.entities.get(EntityType.SWORD).get(0)).bodyProperiesExist());
         assertFalse(((Sword) this.entities.get(EntityType.SWORD).get(1)).bodyProperiesExist());
-        assertTrue(this.entities.get(EntityType.PLAYER).get(0).isAlive());
-        assertTrue(this.entities.get(EntityType.PLAYER).get(1).isAlive());
     }
     /**
      * A general test about the creation of entities.

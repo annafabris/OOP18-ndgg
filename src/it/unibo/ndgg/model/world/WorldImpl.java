@@ -318,11 +318,9 @@ public class WorldImpl implements World {
         if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
             createBodyProperties((Sword)p.getWeapon().get(),Pair.of(p.getPosition().getLeft() + 0.30,p.getPosition().getRight() + PLAYER_HEIGHT));
             p.dropWeapon(EntityMovement.THROW_LEFT);
-            //moveSword(EntityMovement.THROW_LEFT, player.getID());
         } else {
             createBodyProperties((Sword)p.getWeapon().get(),Pair.of(p.getPosition().getLeft() - 0.30,p.getPosition().getRight() + PLAYER_HEIGHT));
             p.dropWeapon(EntityMovement.THROW_LEFT);
-            //moveSword(EntityMovement.THROW_RIGHT, player.getID());
         }
         SoundsTypes.THROW.getSound().play();
         }
@@ -366,8 +364,8 @@ public class WorldImpl implements World {
             player.changeEntityState(EntityState.STAYING_STILL);
             this.entities.get(EntityType.SWORD).stream().map(s -> (Sword) s).forEach(sword -> {
                if(sword.getState() != EntityState.EQUIPPED) {
-                   player.equipWeapon(sword);
                    destroyBodyProprerties(sword);
+                   player.equipWeapon(sword);
                }
             });
         });
