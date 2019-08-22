@@ -23,9 +23,9 @@ public interface WorldView {
 
     /**
      * Gets called when one of the players won and it display the final view.
-     * @param playerID the Id of the winner
+     * @param msg the message to show.
      */
-    void playerWon(int playerID);
+    void playerWon(String msg);
 
     /**
      * @return a collection of input

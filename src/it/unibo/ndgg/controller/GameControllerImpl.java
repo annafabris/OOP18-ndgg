@@ -17,6 +17,8 @@ import javafx.animation.AnimationTimer;
  */
 public class GameControllerImpl implements GameController {
 
+    private static final String LEFT_PLAYER_MSG = "Blue Player Won!";
+    private static final String RIGHT_PLAYER_MSG = "Green Player Won!";
     private final MainController controller;
     private final WorldView view;
     private final World gameWorld;
@@ -54,11 +56,11 @@ public class GameControllerImpl implements GameController {
         final GameState gameState = gameWorld.getCurrentGameState();
         if (gameState == GameState.PLAYERL_WON) {
             timer.stop();
-            view.playerWon(PlayerID.FIRST_PLAYER.getID());
+            view.playerWon(LEFT_PLAYER_MSG);
             controller.menu();
         } else if (gameState == GameState.PLAYERR_WON) {
             timer.stop();
-            view.playerWon(PlayerID.SECOND_PLAYER.getID());
+            view.playerWon(RIGHT_PLAYER_MSG);
             controller.menu();
         } else {
             handleInputs();

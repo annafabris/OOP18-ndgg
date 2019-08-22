@@ -136,10 +136,10 @@ public class EntityCreationTest {
     public void testAssociationDoorAndPlayer() {
         assertEquals(this.playerL, ((Door) this.entities.get(EntityType.DOOR).get(0)).getPlayerWhoCanOpen());
         assertEquals(this.playerR, ((Door) this.entities.get(EntityType.DOOR).get(1)).getPlayerWhoCanOpen());
-        assertFalse(((Door) this.entities.get(EntityType.DOOR).get(1)).getDoorStatus());
-        assertFalse(((Door) this.entities.get(EntityType.DOOR).get(0)).getDoorStatus());
+        assertFalse(((Door) this.entities.get(EntityType.DOOR).get(1)).isDoorHitted());
+        assertFalse(((Door) this.entities.get(EntityType.DOOR).get(0)).isDoorHitted());
         ((Door) this.entities.get(EntityType.DOOR).get(1)).hit();
-        assertTrue(((Door) this.entities.get(EntityType.DOOR).get(1)).getDoorStatus());
+        assertTrue(((Door) this.entities.get(EntityType.DOOR).get(1)).isDoorHitted());
         assertTrue((this.playerL).equals(((Door) this.entities.get(EntityType.DOOR).get(0)).getPlayerWhoCanOpen()));
         assertFalse((this.playerR).equals(((Door) this.entities.get(EntityType.DOOR).get(0)).getPlayerWhoCanOpen()));
     }

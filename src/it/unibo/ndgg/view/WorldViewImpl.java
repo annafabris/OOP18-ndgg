@@ -37,10 +37,7 @@ import javafx.stage.Stage;
  */
 public class WorldViewImpl implements WorldView {
 
-    private static final String WIN_MESSAGE = "Congrats!";
-    private static final String WIN_MESSAGE_START = "Player";
-    private static final String WIN_MESSAGE_END = "won!";
-
+    private static final String WIN_MESSAGE = "Congratulation!";
 
     private final Group root = new Group();
     private final Stage stage;
@@ -96,11 +93,11 @@ public class WorldViewImpl implements WorldView {
     /**
      * {@inheritDoc}.
      */
-    public void playerWon(final int playerID) {
+    public void playerWon(final String msg) {
         final Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(WIN_MESSAGE);
         alert.setHeaderText(null);
-        alert.setContentText(WIN_MESSAGE_START + playerID + WIN_MESSAGE_END);
+        alert.setContentText(msg);
         alert.show();
     }
 

@@ -301,9 +301,9 @@ public class WorldImpl implements World {
             this.currentRoom++;
         }
         if (this.currentRoom < 0) {
-            this.currentGameState = GameState.PLAYERR_WON;
-        } else if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS) {
             this.currentGameState = GameState.PLAYERL_WON;
+        } else if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS) {
+            this.currentGameState = GameState.PLAYERR_WON;
         } else {
             resetRoomToInitialCondition();
         }
