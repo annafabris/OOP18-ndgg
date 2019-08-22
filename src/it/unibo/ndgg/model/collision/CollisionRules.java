@@ -192,7 +192,6 @@ public class CollisionRules extends CollisionAdapter {
      */
     private boolean processPlayerSwordCollision(final Player player, final Sword sword) {
         if (sword.getState() == EntityState.THROWING) {
-            sword.changeEntityState(EntityState.STAYING_STILL);
             if (player.getWeapon().isPresent()) {
                 if (player.getSwordGuard().get() != SwordGuard.HIGH) {
                     player.die(); 

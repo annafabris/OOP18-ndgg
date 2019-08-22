@@ -34,8 +34,12 @@ public class BodyAssociations {
      * @return the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}
      */
     public Sword getSword(final Body body) {
-        return (Sword) this.entities.get(EntityType.SWORD).stream().filter(i -> i.getBody().equals(this.getBodyProperties(body)))
-                .findFirst().get();
+        return (Sword) this.entities.get(EntityType.SWORD).stream()
+                                                          .map(i -> (Sword) i)
+                                                          .filter(i -> i.bodyProperiesExist())
+                                                          .filter(i -> i.getBody().equals(this.getBodyProperties(body)))
+                                                          .findFirst()
+                                                          .get();
     }
 
     /**
