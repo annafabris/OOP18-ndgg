@@ -166,7 +166,6 @@ public class WorldImpl implements World {
     @Override
     public void movePlayer(final EntityMovement movement, final int playerId) {
         Player player1 = (Player) this.entities.get(EntityType.PLAYER).get(playerId);
-        Sword sword1 = (Sword) player1.getWeapon().get();
         if (movement != EntityMovement.STAY_STILL_LEFT && movement != EntityMovement.STAY_STILL_RIGHT) {
             player1.move(movement);
         }
@@ -180,17 +179,6 @@ public class WorldImpl implements World {
         //System.out.println("\nAsleep:  " + body1.isAsleep());
         //System.out.println("Outside: "+this.bodyPropertiesWorld.getWorld().getBounds().isOutside(body1) + "\n");
         //System.out.println(this.worldDimension + "de");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void moveSword(final EntityMovement movement, final int swordId) {
-        Player player = (Player) this.entities.get(EntityType.PLAYER).get(swordId);
-        //TODO da fare solo se il giocatore ha la spada
-        player.getBody().getPhysicalBody().removeFixture(1); //N.B rimuovo la fixture quando tiro la spada
-        //player.dropWeapon(movement);
     }
 
     /**
@@ -361,10 +349,12 @@ public class WorldImpl implements World {
         if (p.getState() == EntityState.STAYING_STILL && p.getWeapon().isPresent()) {
         if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
             createBodyProperties((Sword)p.getWeapon().get(),Pair.of(p.getPosition().getLeft() + 0.30,p.getPosition().getRight() + PLAYER_HEIGHT));
-            moveSword(EntityMovement.THROW_LEFT, player.getID());
+            p.dropWeapon(EntityMovement.THROW_LEFT);
+            //moveSword(EntityMovement.THROW_LEFT, player.getID());
         } else {
             createBodyProperties((Sword)p.getWeapon().get(),Pair.of(p.getPosition().getLeft() - 0.30,p.getPosition().getRight() + PLAYER_HEIGHT));
-            moveSword(EntityMovement.THROW_RIGHT, player.getID());
+            p.dropWeapon(EntityMovement.THROW_LEFT);
+            //moveSword(EntityMovement.THROW_RIGHT, player.getID());
         }
         SoundsTypes.THROW.getSound().play();
         }

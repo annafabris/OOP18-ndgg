@@ -80,6 +80,7 @@ public class Player extends AbstractDynamicEntity {
                 System.out.println("The player hasn't a sword");
                 e.printStackTrace();
             }
+            this.changeEntityState(EntityState.STAYING_STILL);
             this.weapon = Optional.empty();
             this.typeOfGuard = Optional.empty();
         }

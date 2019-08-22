@@ -50,13 +50,6 @@ public interface World {
      * @param playerId the Id of the Player
      */
     void movePlayer(EntityMovement movement, int playerId);
-
-    /**
-     * Makes the sword center of mass move if necessary.
-     * @param movement the {@link it.unibo.ndgg.model.entity.EntityMovement}
-     * @param swordId the Id of the Player associated to the sword to move
-     */
-    void moveSword(EntityMovement movement, int swordId);
     
     void changeGuard(PlayerID player);
     void jumpPlayer(PlayerID player);
