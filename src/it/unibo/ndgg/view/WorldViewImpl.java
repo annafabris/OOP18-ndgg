@@ -105,7 +105,7 @@ public class WorldViewImpl implements WorldView {
     /**
      * {@inheritDoc}
      */
-    public void changeRoom(int backgroundId) {
+    public void changeRoom(final int backgroundId) {
         switch (backgroundId) {
             case 0:
                 this.entityDrawer.changeBackground(BackgroundFrames.BACKGROUND_1);
@@ -148,7 +148,7 @@ public class WorldViewImpl implements WorldView {
         stage.sizeToScene();
         return new Scene(root, viewWidth, viewHeight);
     }
-    
+
     /**
      * Draws all the static and dynamic entities.
      */
@@ -213,5 +213,4 @@ public class WorldViewImpl implements WorldView {
         }
         return Optional.empty();
     }
-
 }

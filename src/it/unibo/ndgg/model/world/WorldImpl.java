@@ -47,13 +47,13 @@ public class WorldImpl implements World {
     private static final double PLATFORM_WIDTH = 16;
     private static final double DOOR_HEIGHT = 1.6;
     private static final double DOOR_WIDTH = 0.9;
-    private static final double PLAYER_X_POSITIOON = 5.0;
-    private static final double PLAYER_Y_POSITIOON = -2.3;
-    private static final double PLATFORM_X_POSITIOON = 0.0;
-    private static final double PLATFORM_Y_POSITIOON = -3.6;
-    private static final double DOORL_X_POSITIOON = 7.5;
-    private static final double DOORR_X_POSITIOON = 7.0;
-    private static final double DOOR_Y_POSITIOON = -1.65; 
+    private static final double PLAYER_X_POSITION = 5.0;
+    private static final double PLAYER_Y_POSITION = -2.3;
+    private static final double PLATFORM_X_POSITION = 0.0;
+    private static final double PLATFORM_Y_POSITION = -3.6;
+    private static final double DOORL_X_POSITION = 7.5;
+    private static final double DOORR_X_POSITION = 7.0;
+    private static final double DOOR_Y_POSITION = -1.65; 
     private static final int NUMBER_OF_ROOMS = 3;
     private int currentRoom;
     private boolean changedRoom;
@@ -325,20 +325,20 @@ public class WorldImpl implements World {
      */
     private void createEntities() {
         final EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
-        final Player playerL = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<Double, Double>(-PLAYER_X_POSITIOON, 
-                PLAYER_Y_POSITIOON), EntityDirection.RIGHT);
-        final Player playerR = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<>(PLAYER_X_POSITIOON, 
-                PLAYER_Y_POSITIOON), EntityDirection.LEFT);
+        final Player playerL = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<Double, Double>(-PLAYER_X_POSITION, 
+                PLAYER_Y_POSITION), EntityDirection.RIGHT);
+        final Player playerR = entityFactory.createPlayer(PLAYER_WIDTH, PLAYER_HEIGHT, new MutablePair<>(PLAYER_X_POSITION, 
+                PLAYER_Y_POSITION), EntityDirection.LEFT);
         playerL.changeEntityState(EntityState.STAYING_STILL);
         playerR.changeEntityState(EntityState.STAYING_STILL);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of((Sword) entityFactory.createSword(playerL, EntityDirection.RIGHT), 
                 (Sword) entityFactory.createSword(playerR, EntityDirection.LEFT)).collect(Collectors.toList()));
        entities.put(EntityType.PLATFORM, Stream.of((Platform) entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
-               PLATFORM_X_POSITIOON, PLATFORM_Y_POSITIOON))).collect(Collectors.toList()));
+               PLATFORM_X_POSITION, PLATFORM_Y_POSITION))).collect(Collectors.toList()));
        entities.put(EntityType.DOOR, (Stream.of((Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
-               -DOORL_X_POSITIOON, DOOR_Y_POSITIOON), playerR), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
-                       DOORR_X_POSITIOON, DOOR_Y_POSITIOON), playerL)).collect(Collectors.toList())));
+               -DOORL_X_POSITION, DOOR_Y_POSITION), playerR), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
+                       DOORR_X_POSITION, DOOR_Y_POSITION), playerL)).collect(Collectors.toList())));
        this.bodyAssociations.setEntities(entities);
     }
 
@@ -402,10 +402,10 @@ public class WorldImpl implements World {
 
     private void resetRoomToInitialCondition() {
         this.entities.get(EntityType.DOOR).stream().map(d -> (Door) d).forEach(door -> door.resetIsHit());
-        Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
-        Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
-        Sword swordL = (Sword) this.entities.get(EntityType.SWORD).get(0);
-        Sword swordR = (Sword) this.entities.get(EntityType.SWORD).get(1);
+        final Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
+        final Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
+        final Sword swordL = (Sword) this.entities.get(EntityType.SWORD).get(0);
+        final Sword swordR = (Sword) this.entities.get(EntityType.SWORD).get(1);
         destroyBodyProprerties(swordL);
         destroyBodyProprerties(swordR);
         swordR.removePlayer();
@@ -423,11 +423,11 @@ public class WorldImpl implements World {
         playerR.changeEntityState(EntityState.STAYING_STILL);
         playerR.setAlive(true);
         this.entities.get(EntityType.PLAYER).get(0).getBody().
-        getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(0).getPosition().getLeft()) - PLAYER_X_POSITIOON,
-                -(this.entities.get(EntityType.PLAYER).get(0).getPosition().getRight()) + PLAYER_Y_POSITIOON);
+        getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(0).getPosition().getLeft()) - PLAYER_X_POSITION,
+                -(this.entities.get(EntityType.PLAYER).get(0).getPosition().getRight()) + PLAYER_Y_POSITION);
         this.entities.get(EntityType.PLAYER).get(1).getBody().
-        getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(1).getPosition().getLeft()) + PLAYER_X_POSITIOON,
-                -(this.entities.get(EntityType.PLAYER).get(1).getPosition().getRight()) + PLAYER_Y_POSITIOON);
+        getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(1).getPosition().getLeft()) + PLAYER_X_POSITION,
+                -(this.entities.get(EntityType.PLAYER).get(1).getPosition().getRight()) + PLAYER_Y_POSITION);
         ((Player) this.entities.get(EntityType.PLAYER).get(0)).setCurrentDirection(EntityDirection.RIGHT);
         ((Player) this.entities.get(EntityType.PLAYER).get(1)).setCurrentDirection(EntityDirection.LEFT);
     }
