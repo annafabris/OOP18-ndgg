@@ -16,17 +16,14 @@ import java.util.List;
 
 import it.unibo.ndgg.model.entity.EntityType;
 /**
- * 
  * this class will be used if in future developers want to add a different kinds of rooms from the default one .
- * this class contains method to write in a binary file the list of entities that will be part of the room and 
- * a method for read that list from the file .
+ * this class contains method to read from a binary file which represent a room the list of entities that will be part of the room .
  * 
- *
  */
 public class RoomEntities {
-    final String filePath = "res/rooms/";
-    final String fileExt = ".bin";
-    private final String roomFileName ;
+    private static final String FILE_PATH = "res/rooms/";
+    private static final String FILE_EXT = ".bin";
+    private final String roomFileName;
     private static final List<EntityType> COMPONENTS_OF_THE_WORLD = new ArrayList<EntityType>();
     static {
         COMPONENTS_OF_THE_WORLD.add(EntityType.DOOR);
@@ -37,23 +34,12 @@ public class RoomEntities {
         COMPONENTS_OF_THE_WORLD.add(EntityType.PLAYER);
         COMPONENTS_OF_THE_WORLD.add(EntityType.PLATFORM);
     }
+    /**
+     * class constructor who need the name of the file that will be read.
+     * @param name
+     */
     public RoomEntities(final String name) {
         this.roomFileName = name;
-    }
-    public void writeRoom() throws IOException {
-        final File file = new File(this.filePath + this.roomFileName + this.fileExt);
-
-        if (!file.exists()) {
-            file.createNewFile();
-            }
-        try (OutputStream bufferedStream =
-                new BufferedOutputStream(new FileOutputStream(this.filePath));
-                ObjectOutputStream objStream = new ObjectOutputStream(bufferedStream);) {
-            objStream.writeObject(RoomEntities.COMPONENTS_OF_THE_WORLD);
-        } catch (IOException ex) {
-           System.out.println("an I/O error occurred");
-           ex.printStackTrace();
-       }
     }
     /**
      * this method will be used to read the list of entityType that are present in the selected room file.
@@ -62,7 +48,7 @@ public class RoomEntities {
      */
     public void readRoom() throws IOException, ClassNotFoundException {
         try {
-            InputStream buffStream = new BufferedInputStream(new FileInputStream(this.filePath));
+            InputStream buffStream = new BufferedInputStream(new FileInputStream(ClassLoader.getSystemResource(FILE_PATH + this.roomFileName + FILE_EXT).toExternalForm()));
             ObjectInputStream objReader = new ObjectInputStream(buffStream); 
             Object obj = objReader.readObject();
             objReader.close();
@@ -70,7 +56,5 @@ public class RoomEntities {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-        
     }
 }
