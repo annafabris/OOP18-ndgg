@@ -67,7 +67,7 @@ public class GameControllerImpl implements GameController {
             handleInputs();
             gameWorld.update();
             if (gameWorld.changedRoom()) {
-                view.changeRoom();
+                view.changeRoom(gameWorld.getCurrentRoom());
             }
             view.update();
         }

@@ -75,19 +75,29 @@ public class EntityDrawer {
      */
     public void drawDoors(final GraphicsContext graphicsContext, final Door door, final boolean isTheFirstDoor) {
         Image doorImage;
+        final Double dimensionX = (door.getDimension().getLeft() * 2) * (this.worldWidth / MODEL_WORLD_WIDTH);
+        final Double dimensionY = (door.getDimension().getRight() + 1.0) * (this.worldHeight / MODEL_WORLD_HEIGHT);
+
         if (isTheFirstDoor) {
             doorImage = this.images.get(DOOR_L);
-        } else {
-            doorImage = this.images.get(DOOR_R);
-        }
-        final Double dimensionX = (door.getDimension().getLeft()) * (this.worldWidth / MODEL_WORLD_WIDTH);
-        final Double dimensionY = (door.getDimension().getRight() + 1.0) * (this.worldHeight / MODEL_WORLD_HEIGHT);
-        graphicsContext.drawImage(doorImage, 
-                                 (door.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * (this.worldWidth / MODEL_WORLD_WIDTH) - dimensionX / 2.0,
+            graphicsContext.drawImage(doorImage, 
+                                 (door.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0  + 2 * DOOR_Y_SHIFT)
+                                 * (this.worldWidth / MODEL_WORLD_WIDTH) - dimensionX / 2.0,
                                  (MODEL_WORLD_HEIGHT / 2.0 - door.getPosition().getRight() + DOOR_Y_SHIFT) * (this.worldHeight 
                                          / MODEL_WORLD_HEIGHT) - dimensionY / 2.0,
                                   dimensionX,
                                   dimensionY);
+        } else {
+            doorImage = this.images.get(DOOR_R);
+            graphicsContext.drawImage(doorImage, 
+                    (door.getPosition().getLeft() + MODEL_WORLD_WIDTH / 2.0) * (this.worldWidth / MODEL_WORLD_WIDTH)
+                    - dimensionX / 2.0,
+                    (MODEL_WORLD_HEIGHT / 2.0 - door.getPosition().getRight() + DOOR_Y_SHIFT) * (this.worldHeight 
+                            / MODEL_WORLD_HEIGHT) - dimensionY / 2.0,
+                     dimensionX,
+                     dimensionY);
+        }
+
     }
 
     /**

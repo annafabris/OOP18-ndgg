@@ -31,6 +31,8 @@ public interface World {
      * Returns true if the Room has just been changed.
      */
     boolean changedRoom();
+    
+    int getCurrentRoom();
 
     /**
      * A method that gets called each time a valid collision happens.

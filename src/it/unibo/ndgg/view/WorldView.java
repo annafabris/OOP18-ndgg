@@ -34,6 +34,7 @@ public interface WorldView {
 
     /**
      * Changes the Background to the following one.
+     * @param backgroundId the ID of the wanted background
      */
-    void changeRoom();
+    void changeRoom(int backgroundId);
 }

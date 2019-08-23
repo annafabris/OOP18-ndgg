@@ -46,12 +46,13 @@ public class WorldImpl implements World {
     private static final double PLATFORM_HEIGHT = 1.8;
     private static final double PLATFORM_WIDTH = 16;
     private static final double DOOR_HEIGHT = 1.6;
-    private static final double DOOR_WIDTH = 1.8;
+    private static final double DOOR_WIDTH = 0.9;
     private static final double PLAYER_X_POSITIOON = 5.0;
     private static final double PLAYER_Y_POSITIOON = -2.3;
     private static final double PLATFORM_X_POSITIOON = 0.0;
     private static final double PLATFORM_Y_POSITIOON = -3.6;
-    private static final double DOOR_X_POSITIOON = 7.0;
+    private static final double DOORL_X_POSITIOON = 7.5;
+    private static final double DOORR_X_POSITIOON = 7.0;
     private static final double DOOR_Y_POSITIOON = -1.65; 
     private static final int NUMBER_OF_ROOMS = 3;
     private int currentRoom;
@@ -61,7 +62,7 @@ public class WorldImpl implements World {
     private final BodyAssociations bodyAssociations;
     private final Map<EntityType, List<AbstractEntity>> entities;
     private GameState currentGameState;
-    private Map<Sword,Boolean> swordBodyExistence;
+
     /**
      * Creates the World that manages all the entities and rooms. 
      */
@@ -72,7 +73,6 @@ public class WorldImpl implements World {
         this.changedRoom = false;
         this.bodyAssociations = new BodyAssociations();
         this.bodyPropertiesFactory = new BodyPropertiesFactoryImpl();
-        this.swordBodyExistence = new HashMap<>();
     }
 
     /**
@@ -94,6 +94,13 @@ public class WorldImpl implements World {
         }
         return false;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public int getCurrentRoom() {
+        return this.currentRoom;
+    }
 
     /**
      * {@inheritDoc}
@@ -102,11 +109,6 @@ public class WorldImpl implements World {
     public void update() {
         this.bodyPropertiesWorld.update();
         this.checkPlayerState();
-        this.swordBodyExistence.keySet().forEach(s -> {
-            if (this.swordBodyExistence.get(s) == true) {
-                
-            }
-        });
     }
 
     /**
@@ -133,7 +135,6 @@ public class WorldImpl implements World {
                 System.out.println("2 collision");
                 break;
             case SWORDPICKEDUP:
-                System.out.println("dsads");
                 SoundsTypes.SWORDPICKEDUP.getSound();
                 destroyBodyProprerties((sword.get()));
                 player.equipWeapon(sword.get());
@@ -361,8 +362,8 @@ public class WorldImpl implements World {
        entities.put(EntityType.PLATFORM, Stream.of((Platform) entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
                PLATFORM_X_POSITIOON, PLATFORM_Y_POSITIOON))).collect(Collectors.toList()));
        entities.put(EntityType.DOOR, (Stream.of((Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
-               -DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerR), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
-                       DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL)).collect(Collectors.toList())));
+               -DOORL_X_POSITIOON, DOOR_Y_POSITIOON), playerR), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
+                       DOORR_X_POSITIOON, DOOR_Y_POSITIOON), playerL)).collect(Collectors.toList())));
        this.bodyAssociations.setEntities(entities);
     }
 
@@ -391,8 +392,6 @@ public class WorldImpl implements World {
             sword.removeBodyProperties();
         }
     }
-
-
 
     private void checkPlayerState() {
         final Player p1 = (Player) this.entities.get(EntityType.PLAYER).get(PlayerID.FIRST_PLAYER.getID());
@@ -426,33 +425,44 @@ public class WorldImpl implements World {
                     && player2.getPosition().getLeft() < player1.getPosition().getLeft());
     }
 
-
     private void resetRoomToInitialCondition() {
-          this.entities.get(EntityType.DOOR).stream().map(d -> (Door) d).forEach(door -> door.resetIsHit());
-          this.entities.get(EntityType.PLAYER).stream().map(p -> (Player) p).forEach(player -> {
-              player.changeEntityState(EntityState.STAYING_STILL);
-              this.entities.get(EntityType.SWORD).stream().map(s -> (Sword) s).forEach(sword -> {
-                 if (sword.getState() != EntityState.EQUIPPED && !player.getWeapon().isPresent()) {
-                     destroyBodyProprerties(sword);
-                     
-                     player.equipWeapon(sword);
-                 }
-              });
-          });
-          this.entities.get(EntityType.PLAYER).get(0).getBody().
-          getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(0).getPosition().getLeft())-PLAYER_X_POSITIOON,
-                  -(this.entities.get(EntityType.PLAYER).get(0).getPosition().getRight())+ PLAYER_Y_POSITIOON);
-          this.entities.get(EntityType.PLAYER).get(1).getBody().
-          getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(1).getPosition().getLeft())+PLAYER_X_POSITIOON,
-                  -(this.entities.get(EntityType.PLAYER).get(1).getPosition().getRight())+ PLAYER_Y_POSITIOON);
-          this.entities.get(EntityType.PLAYER).stream().map(p -> (Player) p).forEach(player -> {
-              if(player.getWeapon().isPresent()) {
-                  System.out.println("player ha spada");
-              }
-          });
-      }
-    
-    private void modifyBodyExistenceConditions(Sword sword) {
-        this.swordBodyExistence.put(sword,true);
+        this.entities.get(EntityType.DOOR).stream().map(d -> (Door) d).forEach(door -> door.resetIsHit());
+        Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
+        Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
+        Sword swordL = (Sword) this.entities.get(EntityType.SWORD).get(0);
+        Sword swordR = (Sword) this.entities.get(EntityType.SWORD).get(1);
+        if (swordL.bodyProperiesExist()) {
+            destroyBodyProprerties(swordL);
+        }
+        if (swordR.bodyProperiesExist()) {
+            destroyBodyProprerties(swordR);
+        }
+        if (!playerL.getWeapon().isPresent()) {
+            playerL.equipWeapon(swordL);
+        }
+        if (!playerR.getWeapon().isPresent()) {
+            playerR.equipWeapon(swordR);
+        }
+        playerL.changeEntityState(EntityState.STAYING_STILL);
+        playerL.setAlive(true);
+        playerR.changeEntityState(EntityState.STAYING_STILL);
+        playerR.setAlive(true);
+
+        /*this.entities.get(EntityType.PLAYER).stream().map(p -> (Player) p).forEach(player -> {
+            player.changeEntityState(EntityState.STAYING_STILL);
+            player.setAlive(true);
+            this.entities.get(EntityType.SWORD).stream().map(s -> (Sword) s).forEach(sword -> {
+               if (!player.getWeapon().isPresent()) {
+                   destroyBodyProprerties(sword);
+                   player.equipWeapon(sword);
+               }
+            });
+        });*/
+        this.entities.get(EntityType.PLAYER).get(0).getBody().
+        getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(0).getPosition().getLeft()) - PLAYER_X_POSITIOON,
+                -(this.entities.get(EntityType.PLAYER).get(0).getPosition().getRight()) + PLAYER_Y_POSITIOON);
+        this.entities.get(EntityType.PLAYER).get(1).getBody().
+        getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(1).getPosition().getLeft()) + PLAYER_X_POSITIOON,
+                -(this.entities.get(EntityType.PLAYER).get(1).getPosition().getRight()) + PLAYER_Y_POSITIOON);
     }
 }
