@@ -24,8 +24,6 @@ import it.unibo.ndgg.model.world.WorldImpl;
  */
 public class CollisionRules extends CollisionAdapter {
 
-    private boolean isCollisionRulesAlreadyCreated = false;
-    private static final String COLLISION_ALREADY_CREATED_ERR = "COLLISION RULES ALREADY CREATED ERR";
     private final WorldImpl world;
     private final BodyPropertiesWorld worldProperties;
 
@@ -36,8 +34,6 @@ public class CollisionRules extends CollisionAdapter {
      */
     public CollisionRules(final WorldImpl world, final BodyPropertiesWorld worldProperties) {
         super();
-        this.checkIfFirstIstance(isCollisionRulesAlreadyCreated, COLLISION_ALREADY_CREATED_ERR);
-        this.isCollisionRulesAlreadyCreated = true;
         this.world = world;
         this.worldProperties = worldProperties;
     }
@@ -107,48 +103,6 @@ public class CollisionRules extends CollisionAdapter {
      }
 
     /**
-     * This method process the collision between a Sword and a Sword those collision terminate with only one type o outcome.
-     * @param sword1 
-     *          the "first" sword who collides with the second
-     * @param sword2 
-     *          the "second" sword which collides with the first
-     * @return 
-     *          True if a collision which need to be rule happens false otherwise.
-     */
-//    private boolean processSwordSwordCollision(final Sword sword1, final Sword sword2) {
-//        if (sword1.getPlayer().isPresent() && sword2.getPlayer().isPresent()) {
-//            if ((sword1.getPosition().getRight() < sword2.getPosition().getRight())) {
-//                try {
-//                    if (sword1.getCurrentDirection() == EntityDirection.LEFT) {
-//                        sword1.unequipWeapon(EntityMovement.DROP_LEFT);
-//                    } else {
-//                        sword1.unequipWeapon(EntityMovement.DROP_RIGHT);
-//                    }
-//                } catch (Exception e) {
-//                    System.out.println("The player hasn't  a sword");
-//                    e.printStackTrace();
-//                }
-//                this.world.notifyCollision(CollisionResult.PLAYERDISARMED);
-//                return true;
-//            } else if ((sword2.getPosition().getRight() < sword1.getPosition().getRight())) {
-//                try {
-//                    if (sword2.getCurrentDirection() == EntityDirection.LEFT) {
-//                        sword2.unequipWeapon(EntityMovement.DROP_LEFT);
-//                    } else {
-//                        sword2.unequipWeapon(EntityMovement.DROP_RIGHT);
-//                    }
-//                } catch (Exception e) {
-//                    System.out.println("The player hasn't  a sword");
-//                    e.printStackTrace();
-//                }
-//                this.world.notifyCollision(CollisionResult.PLAYERDISARMED);
-//                return true;
-//            }
-//        }
-//        return true;
-//    }
-
-    /**
      * This method process the collision between a Sword and a Platform those collision terminate with only one type o outcome.
      * @param sword 
      *          the sword who collides with the platform
@@ -207,11 +161,5 @@ public class CollisionRules extends CollisionAdapter {
             this.world.notifyCollision(CollisionResult.SWORDPICKEDUP, player, Optional.of(sword));
         } 
         return true;
-    }
-
-    private void checkIfFirstIstance(final boolean condition, final String err) {
-        if (condition) {
-            throw new IllegalStateException(err);
-        }
     }
 }

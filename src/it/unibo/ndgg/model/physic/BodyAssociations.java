@@ -26,7 +26,7 @@ import it.unibo.ndgg.model.physic.body.BodyProperties;
 public class BodyAssociations {
 
     private Map<EntityType, List<AbstractEntity>> entities;
-    private Map<Body, Pair<EntityType, BodyProperties>> bodyToPropertiesAssociation = new HashMap<>();
+    private final Map<Body, Pair<EntityType, BodyProperties>> bodyToPropertiesAssociation = new HashMap<>();
 
     /**
      * Returns the {@link it.unibo.ndgg.model.entity.entitydynamic.Sword}.
@@ -127,7 +127,7 @@ public class BodyAssociations {
      * @return {@link it.unibo.ndgg.model.entity.AbstractEntity}
      */
     private AbstractEntity getEntity(final List<AbstractEntity> entity, final BodyProperties bodyProperties) {
-        List<AbstractEntity> abstractEntity = entity.stream().filter(i -> i.getBody().equals(bodyProperties)).collect(Collectors.toList());
+        final List<AbstractEntity> abstractEntity = entity.stream().filter(i -> i.getBody().equals(bodyProperties)).collect(Collectors.toList());
         if (abstractEntity.size() != 1) {
             throw new IllegalStateException("The right BodyProperty is not present in Sword");
         } else {

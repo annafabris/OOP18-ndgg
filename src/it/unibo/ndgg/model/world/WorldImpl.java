@@ -56,7 +56,7 @@ public class WorldImpl implements World {
     private static final double DOOR_Y_POSITION = -1.65; 
     private static final int NUMBER_OF_ROOMS = 3;
     private int currentRoom;
-    private boolean changedRoom;
+    private boolean isRoomChanged;
     private BodyPropertiesWorld bodyPropertiesWorld;
     private final BodyPropertiesFactory bodyPropertiesFactory;
     private final BodyAssociations bodyAssociations;
@@ -70,7 +70,7 @@ public class WorldImpl implements World {
         this.currentGameState = GameState.IS_GOING;
         this.entities = new HashMap<>();
         this.currentRoom = NUMBER_OF_ROOMS / 2;
-        this.changedRoom = false;
+        this.isRoomChanged = false;
         this.bodyAssociations = new BodyAssociations();
         this.bodyPropertiesFactory = new BodyPropertiesFactoryImpl();
     }
@@ -88,8 +88,8 @@ public class WorldImpl implements World {
      * {@inheritDoc}
      */
     public boolean changedRoom() {
-        if (this.changedRoom) {
-            this.changedRoom = false;
+        if (this.isRoomChanged) {
+            this.isRoomChanged = false;
             return true;
         }
         return false;
@@ -112,7 +112,7 @@ public class WorldImpl implements World {
     }
 
     /**
-     * {@inheritDoc}.
+     * {@inheritDoc}
      */
     @Override
     public void notifyCollision(final CollisionResult collisionResult, final Player player, final Optional<Sword> sword) {
@@ -163,9 +163,10 @@ public class WorldImpl implements World {
                                                                                 .get();
 
         if (playerChangeGuard.getWeapon().isPresent()) {
-            if (this.checkProximity(playerChangeGuard.getPosition(), otherPlayer.getPosition())) {
-                if (otherPlayer.getWeapon().isPresent() && this.checkDirections(playerChangeGuard, otherPlayer)) {
-                    if (playerChangeGuard.getSwordGuard().get() != otherPlayer.getSwordGuard().get()) {
+            if (this.checkProximity(playerChangeGuard.getPosition(), otherPlayer.getPosition())
+                && otherPlayer.getWeapon().isPresent() && this.checkDirections(playerChangeGuard, otherPlayer)
+                && playerChangeGuard.getSwordGuard().get() != otherPlayer.getSwordGuard().get()) {
+
                         if (playerChangeGuard.getSwordGuard().get() == SwordGuard.LOW) {
                             if (playerChangeGuard.getCurrentDirection() == EntityDirection.RIGHT) {
                                 createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() - SWORD_PLAYER_SHIFT,
@@ -192,9 +193,7 @@ public class WorldImpl implements World {
                                 playerChangeGuard.dropWeapon(EntityMovement.DROP_LEFT);
                             }
                         }
-                    }
                 }
-            }
             playerChangeGuard.changeGuard(); 
         }
     }
@@ -318,7 +317,7 @@ public class WorldImpl implements World {
             this.currentGameState = GameState.PLAYERR_WON;
         } else {
             resetRoomToInitialCondition();
-            this.changedRoom = true;
+            this.isRoomChanged = true;
         }
     }
 
