@@ -55,28 +55,31 @@ public class CollisionRules extends CollisionAdapter {
         final Body firstBody = contactConstraint.getBody1();
         final Body secondBody = contactConstraint.getBody2();
 
-        if (this.worldProperties.getBodyPropertiesFromBody(firstBody) != null 
-                && this.worldProperties.getBodyPropertiesFromBody(secondBody) != null) {
-            final Triple<Body, BodyProperties, EntityType> firstTriple = new ImmutableTriple<>(
-                    firstBody, this.worldProperties.getBodyPropertiesFromBody(firstBody), 
-                    this.worldProperties.getEntityTypeFromBody(firstBody));
+        final Triple<Body, BodyProperties, EntityType> firstTriple = new ImmutableTriple<>(
+                firstBody, this.worldProperties.getBodyPropertiesFromBody(firstBody), 
+                this.worldProperties.getEntityTypeFromBody(firstBody));
 
-            final Triple<Body, BodyProperties, EntityType> secondTriple = new ImmutableTriple<>(
+        final Triple<Body, BodyProperties, EntityType> secondTriple;
+        try {
+            secondTriple = new ImmutableTriple<>(
                     secondBody, this.worldProperties.getBodyPropertiesFromBody(secondBody), 
                     this.worldProperties.getEntityTypeFromBody(secondBody));
+        } catch (Exception e) {
+            return false;
+        }
 
-            if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.DOOR)
+        if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.DOOR)
                 || (firstTriple.getRight() == EntityType.DOOR && secondTriple.getRight() == EntityType.PLAYER)) {
-                final Player player;
-                final Door door;
-                if (firstTriple.getRight() == EntityType.PLAYER) {
-                    player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
-                    door = this.worldProperties.getDoorFromBody(secondTriple.getLeft());
-                } else {
-                    player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
-                    door = this.worldProperties.getDoorFromBody(firstTriple.getLeft());
-                }
-                return this.processPlayerDoorCollision(player, door);
+            final Player player;
+            final Door door;
+            if (firstTriple.getRight() == EntityType.PLAYER) {
+                player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
+                door = this.worldProperties.getDoorFromBody(secondTriple.getLeft());
+             } else {
+                 player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
+                 door = this.worldProperties.getDoorFromBody(firstTriple.getLeft());
+                 }
+             return this.processPlayerDoorCollision(player, door);
             } else if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.SWORD) 
                       || (firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLAYER)) {
                 final Player player;
@@ -100,8 +103,6 @@ public class CollisionRules extends CollisionAdapter {
                 return this.processSwordPlatformCollision(sword);
             }
             return true;
-        }
-        return true;
      }
 
     /**

@@ -67,6 +67,7 @@ public class BodyPropertiesFactoryImpl implements BodyPropertiesFactory {
             body = createBody(position, width, height, SWORD_FILTER);
             body.setGravityScale(SWORD_GRAVITYSCALE);
             body.getFixture(0).setFriction(SWORD_FRICTION);
+            //body.getFixture(0).setRestitution(1);
         } else {
             throw new IllegalStateException("Dynamic EntityType Does not exist");
         }

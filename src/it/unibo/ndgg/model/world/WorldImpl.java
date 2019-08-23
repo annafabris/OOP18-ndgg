@@ -167,7 +167,7 @@ public class WorldImpl implements World {
     @Override
     public void changeGuard(final PlayerID player) {
         final Player playerChangeGuard = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        final Player otherPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.equals(playerChangeGuard)).findFirst().get();
+        final Player otherPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> !i.equals(playerChangeGuard)).findFirst().get();
 
         if (playerChangeGuard.getWeapon().isPresent()) {
             if (this.checkProximity(playerChangeGuard.getPosition(), otherPlayer.getPosition())) {
@@ -247,7 +247,7 @@ public class WorldImpl implements World {
     @Override
     public void attackPlayer(final PlayerID player) {
         final Player playerWhoAttack = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        final Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> i.equals(playerWhoAttack)).findFirst().get();
+        final Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> !i.equals(playerWhoAttack)).findFirst().get();
         SoundsTypes.ATTACK.getSound().play();
         System.out.println(" X player attaccante " + Double.toString(playerWhoAttack.getPosition().getLeft())
                 + " Y player attaccante " + Double.toString(playerWhoAttack.getPosition().getRight())
@@ -309,7 +309,6 @@ public class WorldImpl implements World {
         final Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
         final Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
 
-        System.out.println(playerL.isAlive() + " f " + playerR.toString());
         if (playerWhoOpenedTheDoor.isPresent()) {
             if (playerWhoOpenedTheDoor.get().equals(playerL)) {
                 this.currentRoom--;
@@ -464,5 +463,7 @@ public class WorldImpl implements World {
         this.entities.get(EntityType.PLAYER).get(1).getBody().
         getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(1).getPosition().getLeft()) + PLAYER_X_POSITIOON,
                 -(this.entities.get(EntityType.PLAYER).get(1).getPosition().getRight()) + PLAYER_Y_POSITIOON);
+        ((Player) this.entities.get(EntityType.PLAYER).get(0)).setCurrentDirection(EntityDirection.RIGHT);
+        ((Player) this.entities.get(EntityType.PLAYER).get(1)).setCurrentDirection(EntityDirection.LEFT);
     }
 }
