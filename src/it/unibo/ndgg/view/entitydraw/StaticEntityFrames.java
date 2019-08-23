@@ -33,11 +33,11 @@ public enum StaticEntityFrames {
     }
 
     /**
-     * Returns the frame URL of the static entity.
+     * Returns the frame path of the static entity.
      * @return
      *          the frame path of the static entity
      */
-    public String getFrameUrl() {
+    public String getFramePath() {
        return PATH + this.staticEntitySprite + EXTENSION;
     }
 

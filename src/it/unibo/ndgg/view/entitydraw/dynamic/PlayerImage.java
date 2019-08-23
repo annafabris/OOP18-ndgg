@@ -76,9 +76,9 @@ public class PlayerImage extends EntityFrameInformationImpl implements DynamicIm
     public Image getImage(final EntityState state, final EntityDirection direction, final boolean hasAWeapon,
                           final Optional<SwordGuard> guard) {
         if (this.isThePlayerOne) {
-            return new Image(this.getPlayer1Path(state, direction, hasAWeapon, guard));
+            return new Image(ClassLoader.getSystemResource(this.getPlayer1Path(state, direction, hasAWeapon, guard)).toExternalForm());
         } else {
-            return new Image(this.getPlayer2Path(state, direction, hasAWeapon, guard));
+            return new Image(ClassLoader.getSystemResource(this.getPlayer2Path(state, direction, hasAWeapon, guard)).toExternalForm());
         }
     }
 

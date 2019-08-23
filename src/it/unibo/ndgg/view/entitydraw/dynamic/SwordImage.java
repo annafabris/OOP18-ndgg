@@ -59,7 +59,7 @@ public class SwordImage extends EntityFrameInformationImpl implements DynamicIma
      *          the image of one of two sword with its state and direction
      */
     public Image getImage(final EntityState state, final EntityDirection direction) {
-        return new Image(this.getSwordPath(state, direction));
+        return new Image(ClassLoader.getSystemResource(this.getSwordPath(state, direction)).toExternalForm());
     }
 
     /**

@@ -41,10 +41,10 @@ public class EntityDrawer {
         this.worldWidth = worldDimension.getLeft();
         this.worldHeight = worldDimension.getRight();
         this.images = new ArrayList<>();
-        this.images.add(0, new Image(StaticEntityFrames.PLATFORM.getFrameUrl()));
-        this.images.add(1, new Image(StaticEntityFrames.DOOR_LEFT.getFrameUrl()));
-        this.images.add(2, new Image(StaticEntityFrames.DOOR_RIGHT.getFrameUrl()));
-        this.images.add(3, new Image(backgroundId.getFrameUrl(), this.worldWidth, this.worldHeight, false, false));
+        this.images.add(0, new Image(ClassLoader.getSystemResource(StaticEntityFrames.PLATFORM.getFramePath()).toExternalForm()));
+        this.images.add(1, new Image(ClassLoader.getSystemResource(StaticEntityFrames.DOOR_LEFT.getFramePath()).toExternalForm()));
+        this.images.add(2, new Image(ClassLoader.getSystemResource(StaticEntityFrames.DOOR_RIGHT.getFramePath()).toExternalForm()));
+        this.images.add(3, new Image(ClassLoader.getSystemResource(backgroundId.getFramePath()).toExternalForm(), this.worldWidth, this.worldHeight, false, false));
     }
 
     /**
@@ -159,7 +159,7 @@ public class EntityDrawer {
      */
     public void changeBackground(final BackgroundFrames backgroundId) {
         this.images.remove(3);
-        this.images.add(3, new Image(backgroundId.getFrameUrl(), this.worldWidth, this.worldHeight, false, false));
+        this.images.add(3, new Image(ClassLoader.getSystemResource(backgroundId.getFramePath()).toExternalForm(), this.worldWidth, this.worldHeight, false, false));
 
     }
 }

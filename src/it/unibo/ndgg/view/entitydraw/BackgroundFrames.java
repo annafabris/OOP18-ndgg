@@ -30,11 +30,11 @@ public enum BackgroundFrames {
     }
 
     /**
-     * Returns the frame url of the static entity.
+     * Returns the frame path of the static entity.
      * @return
      *          the frame path of the static entity
      */
-    public String getFrameUrl() {
+    public String getFramePath() {
        return PATH + this.staticEntitySprite + EXTENSION;
     }
 }
