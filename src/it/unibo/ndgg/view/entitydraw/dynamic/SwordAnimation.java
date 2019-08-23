@@ -54,6 +54,13 @@ public class SwordAnimation implements DynamicAnimation {
         return null;
     }
 
+    /**
+     * This method changes animation of the sword.
+     * @param state
+     *          it is the current state of the sword
+     * @param direction
+     *          it is the the current direction of the sword
+     */
     private void changeAnimation(final EntityState state, final EntityDirection direction) {
         if (this.currentState != state || this.currentDirection != direction) {
             if (this.currentAnimation.isPresent()) {
@@ -65,6 +72,9 @@ public class SwordAnimation implements DynamicAnimation {
         }
     }
 
+    /**
+     * This method set the animation of the sword.
+     */
     private void setCurrentAnimation() {
         if (this.sword.getState() == EntityState.EQUIPPED) {
             this.currentAnimation = Optional.empty();
@@ -81,6 +91,9 @@ public class SwordAnimation implements DynamicAnimation {
         }
     }
 
+    /**
+     * Represents all possible animation image of the sword.
+     */
     private void setImageMap() {
         this.swordImage.getAllPossibleStates().stream()
                                            .forEach(key -> this.images.put(key, 

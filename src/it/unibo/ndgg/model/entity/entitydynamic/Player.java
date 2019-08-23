@@ -11,7 +11,6 @@ import it.unibo.ndgg.model.entity.EntityType;
 import it.unibo.ndgg.model.physic.body.DynamicBodyProperties;
 import it.unibo.ndgg.model.physic.movement.MovementVectorValues;
 import it.unibo.ndgg.model.physic.movement.MovementVectorValuesImpl;
-import it.unibo.ndgg.view.entitydraw.dynamic.SoundsTypes;
 
 /**
  * Represents one of two players in play, it is an implementation of {@link AbstractEntity}.
@@ -19,7 +18,7 @@ import it.unibo.ndgg.view.entitydraw.dynamic.SoundsTypes;
  */
 public class Player extends AbstractDynamicEntity {
 
-    private boolean isAlive = false;
+    private boolean alive;
     private Optional<Weapon> weapon;
     private Optional<SwordGuard> typeOfGuard;
 
@@ -34,7 +33,7 @@ public class Player extends AbstractDynamicEntity {
      */
     public Player(final Optional<DynamicBodyProperties> body, final EntityDirection direction) {
         super(direction, body);
-        this.isAlive = true;
+        this.alive = true;
         this.weapon = Optional.empty();
         this.typeOfGuard = Optional.empty();
     }
@@ -51,7 +50,7 @@ public class Player extends AbstractDynamicEntity {
      * @return if the Player is alive
      */
     public boolean isAlive() {
-        return isAlive;
+        return alive;
     }
 
     /**
@@ -59,7 +58,7 @@ public class Player extends AbstractDynamicEntity {
      * @param isAlive if the Player is alive
      */
     public void setAlive(final boolean isAlive) {
-        this.isAlive = isAlive;
+        this.alive = isAlive;
     }
 
     /**
@@ -79,12 +78,7 @@ public class Player extends AbstractDynamicEntity {
      */
     public void equipWeapon(final Weapon sword) {
         if (!this.weapon.isPresent()) {
-            try {
-                sword.equipWeapon(this);
-            } catch (Exception e) {
-                System.out.println("The player has already a sword");
-                e.printStackTrace();
-            }
+            sword.equipWeapon(this);
             this.weapon = Optional.of(sword);
             this.typeOfGuard = Optional.of(SwordGuard.LOW);
         }
@@ -97,12 +91,7 @@ public class Player extends AbstractDynamicEntity {
      */
     public void dropWeapon(final EntityMovement movement) {
         if (this.weapon.isPresent()) {
-            try {
-                this.weapon.get().unequipWeapon(movement);
-            } catch (Exception e) {
-                System.out.println("The player hasn't a sword");
-                e.printStackTrace();
-            }
+            this.weapon.get().unequipWeapon(movement);
             this.weapon = Optional.empty();
             this.typeOfGuard = Optional.empty();
         }
@@ -153,8 +142,7 @@ public class Player extends AbstractDynamicEntity {
             }
             this.move(EntityMovement.DIE_LEFT);
         }
-        SoundsTypes.PLAYERKILLED.getSound().play();
-        this.isAlive = false;
+        this.alive = false;
     }
 
     /**

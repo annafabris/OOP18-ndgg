@@ -135,15 +135,24 @@ public class PlayerImage extends EntityFrameInformationImpl implements DynamicIm
         }
     }
 
+    /**
+     * Returns the frames of the player with a high sword guard, or low.
+     * @param guard
+     *          it is the current guard of the player
+     * @param direction
+     *          it is the current direction of the player
+     * @param state
+     *          it is the current state of the player
+     * @return
+     *          the associated image of the player
+     */
     private PlayerFrames getAHighSwordGuardIfPresent(final Optional<SwordGuard> guard, final EntityDirection direction,
                                                      final EntityState state) {
-        if (guard.isPresent()) {
-            if (guard.get() == SwordGuard.HIGH && state == EntityState.STAYING_STILL) {
-                if (direction == EntityDirection.RIGHT) {
-                    return PlayerFrames.IMAGE_GUARD_RIGHT; 
-                } else {
-                    return PlayerFrames.IMAGE_GUARD_LEFT;
-                }
+        if (guard.isPresent() && guard.get() == SwordGuard.HIGH && state == EntityState.STAYING_STILL) {
+            if (direction == EntityDirection.RIGHT) {
+                return PlayerFrames.IMAGE_GUARD_RIGHT; 
+            } else {
+                return PlayerFrames.IMAGE_GUARD_LEFT;
             }
         }
         return STATE.get(Pair.of(state, direction));

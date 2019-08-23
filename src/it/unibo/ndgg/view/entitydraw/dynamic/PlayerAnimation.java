@@ -50,6 +50,13 @@ public class PlayerAnimation implements DynamicAnimation {
         return this.currentAnimation.getImage();
     }
 
+    /**
+     * It changes the current animation of the player using the state and direction of player.
+     * @param state
+     *          it is the current state of the player
+     * @param direction
+     *          it is the current direction of the player
+     */
     private void changeAnimation(final EntityState state, final EntityDirection direction) {
         if (this.currentState != state || this.hasAWeapon != this.player.getWeapon().isPresent() 
                 || this.currentDirection != direction) {
@@ -61,6 +68,9 @@ public class PlayerAnimation implements DynamicAnimation {
         }
     }
 
+    /**
+     * This methods set the current animation of the player.
+     */
     private void setCurrentAnimation() {
         final Image image = this.playerImage.getImage(this.player.getState(), 
                                                 this.player.getCurrentDirection(), 

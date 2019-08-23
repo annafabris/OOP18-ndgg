@@ -35,12 +35,6 @@ public class EntityFactoryImpl implements EntityFactory {
         return new Player(Optional.of(this.body.createDynamicBodyProperties(position, width, height, EntityType.PLAYER)), direction);
     }
 
-    /*@Override
-    public Sword createSword(final Double width, final Double height, final Pair<Double, Double> position,
-                              final Player player, final EntityDirection direction) {
-        return new Sword(Optional.of(this.body.createDynamicBodyProperties(position, width, height, EntityType.SWORD)), player, direction);
-    }*/
-
     /**
      * {@inheritDoc}
      */
