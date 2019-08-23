@@ -16,7 +16,7 @@ public class MenuViewImpl implements MenuView {
     private static final String LAYOUT_PATH = "layouts/";
     private static final String LAYOUT_EXT = ".fxml";
     private static final String MENU = LAYOUT_PATH + "MainMenu" + LAYOUT_EXT;
-    private static final String OPTION = LAYOUT_PATH + "OPTIONS" + LAYOUT_EXT;
+    private static final String OPTION = LAYOUT_PATH + "Options" + LAYOUT_EXT;
 
     private final Stage stage;
     private Optional<MenuObserver> controller = Optional.empty();
