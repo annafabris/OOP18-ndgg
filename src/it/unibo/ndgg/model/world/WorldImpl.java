@@ -118,6 +118,7 @@ public class WorldImpl implements World {
     public void notifyCollision(final CollisionResult collisionResult, final Player player, final Optional<Sword> sword) {
         switch (collisionResult) {
             case PLAYERKILLED:
+                SoundsTypes.PLAYERKILLED.getSound().play();
                 player.die();
                 changeRoom(Optional.empty());
                 break;
@@ -126,7 +127,7 @@ public class WorldImpl implements World {
                 changeRoom(Optional.of(player));
                 break;
             case SWORDPICKEDUP:
-                SoundsTypes.SWORDPICKEDUP.getSound();
+                SoundsTypes.SWORDPICKEDUP.getSound().play();;
                 destroyBodyProprerties((sword.get()));
                 player.equipWeapon(sword.get());
                 break;
@@ -248,11 +249,13 @@ public class WorldImpl implements World {
                 && this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition()) 
                 && this.checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
             if (!loserPlayer.getWeapon().isPresent()) {
+                SoundsTypes.PLAYERKILLED.getSound().play();
                 loserPlayer.die();
                 changeRoom(Optional.of(playerWhoAttack));
             } else {
                 if (playerWhoAttack.getCurrentDirection() == loserPlayer.getCurrentDirection()
                         || playerWhoAttack.getSwordGuard().get() != loserPlayer.getSwordGuard().get()) {
+                    SoundsTypes.PLAYERKILLED.getSound().play();
                     loserPlayer.die();
                     changeRoom(Optional.of(playerWhoAttack));
                 }
