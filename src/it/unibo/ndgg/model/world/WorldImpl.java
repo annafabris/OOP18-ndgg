@@ -38,7 +38,7 @@ public class WorldImpl implements World {
 
     private static final double WORLD_HEIGHT = 9;
     private static final double WORLD_WIDTH = 16;
-    private static final double SWORD_PLAYER_SHIFT = 0.3;
+    private static final double SWORD_PLAYER_SHIFT = 1;
     private static final double PLAYER_HEIGHT = 0.8;
     private static final double PLAYER_WIDTH = 0.42;
     private static final double SWORD_HEIGHT = 0.1;
@@ -157,7 +157,10 @@ public class WorldImpl implements World {
     @Override
     public void changeGuard(final PlayerID player) {
         final Player playerChangeGuard = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        final Player otherPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> !i.equals(playerChangeGuard)).findFirst().get();
+        final Player otherPlayer = (Player) this.entities.get(EntityType.PLAYER).stream()
+                                                                                .filter(i -> !i.equals(playerChangeGuard))
+                                                                                .findFirst()
+                                                                                .get();
 
         if (playerChangeGuard.getWeapon().isPresent()) {
             if (this.checkProximity(playerChangeGuard.getPosition(), otherPlayer.getPosition())) {
@@ -165,12 +168,12 @@ public class WorldImpl implements World {
                     if (playerChangeGuard.getSwordGuard().get() != otherPlayer.getSwordGuard().get()) {
                         if (playerChangeGuard.getSwordGuard().get() == SwordGuard.LOW) {
                             if (playerChangeGuard.getCurrentDirection() == EntityDirection.RIGHT) {
-                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() + SWORD_PLAYER_SHIFT,
+                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() - SWORD_PLAYER_SHIFT,
                                         otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
                                 SoundsTypes.PLAYERDISARMED.getSound().play();
                                 otherPlayer.dropWeapon(EntityMovement.DROP_RIGHT);
                             } else {
-                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() - SWORD_PLAYER_SHIFT,
+                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() + SWORD_PLAYER_SHIFT,
                                         otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
                                 SoundsTypes.PLAYERDISARMED.getSound().play();
                                 otherPlayer.dropWeapon(EntityMovement.DROP_LEFT);
@@ -237,23 +240,22 @@ public class WorldImpl implements World {
     @Override
     public void attackPlayer(final PlayerID player) {
         final Player playerWhoAttack = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        final Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream().filter(i -> !i.equals(playerWhoAttack)).findFirst().get();
+        final Player loserPlayer = (Player) this.entities.get(EntityType.PLAYER).stream()
+                                                                                .filter(i -> !i.equals(playerWhoAttack))
+                                                                                .findFirst()
+                                                                                .get();
         SoundsTypes.ATTACK.getSound().play();
-        System.out.println(" X player attaccante " + Double.toString(playerWhoAttack.getPosition().getLeft())
-                + " Y player attaccante " + Double.toString(playerWhoAttack.getPosition().getRight())
-                + " X player attaccato " + Double.toString(loserPlayer.getPosition().getLeft())
-                + " Y player attaccato " + Double.toString(loserPlayer.getPosition().getRight()));
-        if (playerWhoAttack.getWeapon().isPresent()) {
-            if (this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition()) 
-                    && checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
-                if (!loserPlayer.getWeapon().isPresent()) {
+        if (playerWhoAttack.getWeapon().isPresent() 
+                && this.checkProximity(playerWhoAttack.getPosition(), loserPlayer.getPosition()) 
+                && this.checkDirectionToAttack(playerWhoAttack, loserPlayer)) {
+            if (!loserPlayer.getWeapon().isPresent()) {
+                loserPlayer.die();
+                changeRoom(Optional.of(playerWhoAttack));
+            } else {
+                if (playerWhoAttack.getCurrentDirection() == loserPlayer.getCurrentDirection()
+                        || playerWhoAttack.getSwordGuard().get() != loserPlayer.getSwordGuard().get()) {
                     loserPlayer.die();
-                    changeRoom(Optional.of(loserPlayer));
-                } else {
-                    if (loserPlayer.getSwordGuard().get() != loserPlayer.getSwordGuard().get()) {
-                        loserPlayer.die();
-                        changeRoom(Optional.of(loserPlayer));
-                    }
+                    changeRoom(Optional.of(playerWhoAttack));
                 }
             }
         }
