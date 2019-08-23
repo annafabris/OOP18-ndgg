@@ -29,9 +29,14 @@ public interface World {
 
     /**
      * Returns true if the Room has just been changed.
+     * @return true if the room has just been changed
      */
     boolean changedRoom();
-    
+
+    /**
+     * Returns the currentRoom number.
+     * @return the currentRoom
+     */
     int getCurrentRoom();
 
     /**

@@ -94,7 +94,7 @@ public class WorldImpl implements World {
         }
         return false;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -118,27 +118,17 @@ public class WorldImpl implements World {
     public void notifyCollision(final CollisionResult collisionResult, final Player player, final Optional<Sword> sword) {
         switch (collisionResult) {
             case PLAYERKILLED:
-               /*if (player.getCurrentDirection() == EntityDirection.LEFT) {
-                   createBodyProperties((Sword) player.getWeapon().get(), Pair.of(
-                           player.getPosition().getLeft() - SWORD_PLAYER_SHIFT, player.getPosition().getRight() + PLAYER_HEIGHT));
-               } else if (player.getCurrentDirection() == EntityDirection.RIGHT) {
-                   createBodyProperties((Sword) player.getWeapon().get(), Pair.of(
-                           player.getPosition().getLeft() + SWORD_PLAYER_SHIFT, player.getPosition().getRight() + PLAYER_HEIGHT));
-               }*/
                 player.die();
                 changeRoom(Optional.empty());
-                System.out.println("1 collision");
                 break;
             case DOORTOUCHED:
                 SoundsTypes.DOORTOUCHED.getSound().play();
                 changeRoom(Optional.of(player));
-                System.out.println("2 collision");
                 break;
             case SWORDPICKEDUP:
                 SoundsTypes.SWORDPICKEDUP.getSound();
                 destroyBodyProprerties((sword.get()));
                 player.equipWeapon(sword.get());
-                System.out.println("3 collision");
                 break;
             default:
                 break;
@@ -328,20 +318,6 @@ public class WorldImpl implements World {
             resetRoomToInitialCondition();
             this.changedRoom = true;
         }
-        /*if (playerWhoOpenedTheDoor.equals(playerL) || (playerL.isAlive() && !playerR.isAlive())) {
-            if (this.currentRoom == 0) {
-                this.currentGameState = GameState.PLAYERR_WON;
-            } else {
-                this.currentRoom--;
-                resetRoomToInitialCondition();
-            }
-        } else if (playerWhoOpenedTheDoor.equals(playerR) || (!playerL.isAlive() && playerR.isAlive())) {
-            if (this.currentRoom == WorldImpl.NUMBER_OF_ROOMS - 1) {
-            } else {
-                this.currentRoom++;
-                resetRoomToInitialCondition();
-            }
-        }*/
     }
 
     /**
@@ -430,12 +406,12 @@ public class WorldImpl implements World {
         Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
         Sword swordL = (Sword) this.entities.get(EntityType.SWORD).get(0);
         Sword swordR = (Sword) this.entities.get(EntityType.SWORD).get(1);
-        if (swordL.bodyProperiesExist()) {
-            destroyBodyProprerties(swordL);
-        }
-        if (swordR.bodyProperiesExist()) {
-            destroyBodyProprerties(swordR);
-        }
+        destroyBodyProprerties(swordL);
+        destroyBodyProprerties(swordR);
+        swordR.removePlayer();
+        swordL.removePlayer();
+        playerL.removeWeapon();
+        playerR.removeWeapon();
         if (!playerL.getWeapon().isPresent()) {
             playerL.equipWeapon(swordL);
         }
@@ -446,17 +422,6 @@ public class WorldImpl implements World {
         playerL.setAlive(true);
         playerR.changeEntityState(EntityState.STAYING_STILL);
         playerR.setAlive(true);
-
-        /*this.entities.get(EntityType.PLAYER).stream().map(p -> (Player) p).forEach(player -> {
-            player.changeEntityState(EntityState.STAYING_STILL);
-            player.setAlive(true);
-            this.entities.get(EntityType.SWORD).stream().map(s -> (Sword) s).forEach(sword -> {
-               if (!player.getWeapon().isPresent()) {
-                   destroyBodyProprerties(sword);
-                   player.equipWeapon(sword);
-               }
-            });
-        });*/
         this.entities.get(EntityType.PLAYER).get(0).getBody().
         getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(0).getPosition().getLeft()) - PLAYER_X_POSITIOON,
                 -(this.entities.get(EntityType.PLAYER).get(0).getPosition().getRight()) + PLAYER_Y_POSITIOON);

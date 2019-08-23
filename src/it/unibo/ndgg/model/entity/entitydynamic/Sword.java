@@ -79,6 +79,13 @@ public class Sword extends AbstractDynamicEntity implements Weapon  {
     }
 
     /**
+     * Remove the Player from the Sword.
+     */
+    public void removePlayer() {
+       this.player = Optional.empty();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

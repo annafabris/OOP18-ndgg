@@ -40,6 +40,13 @@ public class Player extends AbstractDynamicEntity {
     }
 
     /**
+     * Remove the Wapon from the Player.
+     */
+    public void removeWeapon() {
+        this.weapon = Optional.empty();
+     }
+
+    /**
      * Getter for the isAlive field.
      * @return if the Player is alive
      */
@@ -160,7 +167,7 @@ public class Player extends AbstractDynamicEntity {
                 || movement.getAssociatedEntityState() == EntityState.MOVING) {
 
             final MovementVectorValues movementValue = new MovementVectorValuesImpl();
-            Vector2 values = movementValue.getMovementVector(movement);
+            final Vector2 values = movementValue.getMovementVector(movement);
             this.setCurrentDirection(movement.getAssociatedDirection());
             ((DynamicBodyProperties) super.getBody()).applyImpulse(movement, values.x, values.y);
         }
