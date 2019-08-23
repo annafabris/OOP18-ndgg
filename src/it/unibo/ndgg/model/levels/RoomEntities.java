@@ -11,82 +11,66 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.ndgg.model.entity.EntityType;
-
+/**
+ * 
+ * this class will be used if in future developers want to add a different kinds of rooms from the default one .
+ * this class contains method to write in a binary file the list of entities that will be part of the room and 
+ * a method for read that list from the file .
+ * 
+ *
+ */
 public class RoomEntities {
-    final String filePath = "res/rooms/rooms.bin";
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public RoomEntities(){
-        
-    }
-    
-    
-    private static final List<EntityType> ComponentsOfTheWorld = new ArrayList<EntityType>();
+    final String filePath = "res/rooms/";
+    final String fileExt = ".bin";
+    private final String roomFileName ;
+    private static final List<EntityType> COMPONENTS_OF_THE_WORLD = new ArrayList<EntityType>();
     static {
-        ComponentsOfTheWorld.add(EntityType.DOOR);
-        ComponentsOfTheWorld.add(EntityType.DOOR);
-        ComponentsOfTheWorld.add(EntityType.SWORD);
-        ComponentsOfTheWorld.add(EntityType.SWORD);
-        ComponentsOfTheWorld.add(EntityType.PLAYER);
-        ComponentsOfTheWorld.add(EntityType.PLAYER);
-        ComponentsOfTheWorld.add(EntityType.PLATFORM);
+        COMPONENTS_OF_THE_WORLD.add(EntityType.DOOR);
+        COMPONENTS_OF_THE_WORLD.add(EntityType.DOOR);
+        COMPONENTS_OF_THE_WORLD.add(EntityType.SWORD);
+        COMPONENTS_OF_THE_WORLD.add(EntityType.SWORD);
+        COMPONENTS_OF_THE_WORLD.add(EntityType.PLAYER);
+        COMPONENTS_OF_THE_WORLD.add(EntityType.PLAYER);
+        COMPONENTS_OF_THE_WORLD.add(EntityType.PLATFORM);
     }
-    public void ciao() throws IOException {
-/*        final File file = new File(this.filePath);
-        if(file.canWrite()) {
-            System.out.println("possoscrivere");
-            System.out.println(file.getPath());
-            System.out.println(file.getAbsolutePath());
-        }
-        if(!file.exists()){
-            System.out.println("aiut");
-            if(file.createNewFile()) {
-                System.out.println("ma allora");
+    public RoomEntities(final String name) {
+        this.roomFileName = name;
+    }
+    public void writeRoom() throws IOException {
+        final File file = new File(this.filePath + this.roomFileName + this.fileExt);
+
+        if (!file.exists()) {
+            file.createNewFile();
             }
-            }
-        //file.
-        try(OutputStream bufferedStream =
+        try (OutputStream bufferedStream =
                 new BufferedOutputStream(new FileOutputStream(this.filePath));
-                ObjectOutputStream objStream = new ObjectOutputStream(bufferedStream);){
-            objStream.writeObject(RoomEntities.ComponentsOfTheWorld);
-        }
-       catch(IOException ex) {
+                ObjectOutputStream objStream = new ObjectOutputStream(bufferedStream);) {
+            objStream.writeObject(RoomEntities.COMPONENTS_OF_THE_WORLD);
+        } catch (IOException ex) {
            System.out.println("an I/O error occurred");
            ex.printStackTrace();
        }
-        System.out.println("dioooo");*/
-        
     }
-    public void leggi() throws IOException, ClassNotFoundException {
+    /**
+     * this method will be used to read the list of entityType that are present in the selected room file.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public void readRoom() throws IOException, ClassNotFoundException {
         try {
             InputStream buffStream = new BufferedInputStream(new FileInputStream(this.filePath));
-            int ciao = buffStream.available();
-            System.out.println(String.valueOf(ciao));
-            ObjectInputStream objReader = new ObjectInputStream(buffStream);{
-                if(objReader.readObject().equals(RoomEntities.ComponentsOfTheWorld)) {
-                    System.out.println("alleluia");
-                }
-                objReader.close();
-            }
+            ObjectInputStream objReader = new ObjectInputStream(buffStream); 
+            Object obj = objReader.readObject();
+            objReader.close();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
         
     }
 }
