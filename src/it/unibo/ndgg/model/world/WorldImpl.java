@@ -205,7 +205,7 @@ public class WorldImpl implements World {
     @Override
     public void jumpPlayer(final PlayerID player) {
         final Player p = (Player) this.entities.get(EntityType.PLAYER).get(player.getID());
-        if (p.getState() != EntityState.JUMPING_UP) {
+        if (p.getState() != EntityState.JUMPING_UP && p.getVelocity().getRight() == 0) {
             if (p.getCurrentDirection().equals(EntityDirection.LEFT)) {
                 SoundsTypes.JUMP.getSound().play();
                 movePlayer(EntityMovement.JUMP_UP_LEFT, player.getID());
