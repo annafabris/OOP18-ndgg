@@ -55,53 +55,54 @@ public class CollisionRules extends CollisionAdapter {
         final Body firstBody = contactConstraint.getBody1();
         final Body secondBody = contactConstraint.getBody2();
 
-        final Triple<Body, BodyProperties, EntityType> firstTriple = new ImmutableTriple<>(
-                firstBody, this.worldProperties.getBodyPropertiesFromBody(firstBody), 
-                this.worldProperties.getEntityTypeFromBody(firstBody));
+        if (this.worldProperties.getBodyPropertiesFromBody(firstBody) != null 
+                && this.worldProperties.getBodyPropertiesFromBody(secondBody) != null) {
+            final Triple<Body, BodyProperties, EntityType> firstTriple = new ImmutableTriple<>(
+                    firstBody, this.worldProperties.getBodyPropertiesFromBody(firstBody), 
+                    this.worldProperties.getEntityTypeFromBody(firstBody));
 
-        final Triple<Body, BodyProperties, EntityType> secondTriple = new ImmutableTriple<>(
-                secondBody, this.worldProperties.getBodyPropertiesFromBody(secondBody), 
-                this.worldProperties.getEntityTypeFromBody(secondBody));
-        /*
-        final Vector2 point = contactConstraint.getContacts().get(0).getPoint(); punto di contatto tra le due enitità per ora non serve.
-         */
-        if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.DOOR)
-            || (firstTriple.getRight() == EntityType.DOOR && secondTriple.getRight() == EntityType.PLAYER)) {
-            final Player player;
-            final Door door;
-            if (firstTriple.getRight() == EntityType.PLAYER) {
-                player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
-                door = this.worldProperties.getDoorFromBody(secondTriple.getLeft());
-            } else {
-                player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
-                door = this.worldProperties.getDoorFromBody(firstTriple.getLeft());
+            final Triple<Body, BodyProperties, EntityType> secondTriple = new ImmutableTriple<>(
+                    secondBody, this.worldProperties.getBodyPropertiesFromBody(secondBody), 
+                    this.worldProperties.getEntityTypeFromBody(secondBody));
+
+            if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.DOOR)
+                || (firstTriple.getRight() == EntityType.DOOR && secondTriple.getRight() == EntityType.PLAYER)) {
+                final Player player;
+                final Door door;
+                if (firstTriple.getRight() == EntityType.PLAYER) {
+                    player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
+                    door = this.worldProperties.getDoorFromBody(secondTriple.getLeft());
+                } else {
+                    player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
+                    door = this.worldProperties.getDoorFromBody(firstTriple.getLeft());
+                }
+                return this.processPlayerDoorCollision(player, door);
+            } else if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.SWORD) 
+                      || (firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLAYER)) {
+                final Player player;
+                final Sword sword;
+                if (firstTriple.getRight() == EntityType.PLAYER) {
+                    player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
+                    sword = this.worldProperties.getSwordFromBody(secondTriple.getLeft());
+                } else {
+                    player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
+                    sword = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
+                }
+                return this.processPlayerSwordCollision(player, sword);
+            } else if (firstTriple.getRight() == EntityType.PLATFORM && secondTriple.getRight() == EntityType.SWORD 
+                    || firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLATFORM) {
+                final Sword sword;
+                if (firstTriple.getRight() == EntityType.PLATFORM) {
+                    sword = this.worldProperties.getSwordFromBody(secondTriple.getLeft());
+                } else {
+                    sword = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
+                }
+                return this.processSwordPlatformCollision(sword);
             }
-            return this.processPlayerDoorCollision(player, door);
-        } else if ((firstTriple.getRight() == EntityType.PLAYER && secondTriple.getRight() == EntityType.SWORD) 
-                  || (firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLAYER)) {
-            final Player player;
-            final Sword sword;
-            if (firstTriple.getRight() == EntityType.PLAYER) {
-                player = this.worldProperties.getPlayerFromBody(firstTriple.getLeft());
-                sword = this.worldProperties.getSwordFromBody(secondTriple.getLeft());
-                System.out.println();
-            } else {
-                player = this.worldProperties.getPlayerFromBody(secondTriple.getLeft());
-                sword = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
-            }
-            return this.processPlayerSwordCollision(player, sword);
-        } else if (firstTriple.getRight() == EntityType.PLATFORM && secondTriple.getRight() == EntityType.SWORD 
-                || firstTriple.getRight() == EntityType.SWORD && secondTriple.getRight() == EntityType.PLATFORM) {
-            final Sword sword;
-            if (firstTriple.getRight() == EntityType.PLATFORM) {
-                sword = this.worldProperties.getSwordFromBody(secondTriple.getLeft());
-            } else {
-                sword = this.worldProperties.getSwordFromBody(firstTriple.getLeft());
-            }
-            return this.processSwordPlatformCollision(sword);
+            return true;
         }
-        return true;
-    }
+        return false;
+     }
 
     /**
      * This method process the collision between a Sword and a Sword those collision terminate with only one type o outcome.

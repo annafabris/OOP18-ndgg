@@ -29,7 +29,7 @@ public abstract class AbstractDynamicEntity extends AbstractEntity implements Dy
     public AbstractDynamicEntity(final EntityDirection direction, final Optional<DynamicBodyProperties> body) {
         super();
         if (body.isPresent()) {
-            super.setBody(Optional.ofNullable(body.get()));
+            super.setBody(Optional.of(body.get()));
             this.body = body;
         } else {
             this.body = Optional.empty();
