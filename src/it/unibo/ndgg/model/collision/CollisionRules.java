@@ -101,7 +101,7 @@ public class CollisionRules extends CollisionAdapter {
             }
             return true;
         }
-        return false;
+        return true;
      }
 
     /**

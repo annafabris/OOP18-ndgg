@@ -30,12 +30,14 @@ public class BodyPropertiesFactoryImpl implements BodyPropertiesFactory {
 
     private static final CategoryFilter SWORD_FILTER = new CategoryFilter(CATEGORY_SWORD, CATEGORY_SWORD
                                                                                         | CATEGORY_PLAYER
-                                                                                        | CATEGORY_PLATFORM);
+                                                                                        | CATEGORY_PLATFORM
+                                                                                        | CATEGORY_DOOR);
     private static final CategoryFilter PLAYER_FILTER = new CategoryFilter(CATEGORY_PLAYER, CATEGORY_SWORD
                                                                                         | CATEGORY_PLAYER
                                                                                         | CATEGORY_DOOR
                                                                                         | CATEGORY_PLATFORM);
-    private static final CategoryFilter DOOR_FILTER = new CategoryFilter(CATEGORY_DOOR, CATEGORY_PLAYER);
+    private static final CategoryFilter DOOR_FILTER = new CategoryFilter(CATEGORY_DOOR, CATEGORY_PLAYER
+                                                                                        | CATEGORY_SWORD);
     private static final CategoryFilter PLATFORM_FILTER = new CategoryFilter(CATEGORY_PLATFORM, CATEGORY_PLAYER
                                                                                         | CATEGORY_SWORD
                                                                                         | CATEGORY_PLATFORM);
