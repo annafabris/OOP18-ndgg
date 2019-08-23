@@ -14,7 +14,6 @@ import it.unibo.ndgg.model.physic.body.StaticBodyProperties;
  */
 public class Door extends AbstractEntity {
 
-    private boolean isHit;
     private final Player player;
 
     /**
@@ -28,7 +27,6 @@ public class Door extends AbstractEntity {
             super.setBody(Optional.ofNullable(body.get()));
         } 
         this.player = player;
-        this.isHit = false;
     }
 
     /**
@@ -40,13 +38,6 @@ public class Door extends AbstractEntity {
     }
 
     /**
-     * Sets the door to "has been hit".
-     */
-    public void hit() {
-        this.isHit = true;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -55,25 +46,10 @@ public class Door extends AbstractEntity {
     }
 
     /**
-     * Returns if the {@link Door} has been hit by a {@link it.unibo.ndgg.model.entity.entitydynamic.Player}.
-     * @return true if the {@link Door} has been hit
-     */
-    public boolean isDoorHitted() {
-        return isHit;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public EntityState getState() {
         return EntityState.STAYING_STILL;
-    }
-
-    /**
-     * Reset the hit status.
-     */
-    public void resetIsHit() {
-        this.isHit = false;
     }
 }

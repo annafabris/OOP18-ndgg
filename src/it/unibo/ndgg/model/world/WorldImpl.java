@@ -165,12 +165,12 @@ public class WorldImpl implements World {
                     if (playerChangeGuard.getSwordGuard().get() != otherPlayer.getSwordGuard().get()) {
                         if (playerChangeGuard.getSwordGuard().get() == SwordGuard.LOW) {
                             if (playerChangeGuard.getCurrentDirection() == EntityDirection.RIGHT) {
-                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() + 0.30,
+                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() + SWORD_PLAYER_SHIFT,
                                         otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
                                 SoundsTypes.PLAYERDISARMED.getSound().play();
                                 otherPlayer.dropWeapon(EntityMovement.DROP_RIGHT);
                             } else {
-                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() - 0.30,
+                                createBodyProperties((Sword) otherPlayer.getWeapon().get(), Pair.of(otherPlayer.getPosition().getLeft() - SWORD_PLAYER_SHIFT,
                                         otherPlayer.getPosition().getRight() + PLAYER_HEIGHT));
                                 SoundsTypes.PLAYERDISARMED.getSound().play();
                                 otherPlayer.dropWeapon(EntityMovement.DROP_LEFT);
@@ -178,12 +178,12 @@ public class WorldImpl implements World {
                             playerChangeGuard.changeGuard();
                         } else {
                             if (otherPlayer.getCurrentDirection() == EntityDirection.RIGHT) {
-                                createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() + 0.30,
+                                createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() + SWORD_PLAYER_SHIFT,
                                         playerChangeGuard.getPosition().getRight() + PLAYER_HEIGHT));
                                 SoundsTypes.PLAYERDISARMED.getSound().play();
                                 playerChangeGuard.dropWeapon(EntityMovement.DROP_RIGHT);
                             } else {
-                                createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() - 0.30,
+                                createBodyProperties((Sword) playerChangeGuard.getWeapon().get(), Pair.of(playerChangeGuard.getPosition().getLeft() - SWORD_PLAYER_SHIFT,
                                         playerChangeGuard.getPosition().getRight() + PLAYER_HEIGHT));
                                 SoundsTypes.PLAYERDISARMED.getSound().play();
                                 playerChangeGuard.dropWeapon(EntityMovement.DROP_LEFT);
@@ -401,7 +401,6 @@ public class WorldImpl implements World {
     }
 
     private void resetRoomToInitialCondition() {
-        this.entities.get(EntityType.DOOR).stream().map(d -> (Door) d).forEach(door -> door.resetIsHit());
         final Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
         final Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
         final Sword swordL = (Sword) this.entities.get(EntityType.SWORD).get(0);

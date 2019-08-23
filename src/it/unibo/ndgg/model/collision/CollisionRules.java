@@ -172,7 +172,6 @@ public class CollisionRules extends CollisionAdapter {
      */
     private boolean processPlayerDoorCollision(final Player player, final Door door) {
         if (door.getPlayerWhoCanOpen() == player) {
-            door.hit();
             this.world.notifyCollision(CollisionResult.DOORTOUCHED, player, Optional.empty());
             return true;
         }
