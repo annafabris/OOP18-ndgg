@@ -19,14 +19,13 @@ public class BodyPropertiesCreationTest {
     private static final double TEST_HEIGHT = WORLD_HEIGHT / 10;
     private static final MutablePair<Double, Double> TEST_POSITION = new MutablePair<>(WORLD_WIDTH / 3, WORLD_HEIGHT / 3);
 
-    private final BodyPropertiesFactory factory;
+    private final BodyPropertiesFactory factory = new BodyPropertiesFactoryImpl();
 
     /**
      * Create the class for the test of {@link it.unibo.ndgg.model.physic.BodyPropertiesFactory}.
      */
     public BodyPropertiesCreationTest() {
         final BodyAssociations bodyAssociations = new BodyAssociations();
-        this.factory = new BodyPropertiesFactoryImpl();
         this.factory.createBodyPropertiesWorld(new WorldImpl(), WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
     }
 

@@ -127,7 +127,7 @@ public class WorldImpl implements World {
                 changeRoom(Optional.of(player));
                 break;
             case SWORDPICKEDUP:
-                SoundsTypes.SWORDPICKEDUP.getSound().play();;
+                SoundsTypes.SWORDPICKEDUP.getSound().play();
                 destroyBodyProprerties((sword.get()));
                 player.equipWeapon(sword.get());
                 break;
