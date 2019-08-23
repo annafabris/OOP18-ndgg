@@ -48,6 +48,7 @@ public class GameControllerImpl implements GameController {
         run();
     }
 
+    //public voi changeBackground
     /**
      * {@inheritDoc}
      */
@@ -65,6 +66,9 @@ public class GameControllerImpl implements GameController {
         } else {
             handleInputs();
             gameWorld.update();
+            if (gameWorld.changedRoom()) {
+                view.changeRoom();
+            }
             view.update();
         }
     }

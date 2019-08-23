@@ -142,5 +142,15 @@ public class EntityDrawer {
                                      dimensionY);
         }
     }
+
+    /**
+     * Changes the Background to the following one indicated.
+     * @param backgroundId {@link BackgroundFrames}
+     */
+    public void changeBackground(final BackgroundFrames backgroundId) {
+        this.images.remove(3);
+        this.images.add(3, new Image(backgroundId.getFrameUrl(), this.worldWidth, this.worldHeight, false, false));
+
+    }
 }
 

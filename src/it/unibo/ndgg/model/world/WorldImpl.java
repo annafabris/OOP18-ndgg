@@ -55,6 +55,7 @@ public class WorldImpl implements World {
     private static final double DOOR_Y_POSITIOON = -1.65; 
     private static final int NUMBER_OF_ROOMS = 3;
     private int currentRoom;
+    private boolean changedRoom;
     private BodyPropertiesWorld bodyPropertiesWorld;
     private final BodyPropertiesFactory bodyPropertiesFactory;
     private final BodyAssociations bodyAssociations;
@@ -68,6 +69,7 @@ public class WorldImpl implements World {
         this.currentGameState = GameState.IS_GOING;
         this.entities = new HashMap<>();
         this.currentRoom = NUMBER_OF_ROOMS / 2;
+        this.changedRoom = false;
         this.bodyAssociations = new BodyAssociations();
         this.bodyPropertiesFactory = new BodyPropertiesFactoryImpl();
     }
@@ -79,6 +81,17 @@ public class WorldImpl implements World {
     public void start() {
         this.bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this, WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
         createEntities();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean changedRoom() {
+        if (this.changedRoom) {
+            this.changedRoom = false;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -114,6 +127,7 @@ public class WorldImpl implements World {
                 System.out.println("2 collision");
                 break;
             case SWORDPICKEDUP:
+                System.out.println("dsads");
                 SoundsTypes.SWORDPICKEDUP.getSound();
                 destroyBodyProprerties((sword.get()));
                 player.equipWeapon(sword.get());
@@ -306,6 +320,7 @@ public class WorldImpl implements World {
             this.currentGameState = GameState.PLAYERR_WON;
         } else {
             resetRoomToInitialCondition();
+            this.changedRoom = true;
         }
         /*if (playerWhoOpenedTheDoor.equals(playerL) || (playerL.isAlive() && !playerR.isAlive())) {
             if (this.currentRoom == 0) {
@@ -407,7 +422,28 @@ public class WorldImpl implements World {
 
     private void resetRoomToInitialCondition() {
         this.entities.get(EntityType.DOOR).stream().map(d -> (Door) d).forEach(door -> door.resetIsHit());
-        this.entities.get(EntityType.PLAYER).stream().map(p -> (Player) p).forEach(player -> {
+        Player playerL = (Player) this.entities.get(EntityType.PLAYER).get(0);
+        Player playerR = (Player) this.entities.get(EntityType.PLAYER).get(1);
+        Sword swordL = (Sword) this.entities.get(EntityType.SWORD).get(0);
+        Sword swordR = (Sword) this.entities.get(EntityType.SWORD).get(1);
+        if (swordL.bodyProperiesExist()) {
+            destroyBodyProprerties(swordL);
+        }
+        if (swordR.bodyProperiesExist()) {
+            destroyBodyProprerties(swordR);
+        }
+        if (!playerL.getWeapon().isPresent()) {
+            playerL.equipWeapon(swordL);
+        }
+        if (!playerR.getWeapon().isPresent()) {
+            playerR.equipWeapon(swordR);
+        }
+        playerL.changeEntityState(EntityState.STAYING_STILL);
+        playerL.setAlive(true);
+        playerR.changeEntityState(EntityState.STAYING_STILL);
+        playerR.setAlive(true);
+
+        /*this.entities.get(EntityType.PLAYER).stream().map(p -> (Player) p).forEach(player -> {
             player.changeEntityState(EntityState.STAYING_STILL);
             player.setAlive(true);
             this.entities.get(EntityType.SWORD).stream().map(s -> (Sword) s).forEach(sword -> {
@@ -416,7 +452,7 @@ public class WorldImpl implements World {
                    player.equipWeapon(sword);
                }
             });
-        });
+        });*/
         this.entities.get(EntityType.PLAYER).get(0).getBody().
         getPhysicalBody().translate(-(this.entities.get(EntityType.PLAYER).get(0).getPosition().getLeft()) - PLAYER_X_POSITIOON,
                 -(this.entities.get(EntityType.PLAYER).get(0).getPosition().getRight()) + PLAYER_Y_POSITIOON);

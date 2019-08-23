@@ -28,6 +28,11 @@ public interface World {
     void update();
 
     /**
+     * Returns true if the Room has just been changed.
+     */
+    boolean changedRoom();
+
+    /**
      * A method that gets called each time a valid collision happens.
      * @param collisionResult {@link CollisionResult}.
      * @param player the player who collide.

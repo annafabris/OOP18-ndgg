@@ -31,4 +31,9 @@ public interface WorldView {
      * @return a collection of input
      */
     List<Input> getInputs();
+
+    /**
+     * Changes the Background to the following one.
+     */
+    void changeRoom();
 }

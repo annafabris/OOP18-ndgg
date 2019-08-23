@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -46,6 +47,7 @@ public class WorldViewImpl implements WorldView {
     private final EntityDrawer entityDrawer;
     private final int viewWidth;
     private final int viewHeight;
+    private int lastBackgroundId;
     private Map<EntityType, List<AbstractEntity>> entities;
     private PlayerAnimation playerAnimation1;
     private PlayerAnimation playerAnimation2;
@@ -62,6 +64,7 @@ public class WorldViewImpl implements WorldView {
         this.viewWidth = (int) (this.stage.getWidth());
         this.viewHeight = (int) (this.stage.getHeight());
         this.entityDrawer = new EntityDrawer(new MutablePair<>(viewWidth, viewHeight), BackgroundFrames.BACKGROUND_1);
+        this.lastBackgroundId = 0;
         this.inputs = new ArrayList<>();
         this.inputHandler = key -> this.inputs.add(key);
     }
@@ -101,6 +104,28 @@ public class WorldViewImpl implements WorldView {
         alert.show();
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    public void changeRoom() {
+        this.lastBackgroundId++;
+        int k = this.lastBackgroundId % 3;
+        switch (k) {
+            case 0:
+                this.entityDrawer.changeBackground(BackgroundFrames.BACKGROUND_1);
+                break;
+            case 1:
+                this.entityDrawer.changeBackground(BackgroundFrames.BACKGROUND_2);
+                break;
+            case 2:
+                this.entityDrawer.changeBackground(BackgroundFrames.BACKGROUND_3);
+                break;
+        default:
+            break;
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -128,7 +153,7 @@ public class WorldViewImpl implements WorldView {
         stage.sizeToScene();
         return new Scene(root, viewWidth, viewHeight);
     }
-
+    
     /**
      * Draws all the static and dynamic entities.
      */
