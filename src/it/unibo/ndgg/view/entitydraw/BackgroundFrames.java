@@ -8,17 +8,17 @@ public enum BackgroundFrames {
     /**
      * Represents the first possible background.
      */
-    BACKGROUND_1("background_1s"),
+    BACKGROUND_1("background_1"),
 
     /**
      * Represents the second possible background.
      */
-    BACKGROUND_2("background_2s"),
+    BACKGROUND_2("background_2"),
 
     /**
      * Represents the third possible background.
      */
-    BACKGROUND_3("background_3s");
+    BACKGROUND_3("background_3");
 
 
     private static final String PATH = "images/";

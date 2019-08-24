@@ -45,6 +45,7 @@ public class RoomEntities {
             final InputStream buffStream = new BufferedInputStream(new FileInputStream(ClassLoader.getSystemResource(FILE_PATH + this.roomFileName + FILE_EXT).toExternalForm()));
             final ObjectInputStream objReader = new ObjectInputStream(buffStream); 
             objReader.close();
+            buffStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

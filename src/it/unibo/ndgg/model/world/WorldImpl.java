@@ -337,12 +337,15 @@ public class WorldImpl implements World {
         playerR.changeEntityState(EntityState.STAYING_STILL);
         entities.put(EntityType.PLAYER, Stream.of(playerL, playerR).collect(Collectors.toList()));
         entities.put(EntityType.SWORD, Stream.of((Sword) entityFactory.createSword(playerL, EntityDirection.RIGHT), 
-                (Sword) entityFactory.createSword(playerR, EntityDirection.LEFT)).collect(Collectors.toList()));
+                                                 (Sword) entityFactory.createSword(playerR, EntityDirection.LEFT))
+                                              .collect(Collectors.toList()));
        entities.put(EntityType.PLATFORM, Stream.of((Platform) entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
-               PLATFORM_X_POSITION, PLATFORM_Y_POSITION))).collect(Collectors.toList()));
+                                                                                           PLATFORM_X_POSITION, PLATFORM_Y_POSITION)))
+                                               .collect(Collectors.toList()));
        entities.put(EntityType.DOOR, (Stream.of((Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
-               -DOORL_X_POSITION, DOOR_Y_POSITION), playerR), (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
-                       DOORR_X_POSITION, DOOR_Y_POSITION), playerL)).collect(Collectors.toList())));
+                                                                               -DOORL_X_POSITION, DOOR_Y_POSITION), playerR),
+                                                (Door) entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(
+                                                                                DOORR_X_POSITION, DOOR_Y_POSITION), playerL)).collect(Collectors.toList())));
        this.bodyAssociations.setEntities(entities);
     }
 

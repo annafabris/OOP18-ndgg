@@ -41,19 +41,9 @@ public enum PlayerFrames {
     IMAGE_JUMP_UP_RIGHT("jump_up_right", 4),
 
     /**
-     * This is the player sprite sheet that represents the jump down right.
-     */
-    IMAGE_JUMP_DOWN_RIGHT("jump_down_right", 4),
-
-    /**
      * This is the player sprite sheet that represents the jump up left.
      */
     IMAGE_JUMP_UP_LEFT("jump_up_left", 4),
-
-    /**
-     * This is the player sprite sheet that represents the jump down left.
-     */
-    IMAGE_JUMP_DOWN_LEFT("jump_down_left", 4),
 
     /**
      * This is the change of guard for the player in direction left.

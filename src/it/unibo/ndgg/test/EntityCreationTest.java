@@ -24,6 +24,7 @@ import it.unibo.ndgg.model.entity.entitydynamic.Player;
 import it.unibo.ndgg.model.entity.entitydynamic.Sword;
 import it.unibo.ndgg.model.entity.entitydynamic.SwordGuard;
 import it.unibo.ndgg.model.entity.entitystatic.Door;
+import it.unibo.ndgg.model.entity.entitystatic.Platform;
 import it.unibo.ndgg.model.physic.BodyAssociations;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactory;
 import it.unibo.ndgg.model.physic.BodyPropertiesFactoryImpl;
@@ -37,24 +38,28 @@ public class EntityCreationTest {
 
     private static final double WORLD_WIDTH = 960;
     private static final double WORLD_HEIGHT = 450;
+    private static final double PLATFORM_X_POSITION = 0.0;
+    private static final double PLATFORM_Y_POSITION = -3.6;
+    private static final double PLATFORM_HEIGHT = 1.8;
+    private static final double PLATFORM_WIDTH = 16;
     private static final double DOOR_X_POSITIOON = 7.0;
     private static final double DOOR_Y_POSITIOON = -1.65;
     private static final double DOOR_HEIGHT = 1.6;
     private static final double DOOR_WIDTH = 1.8;
-    private WorldImpl world;
-    private BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactoryImpl();
-    private Map<EntityType, List<AbstractEntity>> entities;
-    private BodyAssociations bodyAssociations;
-    private Player playerR;
-    private Player playerL;
+    private final WorldImpl world;
+    private final BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactoryImpl();
+    private final Map<EntityType, List<AbstractEntity>> entities;
+    private final Player playerR;
+    private final Player playerL;
 
     /**
      * This creates all entities.
      */
     public EntityCreationTest() {
         this.world = new WorldImpl();
-        this.bodyAssociations = new BodyAssociations();
-        BodyPropertiesWorld bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this.world, WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
+        final BodyAssociations bodyAssociations = new BodyAssociations();
+        @SuppressWarnings("unused")
+        final BodyPropertiesWorld bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this.world, WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
         EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(1.0, 0.0), EntityDirection.LEFT);
         playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0), EntityDirection.RIGHT);
@@ -68,8 +73,10 @@ public class EntityCreationTest {
                          entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(-DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL), 
                          entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerR))
                 .collect(Collectors.toList())));
-        //this.entities.put(EntityType.PLATFORM, Stream.of( entityFactory.c))
-        this.bodyAssociations.setEntities(this.entities);
+        entities.put(EntityType.PLATFORM, Stream.of((Platform) entityFactory.createPlatform(PLATFORM_WIDTH, PLATFORM_HEIGHT, new MutablePair<>(
+                                                                                            PLATFORM_X_POSITION, PLATFORM_Y_POSITION)))
+                                                .collect(Collectors.toList()));
+       bodyAssociations.setEntities(this.entities);
     }
 
     /**
@@ -95,7 +102,14 @@ public class EntityCreationTest {
         assertEquals(1, this.entities.get(EntityType.PLAYER).stream().filter(i -> i.getBody() == playerL.getBody()).count());
         assertEquals(2, this.entities.get(EntityType.PLAYER).stream().count());
         assertEquals(2, this.entities.get(EntityType.SWORD).stream().count());
+        assertEquals(2, this.entities.get(EntityType.DOOR).stream().count());
+        assertEquals(1, this.entities.get(EntityType.PLATFORM).stream().count());
+        assertFalse(((Sword) this.entities.get(EntityType.SWORD).get(0)).bodyProperiesExist());
+        assertFalse(((Sword) this.entities.get(EntityType.SWORD).get(1)).bodyProperiesExist());
         this.playerL.changeEntityState(EntityState.MOVING);
+        assertEquals(EntityState.STAYING_STILL, ((Platform) this.entities.get(EntityType.PLATFORM).get(0)).getState());
+        assertEquals(EntityState.STAYING_STILL, ((Door) this.entities.get(EntityType.DOOR).get(0)).getState());
+        assertEquals(EntityState.STAYING_STILL, ((Door) this.entities.get(EntityType.DOOR).get(1)).getState());
         assertEquals(EntityState.MOVING, this.playerL.getState());
         assertEquals(EntityState.STAYING_STILL, this.playerR.getState());
         assertEquals(SwordGuard.LOW, this.playerL.getSwordGuard().get());
@@ -112,6 +126,7 @@ public class EntityCreationTest {
         assertEquals(this.playerR.getCurrentDirection(), ((Sword) this.entities.get(EntityType.SWORD).get(0)).getCurrentDirection());
         assertEquals(this.playerL.getCurrentDirection(), ((Sword) this.entities.get(EntityType.SWORD).get(1)).getCurrentDirection());
         assertEquals(EntityState.EQUIPPED, ((Sword) this.entities.get(EntityType.SWORD).get(0)).getState());
+        assertEquals(EntityState.EQUIPPED, ((Sword) this.entities.get(EntityType.SWORD).get(1)).getState());
     }
 
     /**
