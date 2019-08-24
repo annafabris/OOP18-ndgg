@@ -2,6 +2,7 @@ package it.unibo.ndgg.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
@@ -46,7 +47,6 @@ public class EntityCreationTest {
     private static final double DOOR_Y_POSITIOON = -1.65;
     private static final double DOOR_HEIGHT = 1.6;
     private static final double DOOR_WIDTH = 1.8;
-    private final WorldImpl world;
     private final BodyPropertiesFactory bodyPropertiesFactory = new BodyPropertiesFactoryImpl();
     private final Map<EntityType, List<AbstractEntity>> entities;
     private final Player playerR;
@@ -55,11 +55,11 @@ public class EntityCreationTest {
     /**
      * This creates all entities.
      */
+    @SuppressWarnings("unused")
     public EntityCreationTest() {
-        this.world = new WorldImpl();
+        final WorldImpl world = new WorldImpl();
         final BodyAssociations bodyAssociations = new BodyAssociations();
-        @SuppressWarnings("unused")
-        final BodyPropertiesWorld bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this.world, WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
+        final BodyPropertiesWorld bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(world, WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
         final EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
         this.playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(1.0, 0.0), EntityDirection.LEFT);
         this.playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0), EntityDirection.RIGHT);
@@ -120,7 +120,7 @@ public class EntityCreationTest {
      */
     @Test
     public void testAssociationSwordPlayer() {
-        assertTrue(this.playerL.getCurrentDirection() != this.playerR.getCurrentDirection());
+        assertNotSame(this.playerL.getCurrentDirection(), this.playerR.getCurrentDirection());
         assertTrue(this.playerL.getWeapon().isPresent());
         assertTrue(this.playerR.getWeapon().isPresent());
         assertEquals(this.playerR.getCurrentDirection(), ((Sword) this.entities.get(EntityType.SWORD).get(0)).getCurrentDirection());
@@ -132,7 +132,7 @@ public class EntityCreationTest {
     /**
      * This test looks the change of state.
      */
-    //@Test
+    @Test
     public void testChangeStatePlayer() {
         this.playerL.move(EntityMovement.JUMP_UP_RIGHT);
         assertEquals(EntityState.JUMPING_UP, this.playerL.getState());
