@@ -60,14 +60,14 @@ public class EntityCreationTest {
         final BodyAssociations bodyAssociations = new BodyAssociations();
         @SuppressWarnings("unused")
         final BodyPropertiesWorld bodyPropertiesWorld = this.bodyPropertiesFactory.createBodyPropertiesWorld(this.world, WORLD_WIDTH, WORLD_HEIGHT, bodyAssociations);
-        EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
-        playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(1.0, 0.0), EntityDirection.LEFT);
-        playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0), EntityDirection.RIGHT);
+        final EntityFactory entityFactory = new EntityFactoryImpl(this.bodyPropertiesFactory);
+        this.playerR = entityFactory.createPlayer(100.0, 100.0, new MutablePair<Double, Double>(1.0, 0.0), EntityDirection.LEFT);
+        this.playerL = entityFactory.createPlayer(100.0, 100.0, new MutablePair<>(-1.0, 0.0), EntityDirection.RIGHT);
         this.entities = new HashMap<>();
-        this.entities.put(EntityType.PLAYER, Stream.of(playerR, playerL).collect(Collectors.toList()));
+        this.entities.put(EntityType.PLAYER, Stream.of(this.playerR, this.playerL).collect(Collectors.toList()));
         this.entities.put(EntityType.SWORD, Stream.of(
-                         entityFactory.createSword(playerR, playerR.getCurrentDirection()), 
-                         entityFactory.createSword(playerL, playerL.getCurrentDirection()))
+                         entityFactory.createSword(this.playerR, this.playerR.getCurrentDirection()), 
+                         entityFactory.createSword(this.playerL, this.playerL.getCurrentDirection()))
                 .collect(Collectors.toList()));
         entities.put(EntityType.DOOR, (Stream.of(
                          entityFactory.createDoor(DOOR_WIDTH, DOOR_HEIGHT, new MutablePair<>(-DOOR_X_POSITIOON, DOOR_Y_POSITIOON), playerL), 
