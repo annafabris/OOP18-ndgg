@@ -4,6 +4,12 @@ The proposed software is a two-dimensional platform game inspired by the game [N
 
 You can jump, throw the opponenent the sword or simply attack him. The first player who reaches the goal will win the match. Beware, your opponents will fight back!
 
+## Authors
+* Amaducci Giada  
+* [Fabris Anna](https://github.com/annafabris)
+* Lega Davide  
+* Lucchi Riccardo
+
 ## Player's guide
 As soon as you start the application, the main menu will open, from which you'll be able to choose between the following options
 * **New game**: to start a new game
@@ -34,13 +40,7 @@ L -> Move Right
 I-> Jump  
 N -> Change Guard  
 P -> Attack  
-M -> Throw Sword  
-
-## Authors
-* Amaducci Giada  
-* [Fabris Anna](https://github.com/annafabris)
-* Lega Davide  
-* Lucchi Riccardo  
+M -> Throw Sword    
 
 ## Usage
 This game needs Java 8 and JavaFX 8 to run.
