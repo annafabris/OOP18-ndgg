@@ -1,6 +1,8 @@
-## Nidhogg
+## Ndgg
 
-Fight with your opponents to advance in the next room. You can jump, throw him the sword or simply attack him. The first player who reaches the goal will win the match. Beware, your opponents will fight back!
+The proposed software is a two-dimensional platform game inspired by the game [Nidhogg](https://store.steampowered.com/app/94400/Nidhogg/), where two players must challenge each other to defend their side of the room and to try to reach the door in the opponent's side to go to the next room. 
+
+You can jump, throw the opponenent the sword or simply attack him. The first player who reaches the goal will win the match. Beware, your opponents will fight back!
 
 ## Player's guide
 As soon as you start the application, the main menu will open, from which you'll be able to choose between the following options
@@ -10,10 +12,12 @@ As soon as you start the application, the main menu will open, from which you'll
     * Music: this screen allows you to remove music from the game
 * **Exit**: to exit the application
 
-![Alt text](res\images\README\menu.png)
+![Alt text](\res\images\README\menu.png?raw=true)
 
 After the game screen is displayed, the right player can use the arrows to interact in the game, the left player can use the W, A, S, D keys.
 The player can walk, run, jump, throw the sword, pick it up and disarm the opponent.
+
+![Alt text](\res\images\README\game.png?raw=true)
 
 ##### Commands Player1:  
 A -> Move Left  
