@@ -10,7 +10,7 @@ As soon as you start the application, the main menu will open, from which you'll
     * Music: this screen allows you to remove music from the game
 * **Exit**: to exit the application
 
-![Alt text](res\images\README\menu.png?raw=true)
+![Alt text](res\images\README\menu.png)
 
 After the game screen is displayed, the right player can use the arrows to interact in the game, the left player can use the W, A, S, D keys.
 The player can walk, run, jump, throw the sword, pick it up and disarm the opponent.
